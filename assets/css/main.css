@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css?family=Shadows+Into+Light|Source+Sans+Pro:400,700");
+@import url("https://fonts.googleapis.com/css?family=Share Tech");
 html {
   overflow-x: hidden;
 }
@@ -7,7 +7,7 @@ body {
   background: #fff;
   font-size: 14px;
   font-weight: 400;
-  font-family: "Source Sans Pro", sans-serif;
+  font-family: "Share Tech";
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   box-sizing: border-box;
@@ -22,11 +22,12 @@ body {
 h1, h2, h3, h4 {
   font-size: 38px;
   font-weight: 700;
-  font-family: "Source Sans Pro", sans-serif;
+  font-family: "Share Tech";
 }
 
 .script-font {
-  font-family: 'Shadows Into Light', cursive;
+  font-family: 'Share Tech', cursive;
+  color: #00b4d9;
 }
 
 a {
@@ -289,8 +290,9 @@ a.back-to-top:hover, a.back-to-top:focus {
 }
 
 #about .img-thumb img {
-  border: 8px solid #fff;
-  box-shadow: 0px 0px 30px rgba(0, 0, 0, 0.2);
+  -webkit-filter: grayscale(100%); /* Safari 6.0 - 9.0 */
+  filter: grayscale(100%);
+  border-radius: 10%;
 }
 
 .profile-wrapper {
@@ -464,7 +466,6 @@ a.back-to-top:hover, a.back-to-top:focus {
 }
 
 .top-nav-collapse {
-  background: #fff;
   z-index: 999999;
   top: 0px !important;
   min-height: 58px;
@@ -475,7 +476,6 @@ a.back-to-top:hover, a.back-to-top:focus {
   animation-fill-mode: both;
   -webkit-animation-name: fadeInDown;
   animation-name: fadeInDown;
-  background: #fff !important;
 }
 
 .top-nav-collapse .navbar-brand {
@@ -487,7 +487,6 @@ a.back-to-top:hover, a.back-to-top:focus {
 }
 
 .top-nav-collapse .navbar-nav .nav-link {
-  color: #333 !important;
   margin-top: 0px !important;
   margin-bottom: 0px !important;
 }
@@ -502,7 +501,7 @@ a.back-to-top:hover, a.back-to-top:focus {
 }
 
 .indigo {
-  background: #fff;
+   background: #393939;
 }
 
 .menu-bg {
@@ -523,8 +522,9 @@ a.back-to-top:hover, a.back-to-top:focus {
 }
 
 .navbar-expand-lg .navbar-nav .nav-link {
-  color: #333;
+  color: white;
   font-weight: 700;
+  font-size: 18px;
   padding: 0 17px;
   margin-top: 15px;
   margin-bottom: 15px;
@@ -703,11 +703,31 @@ a.back-to-top:hover, a.back-to-top:focus {
   }
 }
 
+#line-area {
+  color: #fff;
+  overflow: hidden;
+  position: relative;
+}
+
+#line-area .overlay {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0px;
+  left: 0px;
+  background: #0c0808;
+}
+
+#line-area .contents {
+  background: #0c0808;
+  padding: 42px 0px 0px;
+}
+
 /* ==========================================================================
 3. Hero Area
 ========================================================================== */
 .hero-area-bg {
-  background: url(../img/hero-area.jpg) no-repeat;
+  background: #393939;
   background-size: cover;
 }
 
@@ -724,11 +744,10 @@ a.back-to-top:hover, a.back-to-top:focus {
   top: 0px;
   left: 0px;
   background: #0c0808;
-  opacity: 0.6;
 }
 
 #hero-area .contents {
-  padding: 250px 0px 120px;
+  padding: 120px 0px 120px;
 }
 
 #hero-area .contents h5 {
@@ -1127,4 +1146,9 @@ a:not([href]):not([tabindex]):focus, a:not([href]):not([tabindex]):hover {
 
 #copyright p a:hover {
   color: #00b4d9;
+}
+
+.top-line {
+  margin-top: 30px;
+  background-color: white;
 }
