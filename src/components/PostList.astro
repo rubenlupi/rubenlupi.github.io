@@ -1,0 +1,14 @@
+---
+import { slugTag, fmtDate } from '../site';
+const { posts } = Astro.props;
+---
+<ul class="post-list">
+  {posts.map((p) => (
+    <li>
+      <div class="meta"><time datetime={p.data.date.toISOString()}>{fmtDate(p.data.date)}</time></div>
+      <h3><a href={`/posts/${p.id}/`}>{p.data.title}</a></h3>
+      <p>{p.data.description}</p>
+      <ul class="tags">{p.data.tags.map((t) => <li><a href={`/tags/${slugTag(t)}/`}>{t}</a></li>)}</ul>
+    </li>
+  ))}
+</ul>

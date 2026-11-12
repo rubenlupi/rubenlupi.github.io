@@ -1,0 +1,21 @@
+---
+import Base from '../layouts/Base.astro';
+import { SITE } from '../site';
+---
+<Base title="About" description="About Ruben Lupi">
+  <h1>About</h1>
+  <div class="prose">
+    <p>I'm Ruben, a software engineer. I'm especially interested in
+    why complex systems behave the way they do: where the boundaries sit, how feedback travels, and what we can
+    see when something goes wrong.</p>
+    <p>This blog is where I think in public about software architecture, systems thinking, platform engineering
+    and agentic AI. Posts are short and opinionated, and I'll change my mind in them when I learn something.</p>
+    <p>The views here are my own.</p>
+    <h2>Elsewhere</h2>
+    <ul>
+      <li><a href={SITE.github} rel="me">GitHub</a></li>
+      <li><a href={SITE.linkedin} rel="me">LinkedIn</a></li>
+      <li><a href="/cv_rubensanchez_swengineer.pdf">CV (PDF)</a></li>
+    </ul>
+  </div>
+</Base>

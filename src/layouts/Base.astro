@@ -1,0 +1,41 @@
+---
+import '../styles/global.css';
+import { SITE } from '../site';
+interface Props { title?: string; description?: string; }
+const { title, description = SITE.tagline } = Astro.props;
+const full = title ? `${title} — ${SITE.title}` : SITE.title;
+const path = Astro.url.pathname;
+const nav = [
+  { href: '/', label: 'Writing', active: path === '/' || path.startsWith('/posts') },
+  { href: '/tags/', label: 'Tags', active: path.startsWith('/tags') },
+  { href: '/about/', label: 'About', active: path.startsWith('/about') },
+];
+---
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{full}</title>
+    <meta name="description" content={description} />
+    <meta property="og:title" content={full} />
+    <meta property="og:description" content={description} />
+    <link rel="canonical" href={new URL(path, Astro.site)} />
+  </head>
+  <body>
+    <header class="site-header">
+      <a class="brand" href="/">{SITE.title}</a>
+      <nav aria-label="Main">
+        {nav.map((n) => <a href={n.href} aria-current={n.active ? 'page' : undefined}>{n.label}</a>)}
+      </nav>
+    </header>
+    <main><slot /></main>
+    <footer class="site-footer">
+      <span>© {new Date().getFullYear()} {SITE.title}</span>
+      <span>
+        <a href={SITE.github} rel="me">GitHub</a> ·
+        <a href={SITE.linkedin} rel="me">LinkedIn</a>
+      </span>
+    </footer>
+  </body>
+</html>
