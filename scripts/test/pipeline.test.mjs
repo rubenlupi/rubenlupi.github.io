@@ -327,3 +327,144 @@ test('finalize assigns archive slots backwards from the anchor', () => {
     assert.match(readFileSync(join(dir(root2), 'final.md'), 'utf8'), /^editorialDate: 2026-10-26\b/m);
   } finally { rmSync(root2, { recursive: true, force: true }); }
 });
+
+// ---- multi-post series ----
+const STG = ['BREAK', 'CHANGE', 'EXPERIENCE', 'CHALLENGE', 'QUESTION'];
+const SERIES_BRIEF = (o = {}) => BC_BRIEF(o).replace('target_words: 1500-2000', 'target_words: 1000-1500') +
+  '\n## Series Architecture\n\n' + STG.map((st, i) => `### Part ${i + 1} — Title ${i + 1} — ${st}\n- Sub-thesis: x\n`).join('\n');
+const PART = (n, o = {}) => `<!-- PART ${n}: ${o.slug ?? `series-part-${n}`} -->
+---
+title: "Series part ${n}"
+description: "D"
+date: 2026-11-13
+series: break-and-change
+seriesPart:
+  title: "The Systems We Build"
+  slug: "${SLUG}"
+  number: ${n}
+  total: 5
+  stage: "${o.stage ?? STG[n - 1]}"
+book:
+  title: "Thinking in Systems"
+  author: "Donella H. Meadows"
+  year: 2008
+  category: "Systems, Execution & Organizational Design"
+topics: ["Systems & Organizations"]
+tags: []
+draft: true
+---
+Intro [s](https://example.org/a/b). ${ch(o.words ?? 1200)}
+
+## References & Further Reading
+
+- **A source**, Org, 2024. <https://example.org/a/b>. Relevant.
+`;
+const SERIES_DRAFT = (f = () => ({})) => [1, 2, 3, 4, 5].map((n) => PART(n, f(n))).join('\n');
+const SROWS = (score) => P.SERIES_CRITERIA.map((c) => `| ${c} | ${c.startsWith('Historical') ? 'n/a' : score} | ok |`).join('\n');
+const SREVIEW = (round, o = {}) => `
+## Round ${round}
+Verdict: ${o.verdict ?? 'APPROVED'}
+Thesis preserved: yes
+
+${[1, 2, 3, 4, 5].map((n) => {
+  const bad = (o.bad ?? []).includes(n);
+  return `### Part ${n}
+Verdict: ${bad ? 'REVISION_REQUIRED' : 'APPROVED'}
+Open factual/citation issues: ${bad ? 1 : 0}
+
+| Criterion | Score | Justification |
+|---|---|---|
+${SROWS(bad ? 3 : 4)}
+
+#### Factual and citation issues
+${bad ? `- P${n}-I1 — para 2: wrong date. Required: fix.` : 'None.'}
+
+#### Feedback
+None.
+`; }).join('\n')}
+### Series
+Verdict: ${o.series ?? 'APPROVED'}
+
+#### Feedback
+${o.series === 'REVISION_REQUIRED' ? '- S-F1 — parts 2-3 repeat the same example. Required: differentiate.' : 'None.'}
+
+### Keep
+- x
+`;
+function seriesToDraftReady(root, draft = SERIES_DRAFT()) {
+  P.init(root, SLUG, 'series'); P.begin(root, SLUG, 'brief');
+  writeFileSync(join(dir(root), 'editorial-brief.md'), SERIES_BRIEF());
+  P.checkBrief(root, SLUG); P.begin(root, SLUG, 'draft');
+  writeFileSync(join(dir(root), 'draft.md'), draft);
+  P.checkDraft(root, SLUG);
+}
+
+test('series: brief locks the architecture; draft must contain exactly five parts', () => {
+  const root = repo();
+  try {
+    P.init(root, SLUG, 'series'); P.begin(root, SLUG, 'brief');
+    writeFileSync(join(dir(root), 'editorial-brief.md'), SERIES_BRIEF());
+    P.checkBrief(root, SLUG);
+    assert.equal(state(root).locks.series.parts, 5);
+    P.begin(root, SLUG, 'draft');
+    writeFileSync(join(dir(root), 'draft.md'), [1, 2, 3, 4].map((n) => PART(n)).join('\n'));
+    throwsCode(() => P.checkDraft(root, SLUG), 1, /exactly 5/);
+    writeFileSync(join(dir(root), 'draft.md'), SERIES_DRAFT((n) => (n === 2 ? { stage: 'BREAK' } : {})));
+    throwsCode(() => P.checkDraft(root, SLUG), 1, /stage must be "CHANGE"/);
+  } finally { rmSync(root, { recursive: true, force: true }); }
+});
+
+test('series: one failing part holds the whole series; revision then approval; one shared slot', () => {
+  const root = repo();
+  try {
+    seriesToDraftReady(root);
+    P.begin(root, SLUG, 'review');
+    appendFileSync(join(dir(root), 'review.md'), SREVIEW(1, { verdict: 'APPROVED', bad: [3] }));
+    throwsCode(() => P.checkReview(root, SLUG), 1, /overall APPROVED requires every part/);
+    writeFileSync(join(dir(root), 'review.md'), '');
+    appendFileSync(join(dir(root), 'review.md'), SREVIEW(1, { verdict: 'REVISION_REQUIRED', bad: [3], series: 'REVISION_REQUIRED' }));
+    P.checkReview(root, SLUG);
+    assert.deepEqual(state(root).reviews[0].issues, ['P3-I1']);
+    P.begin(root, SLUG, 'revise');
+    writeFileSync(join(dir(root), 'draft.md'), SERIES_DRAFT((n) => (n === 3 ? { words: 1250 } : {})));
+    appendFileSync(join(dir(root), 'revision-notes.md'), '## Round 1 response\n- P3-I1: done — fixed date\n- S-F1: done — new example\nThesis: unchanged\n');
+    P.checkRevision(root, SLUG);
+    P.begin(root, SLUG, 'review');
+    appendFileSync(join(dir(root), 'review.md'), SREVIEW(2));
+    P.checkReview(root, SLUG);
+    P.finalize(root, SLUG);
+    for (let n = 1; n <= 5; n++) {
+      const t = readFileSync(join(dir(root), `final/series-part-${n}.md`), 'utf8');
+      assert.match(t, /^editorialDate: 2026-11-02\b/m);
+    }
+    assert.equal(state(root).stage, 'awaiting-human-approval');
+  } finally { rmSync(root, { recursive: true, force: true }); }
+});
+
+test('series: factual issue in a part cannot be declined; n/a only for historical accuracy', () => {
+  const root = repo();
+  try {
+    seriesToDraftReady(root);
+    P.begin(root, SLUG, 'review');
+    appendFileSync(join(dir(root), 'review.md'), SREVIEW(1).replace('| Originality | 4 |', '| Originality | n/a |'));
+    throwsCode(() => P.checkReview(root, SLUG), 1, /"Originality" cannot be n\/a/);
+    writeFileSync(join(dir(root), 'review.md'), '');
+    appendFileSync(join(dir(root), 'review.md'), SREVIEW(1, { verdict: 'REVISION_REQUIRED', bad: [1] }));
+    P.checkReview(root, SLUG); P.begin(root, SLUG, 'revise');
+    appendFileSync(join(dir(root), 'revision-notes.md'), '## Round 1 response\n- P1-I1: declined — disagree\nThesis: unchanged\n');
+    throwsCode(() => P.checkRevision(root, SLUG), 1, /cannot be declined/);
+  } finally { rmSync(root, { recursive: true, force: true }); }
+});
+
+test('a NEEDS_INPUT brief can be reopened after the author responds', () => {
+  const root = repo();
+  try {
+    P.init(root, SLUG, 't'); P.begin(root, SLUG, 'brief');
+    writeFileSync(join(dir(root), 'editorial-brief.md'), BRIEF({ status: 'NEEDS_INPUT', exp: 'missing' }));
+    throwsCode(() => P.checkBrief(root, SLUG), 3);
+    P.begin(root, SLUG, 'brief');
+    writeFileSync(join(dir(root), 'editorial-brief.md'), BRIEF());
+    P.checkBrief(root, SLUG);
+    assert.equal(state(root).stage, 'brief-approved');
+  } finally { rmSync(root, { recursive: true, force: true }); }
+});

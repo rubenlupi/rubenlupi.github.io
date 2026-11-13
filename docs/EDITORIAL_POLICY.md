@@ -148,6 +148,15 @@ Each book yields **one independent article** with exactly five chapters, in this
 Requirements specific to book articles:
 
 - The article must be based on the actual book. If the text is not accessible, keep the article a draft.
+  **Exception only by explicit owner decision**, recorded in the workflow's `input.md`: the article may then rely
+  solely on legally accessible material (publisher excerpts, the author's own essays, independent scholarship). It
+  must be framed as engaging with the author's ideas, not as a reading of the book, and it must say so visibly in
+  the text. Unauthorized copies are never used, whoever hosts them.
+- Quote books briefly and only with attribution. Never reproduce substantial passages.
+- **Series edition (owner decision, 2026-11-13).** The owner may commission a book as a multi-post series instead of
+  one article: one post per stage (BREAK, CHANGE, EXPERIENCE, CHALLENGE, QUESTION), each a complete, independently
+  readable article with its own References section, linked by `seriesPart` metadata. The whole series is **one
+  weekly release**: all parts share one archive slot, and they are published together or not at all.
 - Book title and author must match an entry in [`BOOK_CATALOG.md`](BOOK_CATALOG.md). Do not invent books or
   silently substitute books or authors. Catalogue changes are made deliberately, in that file.
 - Frontmatter records the book (`book.title`, `book.author`, `book.year`, `book.category`) and

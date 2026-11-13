@@ -240,6 +240,90 @@ Thesis: unchanged
 `check-revision` requires a response for every `I…` and `F…` ID in round N, `Thesis: unchanged`, and that no `I…`
 item is declined. It then re-runs every `check-draft` rule.
 
+## Series extension (multi-post series)
+
+Used when the brief contains `## Series Architecture` with one `### Part N — <title> — <STAGE>` subsection per post.
+The agents' contracts stay the same (the writer still writes only `draft.md`, the editor only appends to
+`review.md`); the files simply hold every part.
+
+**`draft.md`** holds every part, in order, each introduced by a marker line and followed by a complete post in
+the repository format:
+
+```markdown
+<!-- PART 1: we-dont-just-live-in-systems -->
+---
+title: "We Don't Just Live in Systems. We Create Them."
+description: "…"
+date: YYYY-MM-DD
+series: break-and-change
+seriesPart:
+  title: "The Systems We Build, The Systems We Live In"
+  slug: <workflow slug>
+  number: 1
+  total: 5
+  stage: "BREAK"
+book: { title, author, year, category }   # exactly as in the brief
+topics: […]
+tags: […]
+draft: true
+---
+<post, with inline links and its own "## References & Further Reading">
+<!-- PART 2: … -->
+…
+```
+
+The marker's slug becomes the post's file name. Don't write Previous/Next links by hand: the site renders
+"Part N of M" and Previous / Next / All parts navigation from `seriesPart`. Cross-references between parts in the
+prose are fine. Do not set `editorialDate`: `finalize` assigns **one shared slot** to every part.
+
+**`review.md`** series round (12 criteria per part; `Historical accuracy where applicable` may be `n/a`):
+
+```markdown
+## Round <N>
+Verdict: <APPROVED | REVISION_REQUIRED | BLOCKED>      # APPROVED only if every part AND the series are APPROVED
+Thesis preserved: <yes | no>
+
+### Part 1
+Verdict: <APPROVED | REVISION_REQUIRED>
+Open factual/citation issues: <count>
+
+| Criterion | Score | Justification |
+|---|---|---|
+| Originality | 1-5 | … |
+| Technical accuracy | 1-5 | … |
+| Intellectual and technical depth | 1-5 | … |
+| Quality of evidence | 1-5 | … |
+| Systems-thinking rigor | 1-5 | … |
+| Historical accuracy where applicable | 1-5 or n/a | … |
+| Cross-disciplinary connections | 1-5 | … |
+| Accessibility | 1-5 | … |
+| Narrative coherence | 1-5 | … |
+| Practical relevance | 1-5 | … |
+| Quality of critical analysis | 1-5 | … |
+| Strength of the final question | 1-5 | … |
+
+#### Factual and citation issues
+- P1-I1 — <location>: <problem>. Required: <fix>.   (or "None.")
+
+#### Feedback
+- P1-F1 — <location>: <problem>. Required: <change>. (or "None.")
+
+### Part 2 … ### Part 5   (same structure, IDs P2-…, P5-…)
+
+### Series
+Verdict: <APPROVED | REVISION_REQUIRED>
+#### Feedback
+- S-F1 — <coherence, repetition, continuity across parts>. Required: <change>.   (or "None.")
+
+### Keep
+- <strengths to preserve>
+```
+
+Gate rules: a part may be `APPROVED` only with every scored criterion ≥ 4 and zero issues. The overall verdict is
+`APPROVED` only if all parts and the series block are approved with no open items. Otherwise the **entire series is
+held**. Revision notes must answer every `P<n>-I…`, `P<n>-F…` and `S-F…` ID. `finalize` writes `final/<slug>.md` for
+each part (plus `final.md` with all parts) and `publication.md`.
+
 ## Stop conditions
 
 The coordinator stops and reports to the author, with the reason and the artifact paths, when:

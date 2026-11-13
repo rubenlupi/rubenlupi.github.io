@@ -94,3 +94,9 @@ h2 { font-size: 1.4rem; margin: 2.5rem 0 .75rem; }
 .meta a:hover { text-decoration-color: currentColor; }
 @media (max-width: 480px) { .subtitle { font-size: 1rem; } }
 .archive-note { font: .875rem/1.5 var(--sans); color: var(--muted); border-left: 3px solid var(--line); padding: .25rem 0 .25rem 1rem; margin: 0 0 2rem; }
+.series-label { font: .85rem var(--sans); color: var(--muted); margin: .4rem 0 .2rem; }
+.series-nav { border-top: 1px solid var(--line); margin-top: 3rem; padding-top: 1.5rem; font: .95rem/1.5 var(--sans); }
+.series-nav ol { padding-left: 1.25rem; margin: 0 0 1rem; }
+.series-nav li { margin-bottom: .35rem; }
+.series-nav li[aria-current] span { font-weight: 600; }
+.series-step { display: flex; flex-wrap: wrap; justify-content: space-between; gap: .5rem 1rem; margin: 0; }

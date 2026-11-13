@@ -9,6 +9,7 @@ const { posts } = Astro.props;
         <time datetime={(p.data.editorialDate ?? p.data.date).toISOString()}>{fmtDate(p.data.editorialDate ?? p.data.date)}</time>
         {p.data.editorialDate && <> (archive)</>}
         {p.data.series && <> · <a href={`/${SERIES.slug}/`}>{SERIES.name}</a></>}
+        {p.data.seriesPart && <> · Part {p.data.seriesPart.number} of {p.data.seriesPart.total}</>}
         {p.data.topics.map((t) => <> · <a href={`/topics/${areaByName(t)?.slug}/`}>{areaByName(t)?.short}</a></>)}
       </div>
       <h3><a href={`/posts/${p.id}/`}>{p.data.title}</a></h3>

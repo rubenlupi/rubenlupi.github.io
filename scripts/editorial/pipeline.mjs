@@ -20,6 +20,13 @@ export const CRITERIA = [
   'Quality of cross-disciplinary connections', 'Accessibility to the intended audience', 'Clarity and narrative flow',
   'Practical relevance', 'Strength of the final question',
 ];
+// Review criteria for multi-post series (owner assignment, 2026-11-13). "Historical accuracy where applicable" may be n/a.
+export const SERIES_CRITERIA = [
+  'Originality', 'Technical accuracy', 'Intellectual and technical depth', 'Quality of evidence', 'Systems-thinking rigor',
+  'Historical accuracy where applicable', 'Cross-disciplinary connections', 'Accessibility', 'Narrative coherence',
+  'Practical relevance', 'Quality of critical analysis', 'Strength of the final question',
+];
+const OPTIONAL_CRITERIA = new Set(['Historical accuracy where applicable']);
 const BRIEF_SECTIONS = ['Thesis', 'Break', 'Challenge', 'Experience', 'Change', 'Question', 'Claims and Evidence', 'Sources',
   'Counterarguments', 'Contradictions and Open Questions', 'Research Gaps', 'Duplication Check', 'Instructions for the Writer',
   'Proposed Metadata'];
@@ -36,7 +43,7 @@ const OWNERSHIP = {
 };
 const APPEND_ONLY = { review: ['review.md'], revise: ['revision-notes.md'] };
 const TRANSITIONS = { // stage you can `begin` -> required current stage(s)
-  brief: ['initialized'], draft: ['brief-approved'], review: ['draft-ready'], revise: ['revision-required'],
+  brief: ['initialized', 'needs-input'], draft: ['brief-approved'], review: ['draft-ready'], revise: ['revision-required'],
 };
 
 export class GateError extends Error { constructor(msg, code = 1) { super(msg); this.code = code; } }
@@ -209,6 +216,9 @@ export function checkBrief(root, slug) {
   }
   s.locks = { brief: sha(p.brief), thesis: fm.thesis, kind: fm.kind, target_words: String(fm.target_words),
     ...(fm.kind === 'break-and-change' ? { book: { title: fm.book_title, author: fm.book_author, year: fm.book_year, category: fm.category }, bookAccess: fm.book_access } : {}) };
+  const series = parseSeriesArchitecture(read(p.brief));
+  if (series.error) fail(`brief contract violations:\n  - ${series.error}`);
+  if (series.parts) s.locks.series = series;
   s.stage = 'brief-approved';
   s.log.push({ at: now(), event: 'brief approved by gate' });
   saveState(p, s);
@@ -216,6 +226,7 @@ export function checkBrief(root, slug) {
 }
 
 function checkDraftContent(p, s) {
+  if (s.locks.series) return checkSeriesDraftContent(p, s);
   const errors = [], warnings = [];
   if (sha(p.brief) !== s.locks.brief) errors.push('editorial-brief.md changed after it was locked (thesis lock)');
   if (!existsSync(p.draft)) return { errors: ['draft.md was not produced'], warnings };
@@ -323,9 +334,9 @@ export function checkReview(root, slug) {
   const expected = s.reviews.length + 1;
   if (!last) fail('review.md has no "## Round N" section');
   if (last.n !== expected) fail(`latest review round is ${last.n}, expected ${expected}`);
-  const r = parseReview(last.body);
+  const r = s.locks.series ? parseSeriesReview(last.body, s.locks.series.parts) : parseReview(last.body);
   if (r.errors.length) fail(`review contract violations (round ${last.n}):\n  - ${r.errors.join('\n  - ')}`);
-  s.reviews.push({ round: last.n, at: now(), verdict: r.verdict, scores: r.scores, issues: r.issues, feedback: r.feedback, thesisPreserved: r.thesis });
+  s.reviews.push({ round: last.n, at: now(), verdict: r.verdict, scores: r.scores, issues: r.issues, feedback: r.feedback, thesisPreserved: r.thesis, ...(r.parts ? { parts: r.parts, seriesVerdict: r.seriesVerdict } : {}) });
   s.active = null;
   let msg;
   if (r.verdict === 'APPROVED') { s.stage = 'approved'; msg = `round ${last.n}: APPROVED. Next: finalize ${slug}`; }
@@ -355,7 +366,7 @@ function checkNotes(p, s) {
   for (const id of [...review.issues, ...review.feedback]) {
     const m = body.match(new RegExp(`^\\s*-\\s*${id}:\\s*(done|declined)\\b`, 'm'));
     if (!m) errors.push(`revision-notes: no "done|declined" response for ${id}`);
-    else if (m[1] === 'declined' && id.startsWith('I')) errors.push(`revision-notes: factual/citation issue ${id} cannot be declined`);
+    else if (m[1] === 'declined' && /(^|-)I\d+$/.test(id)) errors.push(`revision-notes: factual/citation issue ${id} cannot be declined`);
   }
   if (!/^Thesis:\s*unchanged\s*$/m.test(body)) errors.push('revision-notes: missing "Thesis: unchanged"');
   return errors;
@@ -368,8 +379,11 @@ export function takenSlots(p) {
   if (existsSync(p.posts)) for (const post of readPosts(p.posts)) add(post.fm?.editorialDate);
   const ed = join(p.root, 'editorial');
   if (existsSync(ed)) for (const d of readdirSync(ed)) {
+    if (d === p.slug) continue;
     const f = join(ed, d, 'final.md');
-    if (d !== p.slug && existsSync(f)) add(parsePost(f).fm?.editorialDate);
+    if (existsSync(f)) add(parsePost(f).fm?.editorialDate);
+    const fd = join(ed, d, 'final');
+    if (existsSync(fd)) for (const x of readdirSync(fd)) if (x.endsWith('.md')) add(parsePost(join(fd, x)).fm?.editorialDate);
   }
   return out;
 }
@@ -378,6 +392,7 @@ export function finalize(root, slug) {
   const p = paths(root, slug);
   const s = loadState(p);
   if (s.stage !== 'approved') fail(`cannot finalize: workflow is "${s.stage}", not "approved"`);
+  if (s.locks.series) return finalizeSeries(p, s);
   const { errors, warnings, words } = checkDraftContent(p, s);
   if (errors.length) fail(`final checks failed:\n  - ${errors.join('\n  - ')}`);
   let finalText = read(p.draft), slot = null;
@@ -454,6 +469,235 @@ ${links}
   s.log.push({ at: now(), event: 'finalized; awaiting human approval' });
   saveState(p, s);
   return `final.md and publication.md written. STOP: present editorial/${slug}/publication.md to the author for approval.`;
+}
+
+
+// ---------- multi-post series (docs/EDITORIAL_WORKFLOW.md, "Series extension") ----------
+const STAGE_ORDER = ['BREAK', 'CHANGE', 'EXPERIENCE', 'CHALLENGE', 'QUESTION'];
+const PART_MARK = /^<!-- PART (\d+): ([a-z0-9]+(?:-[a-z0-9]+)*) -->\s*$/gm;
+
+/** Reads "## Series Architecture" with "### Part N — <title> — <STAGE>" subsections. No section = not a series. */
+export function parseSeriesArchitecture(text) {
+  const { body } = splitFrontmatter(text);
+  const sec = sections(body)['Series Architecture'];
+  if (sec === undefined) return {};
+  const heads = [...sec.matchAll(/^### Part (\d+)\s+[—-]\s+(.+?)\s+[—-]\s+([A-Z]+)\s*$/gm)];
+  if (heads.length < 2) return { error: 'Series Architecture needs at least two "### Part N — <title> — <STAGE>" subsections' };
+  const parts = heads.map((m) => ({ number: Number(m[1]), title: m[2].trim(), stage: m[3] }));
+  if (parts.some((x, i) => x.number !== i + 1)) return { error: 'Series Architecture parts must be numbered 1..N in order' };
+  return { parts: parts.length, outline: parts };
+}
+
+/** Splits a series draft into parts at "<!-- PART N: slug -->" markers. */
+export function splitParts(text) {
+  const marks = [...text.matchAll(PART_MARK)];
+  return marks.map((m, i) => ({ number: Number(m[1]), slug: m[2], text: text.slice(m.index + m[0].length, i + 1 < marks.length ? marks[i + 1].index : undefined).replace(/^\s+/, '') }));
+}
+
+function checkSeriesDraftContent(p, s) {
+  const errors = [], warnings = [], L = s.locks, N = L.series.parts;
+  if (sha(p.brief) !== L.brief) errors.push('editorial-brief.md changed after it was locked (thesis lock)');
+  if (!existsSync(p.draft)) return { errors: ['draft.md was not produced'], warnings };
+  const parts = splitParts(read(p.draft));
+  if (parts.length !== N) return { errors: [`series draft must contain exactly ${N} "<!-- PART N: slug -->" sections, found ${parts.length}`], warnings };
+  const briefUrls = new Set(Object.values(parseBrief(read(p.brief), p.slug).sources ?? {}).map((x) => x.url).filter(Boolean));
+  const slot = L.kind === 'break-and-change' ? (nextSlot(takenSlots(p)) ?? '1900-01-01') : null;
+  const existing = existsSync(p.posts) ? readPosts(p.posts) : [];
+  const [lo, hi] = L.target_words.split('-').map((x) => parseInt(x, 10));
+  const words = [];
+  const tmp = mkdtempSync(join(tmpdir(), 'editorial-series-'));
+  try {
+    const seen = new Set();
+    for (const [i, part] of parts.entries()) {
+      const tag = `part ${part.number}`;
+      if (part.number !== i + 1) errors.push(`parts must be in order 1..${N}; found ${part.number} at position ${i + 1}`);
+      if (seen.has(part.slug)) errors.push(`${tag}: duplicate slug ${part.slug}`); seen.add(part.slug);
+      const { fm, body } = splitFrontmatter(part.text);
+      if (!fm) { errors.push(`${tag}: frontmatter missing or invalid`); continue; }
+      if (fm.draft !== true) errors.push(`${tag}: must have draft: true (publication is a human decision)`);
+      if (fm.editorialDate !== undefined) errors.push(`${tag}: do not set editorialDate; finalize assigns one shared slot`);
+      const sp = fm.seriesPart ?? {}, o = L.series.outline[i] ?? {};
+      if (sp.slug !== p.slug) errors.push(`${tag}: seriesPart.slug must be "${p.slug}"`);
+      if (sp.number !== part.number || sp.total !== N) errors.push(`${tag}: seriesPart.number/total must be ${part.number}/${N}`);
+      if (o.stage && sp.stage !== o.stage) errors.push(`${tag}: seriesPart.stage must be "${o.stage}" (from the brief)`);
+      if (L.kind === 'break-and-change') {
+        if (fm.series !== 'break-and-change') errors.push(`${tag}: needs series: break-and-change`);
+        const b = fm.book ?? {};
+        for (const k of ['title', 'author', 'year', 'category']) if (b[k] !== L.book[k]) errors.push(`${tag}: book.${k} must match the brief ("${L.book[k]}")`);
+      }
+      for (const post of existing) {
+        if (post.slug === part.slug) errors.push(`${tag}: slug collides with existing post ${post.slug}`);
+        if (post.fm?.title && fm.title && post.fm.title.trim().toLowerCase() === String(fm.title).trim().toLowerCase()) errors.push(`${tag}: title collides with existing post ${post.slug}`);
+      }
+      const urls = [...new Set([...extractLinks(body).map((l) => l.href), ...(body.match(/https?:\/\/[^\s)>\]]+/g) ?? [])].filter(isExternal).map(normUrl))];
+      for (const u of urls) if (!briefUrls.has(u)) errors.push(`${tag}: URL not in the brief's Sources (unvetted source): ${u}`);
+      const w = splitReferences(body).main.replace(/<!--[\s\S]*?-->/g, '').split(/\s+/).filter(Boolean).length;
+      words.push(w);
+      if (w < lo * 0.85 || w > hi * 1.15) warnings.push(`${tag}: ${w} words; brief target is ${L.target_words}`);
+      let probe = part.text.replace(/^draft:\s*true\s*$/m, 'draft: false');
+      if (slot) probe = probe.replace(/^date:.*$/m, (d) => `${d}\neditorialDate: ${slot}`);
+      writeFileSync(join(tmp, `${part.slug}.md`), probe);
+    }
+    const r = validate(tmp, { catalogPath: p.catalog });
+    errors.push(...r.errors.map((e) => `validator: ${e.replace(tmp + '/', '')}`));
+    warnings.push(...r.warnings.map((w) => `validator: ${w.replace(tmp + '/', '')}`));
+  } finally { rmSync(tmp, { recursive: true, force: true }); }
+  return { errors, warnings, words: words.join('/') };
+}
+
+function parseCriteriaTable(text, criteria) {
+  const scores = {}, errors = [];
+  for (const r of tableRows(text)) {
+    const name = criteria.find((c) => c.toLowerCase() === (r[0] ?? '').toLowerCase());
+    if (name) scores[name] = /^n\/a$/i.test(r[1] ?? '') ? 'n/a' : Number(r[1]);
+  }
+  for (const c of criteria) {
+    if (!(c in scores)) errors.push(`criterion "${c}" missing`);
+    else if (scores[c] === 'n/a') { if (!OPTIONAL_CRITERIA.has(c)) errors.push(`criterion "${c}" cannot be n/a`); }
+    else if (!Number.isInteger(scores[c]) || scores[c] < 1 || scores[c] > 5) errors.push(`criterion "${c}" score must be 1-5 (or n/a where allowed)`);
+  }
+  return { scores, errors };
+}
+
+/** Series review round: overall Verdict/Thesis, then "### Part N" blocks, a "### Series" block and "### Keep". */
+export function parseSeriesReview(body, N) {
+  const errors = [];
+  const head = body.split(/^### /m)[0];
+  const verdict = head.match(/^Verdict:\s*(APPROVED|REVISION_REQUIRED|BLOCKED)\s*$/m)?.[1];
+  const thesis = head.match(/^Thesis preserved:\s*(yes|no)\s*$/mi)?.[1]?.toLowerCase();
+  if (!verdict) errors.push('missing overall "Verdict: APPROVED|REVISION_REQUIRED|BLOCKED"');
+  if (!thesis) errors.push('missing "Thesis preserved: yes|no"');
+  const blocks = Object.fromEntries(body.split(/^### +/m).slice(1).map((x) => { const i = x.indexOf('\n'); return [x.slice(0, i).trim(), x.slice(i + 1)]; }));
+  const sub = (t) => Object.fromEntries(t.split(/^#### +/m).slice(1).map((x) => { const i = x.indexOf('\n'); return [x.slice(0, i).trim(), x.slice(i + 1)]; }));
+  const issues = [], feedback = [], parts = {}, scores = {};
+  for (let n = 1; n <= N; n++) {
+    const b = blocks[`Part ${n}`];
+    if (b === undefined) { errors.push(`"### Part ${n}" block missing`); continue; }
+    const v = b.match(/^Verdict:\s*(APPROVED|REVISION_REQUIRED)\s*$/m)?.[1];
+    const open = b.match(/^Open factual\/citation issues:\s*(\d+)\s*$/m);
+    if (!v) errors.push(`part ${n}: missing "Verdict: APPROVED|REVISION_REQUIRED"`);
+    if (!open) errors.push(`part ${n}: missing "Open factual/citation issues: <n>"`);
+    const t = parseCriteriaTable(b, SERIES_CRITERIA);
+    errors.push(...t.errors.map((e) => `part ${n}: ${e}`));
+    const ss = sub(b);
+    if (!('Factual and citation issues' in ss)) errors.push(`part ${n}: "#### Factual and citation issues" missing`);
+    if (!('Feedback' in ss)) errors.push(`part ${n}: "#### Feedback" missing`);
+    const I = [...(ss['Factual and citation issues'] ?? '').matchAll(new RegExp(`^\\s*-\\s*(P${n}-I\\d+)\\b`, 'gm'))].map((m) => m[1]);
+    const F = [...(ss.Feedback ?? '').matchAll(new RegExp(`^\\s*-\\s*(P${n}-F\\d+)\\b`, 'gm'))].map((m) => m[1]);
+    if (open && Number(open[1]) !== I.length) errors.push(`part ${n}: "Open factual/citation issues: ${open[1]}" but ${I.length} P${n}-I items listed`);
+    if (v === 'APPROVED') {
+      const low = SERIES_CRITERIA.filter((c) => typeof t.scores[c] === 'number' && t.scores[c] < 4);
+      if (low.length) errors.push(`part ${n}: APPROVED is not allowed with scores below 4: ${low.join(', ')}`);
+      if (I.length) errors.push(`part ${n}: APPROVED is not allowed with open factual/citation issues`);
+    }
+    if (v === 'REVISION_REQUIRED' && !I.length && !F.length) errors.push(`part ${n}: REVISION_REQUIRED needs at least one P${n}-I or P${n}-F item`);
+    issues.push(...I); feedback.push(...F);
+    parts[n] = { verdict: v, issues: I, feedback: F };
+    scores[`Part ${n}`] = t.scores;
+  }
+  const sb = blocks.Series;
+  let seriesVerdict;
+  if (sb === undefined) errors.push('"### Series" block (collective coherence review) missing');
+  else {
+    seriesVerdict = sb.match(/^Verdict:\s*(APPROVED|REVISION_REQUIRED)\s*$/m)?.[1];
+    if (!seriesVerdict) errors.push('series: missing "Verdict: APPROVED|REVISION_REQUIRED"');
+    const F = [...(sub(sb).Feedback ?? '').matchAll(/^\s*-\s*(S-F\d+)\b/gm)].map((m) => m[1]);
+    if (!('Feedback' in sub(sb))) errors.push('series: "#### Feedback" missing');
+    if (seriesVerdict === 'REVISION_REQUIRED' && !F.length) errors.push('series: REVISION_REQUIRED needs at least one S-F item');
+    feedback.push(...F);
+  }
+  const allApproved = Object.values(parts).length === N && Object.values(parts).every((x) => x.verdict === 'APPROVED') && seriesVerdict === 'APPROVED';
+  if (verdict === 'APPROVED') {
+    if (!allApproved) errors.push('overall APPROVED requires every part and the series block to be APPROVED (hold the entire series otherwise)');
+    if (issues.length || feedback.length) errors.push('overall APPROVED is not allowed with open items');
+    if (thesis !== 'yes') errors.push('APPROVED is not allowed when the thesis was not preserved');
+  }
+  if (verdict === 'REVISION_REQUIRED' && allApproved) errors.push('overall verdict is REVISION_REQUIRED but every block is APPROVED');
+  return { errors, verdict, scores, issues, feedback, thesis, parts, seriesVerdict };
+}
+
+function finalizeSeries(p, s) {
+  const { errors, warnings, words } = checkSeriesDraftContent(p, s);
+  if (errors.length) fail(`final checks failed:\n  - ${errors.join('\n  - ')}`);
+  let slot = null;
+  if (s.locks.kind === 'break-and-change') {
+    slot = nextSlot(takenSlots(p));
+    if (!slot) stop('the ~240-week archive horizon is exhausted; the owner must decide how to date this series');
+  }
+  const parts = splitParts(read(p.draft));
+  const finalDir = join(p.dir, 'final');
+  rmSync(finalDir, { recursive: true, force: true });
+  mkdirSync(finalDir, { recursive: true });
+  const rows = [];
+  for (const part of parts) {
+    let t = part.text;
+    if (slot) t = t.replace(/^date:.*$/m, (d) => `${d}\neditorialDate: ${slot}   # ONE shared archive slot for the whole series, assigned by pipeline finalize (policy §6)`);
+    writeFileSync(join(finalDir, `${part.slug}.md`), t);
+    const { fm } = splitFrontmatter(t);
+    rows.push({ n: part.number, slug: part.slug, title: fm.title, stage: fm.seriesPart?.stage });
+  }
+  writeFileSync(p.final, parts.map((x) => `<!-- PART ${x.number}: ${x.slug} -->\n${readFileSync(join(finalDir, `${x.slug}.md`), 'utf8')}`).join('\n'));
+
+  const tmp = mkdtempSync(join(tmpdir(), 'editorial-links-'));
+  let links = '(not run)';
+  try {
+    for (const part of parts) writeFileSync(join(tmp, `${part.slug}.md`), readFileSync(join(finalDir, `${part.slug}.md`), 'utf8').replace(/^draft:\s*true\s*$/m, 'draft: false'));
+    const r = spawnSync(process.execPath, [join(p.root, 'scripts', 'check-links.mjs'), tmp], { encoding: 'utf8', timeout: 300000 });
+    links = (r.stdout || r.stderr || '').trim();
+  } finally { rmSync(tmp, { recursive: true, force: true }); }
+
+  const last = s.reviews[s.reviews.length - 1];
+  const minOf = (sc) => Math.min(...Object.values(sc).filter((v) => typeof v === 'number'));
+  const md = `# Publication package: series "${splitFrontmatter(read(join(finalDir, `${parts[0].slug}.md`))).fm.seriesPart?.title}"
+
+**Status: awaiting the author's explicit approval. Nothing has been committed, pushed or deployed.**
+
+## Parts (one weekly release)
+
+| Part | Stage | Title | Target file | Words |
+|---|---|---|---|---|
+${rows.map((r, i) => `| ${r.n} | ${r.stage} | ${r.title} | \`src/content/posts/${r.slug}.md\` | ${String(words).split('/')[i]} |`).join('\n')}
+
+- Editorial date (shared archive slot): ${slot ?? 'n/a'}
+- Actual date: see each part's \`date\`
+- Book: ${s.locks.book ? `${s.locks.book.title}, ${s.locks.book.author} (${s.locks.book.year}). Category: ${s.locks.book.category}. Access used: ${s.locks.bookAccess}` : 'n/a'}
+- Thesis (locked): ${s.locks.thesis}
+
+## Review history (lowest score per part; series coherence verdict)
+
+| Round | Verdict | ${rows.map((r) => `P${r.n}`).join(' | ')} | Series |
+|---|---|${rows.map(() => '---').join('|')}|---|
+${s.reviews.map((r) => `| ${r.round} | ${r.verdict} | ${rows.map((x) => `${r.parts?.[x.n]?.verdict === 'APPROVED' ? '✓' : '✗'} ${minOf(r.scores[`Part ${x.n}`] ?? {})}`).join(' | ')} | ${r.seriesVerdict ?? ''} |`).join('\n')}
+
+Approved in round ${last.round} after ${s.revisions} revision(s). Full scores: \`review.md\`.
+
+## Automated checks
+
+- Repository validator on all parts as published, sharing one slot: passed${warnings.length ? `, with warnings:\n${warnings.map((w) => `  - ${w}`).join('\n')}` : ''}
+- Source gate: every URL in every part is in the editor's inspected Sources.
+- Link check:
+
+\`\`\`
+${links}
+\`\`\`
+
+## Still requires human review
+
+- Automated checks verify structure and reachability, not truth. Spot-check key claims against \`editorial-brief.md\`.
+- Any opinion presented as the author's own must actually be the author's. Hypotheticals must be labelled.
+
+## To publish (only with explicit approval)
+
+1. Copy every file in \`final/\` to \`src/content/posts/\` and set \`draft: false\` in **all five** (the validator refuses a partial series).
+2. Record the category and the series in \`docs/BOOK_CATALOG.md\`.
+3. \`npm run build && npm run check-links\`, commit on a branch (include \`editorial/${p.slug}/\`), show the author, push only when approved.
+`;
+  writeFileSync(p.publication, md);
+  if (slot) s.editorialDate = slot;
+  s.stage = 'awaiting-human-approval';
+  s.log.push({ at: now(), event: 'series finalized; awaiting human approval' });
+  saveState(p, s);
+  return `final/ (${parts.length} posts), final.md and publication.md written. STOP: present editorial/${p.slug}/publication.md to the author for approval.`;
 }
 
 export function status(root, slug) {

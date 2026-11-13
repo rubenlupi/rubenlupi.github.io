@@ -8,7 +8,9 @@ export const AREAS = [
   'Software Engineering', 'Learning & Education', 'Strength & Human Performance',
   'History & Classical Thinking', 'Mathematics & Reasoning', 'Systems & Organizations',
 ];
-const ALLOWED = new Set(['title', 'description', 'date', 'topics', 'tags', 'draft', 'series', 'book', 'editorialDate', 'selfContained']);
+const ALLOWED = new Set(['title', 'description', 'date', 'topics', 'tags', 'draft', 'series', 'book', 'editorialDate', 'selfContained', 'seriesPart']);
+export const STAGES = ['BREAK', 'CHANGE', 'EXPERIENCE', 'CHALLENGE', 'QUESTION'];
+const SLUG_RE = /^[a-z0-9]+(-[a-z0-9]+)*$/;
 const SERIES = new Set(['break-and-change']);
 const CHAPTERS = [
   ['Key Ideas', 'BREAK'], ['What Still Matters Today', 'CHANGE'], ['Why We Keep Getting It Wrong', 'EXPERIENCE'],
@@ -40,7 +42,7 @@ export function validate(dir, { catalogPath, today = new Date() } = {}) {
   const warn = (f, m) => warnings.push(`${f}: ${m}`);
   const posts = readPosts(dir);
   const catalog = loadCatalog(catalogPath);
-  const slugs = new Map(), titles = new Map(), slots = new Map();
+  const slugs = new Map(), titles = new Map(), slots = new Map(), seriesMap = new Map();
 
   for (const p of posts) {
     const f = p.file;
@@ -83,7 +85,11 @@ export function validate(dir, { catalogPath, today = new Date() } = {}) {
       if (!isMonday(e)) err(f, `"editorialDate" ${e} must be a Monday (weekly archive slots)`);
       if (e > ANCHOR) err(f, `"editorialDate" ${e} is after the archive anchor ${ANCHOR}`);
       if (e < EARLIEST) err(f, `"editorialDate" ${e} is before the archive horizon (${EARLIEST})`);
-      if (slots.has(e)) err(f, `"editorialDate" ${e} is already used by ${slots.get(e)}`); else slots.set(e, f);
+      // One weekly slot per release. Parts of the same multi-post series share their slot.
+      const owner = fm.seriesPart?.slug ?? null;
+      const prev = slots.get(e);
+      if (prev && !(owner && prev.series === owner)) err(f, `"editorialDate" ${e} is already used by ${prev.file}`);
+      else if (!prev) slots.set(e, { file: f, series: owner });
     }
     if (fm.book !== undefined) {
       const b = fm.book;
@@ -91,8 +97,24 @@ export function validate(dir, { catalogPath, today = new Date() } = {}) {
         err(f, '"book" needs title (string), author (string) and year (integer)');
       }
       if (b && b.category !== undefined && !CATEGORIES.includes(b.category)) err(f, `book.category "${b.category}" is not one of: ${CATEGORIES.join('; ')}`);
-      if (b && Object.keys(b).some((k) => !['title', 'author', 'year', 'category'].includes(k))) err(f, 'book has unknown keys (allowed: title, author, year, category)'); else if (edDate && edDate.getUTCFullYear() < b.year) {
+      if (b && Object.keys(b).some((k) => !['title', 'author', 'year', 'category'].includes(k))) err(f, 'book has unknown keys (allowed: title, author, year, category)');
+      if (b && Number.isInteger(b.year) && edDate && edDate.getUTCFullYear() < b.year) {
         err(f, `"editorialDate" (${fm.editorialDate}) precedes the book's original publication year (${b.year})`);
+      }
+    }
+    const sp = fm.seriesPart;
+    if (sp !== undefined) {
+      const okShape = sp && typeof sp.title === 'string' && sp.title.trim() && typeof sp.slug === 'string' && SLUG_RE.test(sp.slug)
+        && Number.isInteger(sp.number) && Number.isInteger(sp.total) && sp.total >= 2 && sp.number >= 1 && sp.number <= sp.total;
+      if (!okShape) err(f, 'seriesPart needs title (string), slug (kebab-case), number (1..total) and total (>= 2)');
+      if (sp && Object.keys(sp).some((k) => !['title', 'slug', 'number', 'total', 'stage'].includes(k))) err(f, 'seriesPart has unknown keys (allowed: title, slug, number, total, stage)');
+      if (isBC && okShape) {
+        if (sp.total !== STAGES.length) err(f, `a Break & Change series has ${STAGES.length} parts (one per stage), found total ${sp.total}`);
+        else if (sp.stage !== STAGES[sp.number - 1]) err(f, `seriesPart.stage must be "${STAGES[sp.number - 1]}" for part ${sp.number}`);
+      }
+      if (okShape) {
+        if (!seriesMap.has(sp.slug)) seriesMap.set(sp.slug, []);
+        seriesMap.get(sp.slug).push({ f, sp, published, ed: fm.editorialDate ? String(fm.editorialDate instanceof Date ? fm.editorialDate.toISOString().slice(0, 10) : fm.editorialDate) : null, book: fm.book?.title ?? null });
       }
     }
     if (isBC) {
@@ -146,14 +168,28 @@ export function validate(dir, { catalogPath, today = new Date() } = {}) {
 
     const words = main.replace(/\[([^\]]*)\]\([^)]*\)/g, '$1').split(/\s+/).filter(Boolean).length;
     if (published && (words < 400)) warn(f, `only ${words} words`);
-    if (isBC && published && (words < 1200 || words > 2600)) warn(f, `${words} words; guideline is roughly 1,500–2,000 (quality takes priority)`);
+    if (isBC && published && !sp && (words < 1200 || words > 2600)) warn(f, `${words} words; guideline is roughly 1,500–2,000 (quality takes priority)`);
+    if (isBC && published && sp && (words < 850 || words > 1900)) warn(f, `${words} words; series parts aim for roughly 1,000–1,500 (quality takes priority)`);
 
-    if (isBC) {
+    if (isBC && !sp) { // a single book article has five chapters; a series spreads the five stages over five posts
       const h2 = [...stripCommentsH2(p.body)];
       const expected = CHAPTERS.map(([n, tag], i) => `${i + 1}. ${n} — ${tag}`);
       const found = h2.filter((h) => h !== 'References & Further Reading');
       const ok = found.length === 5 && found.every((h, i) => norm(h) === norm(expected[i]));
       if (!ok) level(f, `Break & Change needs exactly these five H2 chapters in order: ${expected.join(' | ')}. Found: ${found.join(' | ') || '(none)'}`);
+    }
+  }
+  for (const [slug, parts] of seriesMap) {
+    const pub = parts.filter((x) => x.published);
+    const where = `series "${slug}"`;
+    const nums = parts.map((x) => x.sp.number);
+    for (const n of new Set(nums)) if (nums.filter((m) => m === n).length > 1) errors.push(`${where}: part ${n} appears more than once`);
+    for (const k of ['title', 'total']) if (new Set(parts.map((x) => x.sp[k])).size > 1) errors.push(`${where}: parts disagree on seriesPart.${k}`);
+    if (new Set(parts.map((x) => x.book)).size > 1) errors.push(`${where}: parts disagree on book.title`);
+    if (pub.length) {
+      const total = parts[0].sp.total;
+      if (pub.length !== total || new Set(pub.map((x) => x.sp.number)).size !== total) errors.push(`${where}: only ${pub.length} of ${total} parts are published; publish the whole series together or keep all parts as drafts`);
+      if (new Set(pub.map((x) => x.ed)).size > 1) errors.push(`${where}: published parts must share one editorialDate (one weekly release)`);
     }
   }
   return { errors, warnings, count: posts.length };

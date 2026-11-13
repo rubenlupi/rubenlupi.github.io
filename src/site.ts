@@ -27,7 +27,8 @@ export type AreaName = (typeof AREAS)[number]['name'];
 export const areaByName = (n: string) => AREAS.find((a) => a.name === n);
 
 /** Date used for ordering lists: the archive slot if one is assigned, otherwise the actual date. */
-export const sortDate = (p: { data: { date: Date; editorialDate?: Date } }) =>
-  +(p.data.editorialDate ?? p.data.date);
+export const sortDate = (p: { data: { date: Date; editorialDate?: Date; seriesPart?: { number: number } } }) =>
+  // Parts of one release share a date; subtracting the part number keeps Part 1 first in newest-first lists.
+  +(p.data.editorialDate ?? p.data.date) - (p.data.seriesPart?.number ?? 0);
 export const SERIES = { slug: 'break-and-change', name: 'Break & Change',
   blurb: 'Not book summaries. Ideas worth breaking, challenging, testing against documented experience and turning into change.' };

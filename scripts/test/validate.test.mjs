@@ -105,3 +105,29 @@ test('archive slots: Monday, unique, within horizon, category valid', () => {
   assert.ok(has(run({ 'bc-post.md': bc().replace('Systems, Execution & Organizational Design', 'Cooking') + chapters() }), /book.category/));
   assert.ok(has(run({ 'bc-post.md': bc().replace(/\n  category: .*\n/, '\n') + chapters() }), /need book.category/));
 });
+
+// ---- multi-post Break & Change series (owner decision 2026-11-13) ----
+const STAGES = ['BREAK', 'CHANGE', 'EXPERIENCE', 'CHALLENGE', 'QUESTION'];
+const part = (n, o = {}) => bc({ editorialDate: o.ed ?? '2026-11-02', date: '2026-11-13', draft: o.draft })
+  .replace('title: "T"', `title: "Part ${n} title"`)
+  .replace('---\n', `---\nseriesPart:\n  title: "The Systems We Build"\n  slug: "systems-we-build"\n  number: ${n}\n  total: ${o.total ?? 5}\n  stage: "${o.stage ?? STAGES[n - 1]}"\n`)
+  + `Intro [src](https://example.org/a/b). ${filler(1100)}\n\n## References & Further Reading\n\n- **A**, B, 2020. <https://example.org/a/b>. Relevant.\n`;
+const series = (o = {}) => Object.fromEntries([1, 2, 3, 4, 5].map((n) => [`part-${n}.md`, part(n, typeof o === 'function' ? o(n) : o)]));
+
+test('series: five published parts sharing one slot pass (no five-chapter rule per part)', () => {
+  assert.deepEqual(run(series()).errors, []);
+});
+test('series: parts must share one editorialDate; other posts may not reuse it', () => {
+  assert.ok(has(run(series((n) => ({ ed: n === 3 ? '2026-10-26' : '2026-11-02' }))), /share one editorialDate/));
+  const r = run({ ...series(), 'other.md': bc({ editorialDate: '2026-11-02', date: '2026-11-13' }).replace('title: "T"', 'title: "Other"') + chapters() });
+  assert.ok(has(r, /already used/));
+});
+test('series: publishing only some parts holds the whole series', () => {
+  assert.ok(has(run(series((n) => ({ draft: n === 5 ? 'true' : undefined }))), /only 4 of 5 parts are published/));
+  assert.deepEqual(run(series({ draft: 'true' })).errors, []);
+});
+test('series: stage must match the part number; duplicates rejected', () => {
+  assert.ok(has(run(series((n) => ({ stage: n === 2 ? 'BREAK' : undefined }))), /stage must be "CHANGE"/));
+  const s = series(); s['part-5.md'] = part(4).replace('Part 4 title', 'Part 4b'); 
+  assert.ok(has(run(s), /appears more than once/));
+});

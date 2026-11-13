@@ -22,6 +22,10 @@ const posts = defineCollection({
     }).optional(),
     editorialDate: z.coerce.date().optional(),
     selfContained: z.boolean().default(false),
+    seriesPart: z.object({
+      title: z.string(), slug: z.string(), number: z.number().int(), total: z.number().int(),
+      stage: z.enum(['BREAK', 'CHANGE', 'EXPERIENCE', 'CHALLENGE', 'QUESTION']).optional(),
+    }).optional(),
     tags: z.array(z.string()).default([]),
     draft: z.boolean().default(false),
   }).refine((d) => !d.series || (d.book && d.editorialDate !== undefined) || d.draft, {
