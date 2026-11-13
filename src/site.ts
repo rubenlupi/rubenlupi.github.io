@@ -6,8 +6,8 @@ export const SITE = {
   linkedin: 'https://www.linkedin.com/in/ruben-sanchez-2702622b/',
 };
 export const slugTag = (t: string) => t.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
-export const fmtDate = (d: Date) =>
-  d.toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric', timeZone: 'UTC' });
+export const fmtDate = (d: Date, locale = 'en-GB') =>
+  d.toLocaleDateString(locale, { day: 'numeric', month: 'long', year: 'numeric', timeZone: 'UTC' });
 
 export const AREAS = [
   { slug: 'software', short: 'Software', name: 'Software Engineering',
@@ -25,6 +25,9 @@ export const AREAS = [
 ] as const;
 export type AreaName = (typeof AREAS)[number]['name'];
 export const areaByName = (n: string) => AREAS.find((a) => a.name === n);
+import { AREA_ES, type Lang } from './i18n';
+/** Topic area in the reader's language (slug stays the same in both languages). */
+export const areaL = (a: (typeof AREAS)[number], lang: Lang) => (lang === 'es' ? { ...a, ...AREA_ES[a.slug] } : a);
 
 /** List ordering by the ACTUAL date (what readers see); editorialDate is metadata only (owner decision 2026-11-13). */
 export const sortDate = (p: { data: { date: Date; seriesPart?: { number: number } } }) =>

@@ -1,5 +1,5 @@
 // Shared helpers: read posts, parse frontmatter, extract links.
-import { readdirSync, readFileSync } from 'node:fs';
+import { readdirSync, readFileSync, existsSync } from 'node:fs';
 import { join, basename } from 'node:path';
 import YAML from 'yaml';
 
@@ -16,9 +16,12 @@ export function parsePost(file) {
   }
 }
 
+/** Reads posts in `dir` (English originals) and `dir/es/` (Spanish edition). Each post gets `lang`. */
 export function readPosts(dir) {
-  return readdirSync(dir).filter((f) => f.endsWith('.md')).sort().map((f) => parsePost(join(dir, f)));
+  const read = (d, lang) => (existsSync(d) ? readdirSync(d).filter((f) => f.endsWith('.md')).sort().map((f) => ({ ...parsePost(join(d, f)), lang })) : []);
+  return [...read(dir, 'en'), ...read(join(dir, 'es'), 'es')];
 }
+export const REF_HEADING = { en: 'References & Further Reading', es: 'Referencias y lecturas recomendadas' };
 
 const stripCode = (s) => s.replace(/```[\s\S]*?```/g, '').replace(/`[^`\n]*`/g, '');
 const stripComments = (s) => s.replace(/<!--[\s\S]*?-->/g, '');
@@ -40,7 +43,7 @@ export const isExternal = (h) => /^https?:\/\//i.test(h);
 /** Split body into the part before the final "References & Further Reading" H2 and that section. */
 export function splitReferences(body) {
   const text = stripComments(body);
-  const m = text.match(/^##\s+References & Further Reading\s*$/m);
+  const m = text.match(/^##\s+(?:References & Further Reading|Referencias y lecturas recomendadas)\s*$/m);
   if (!m) return { main: text, refs: null };
   return { main: text.slice(0, m.index), refs: text.slice(m.index + m[0].length) };
 }

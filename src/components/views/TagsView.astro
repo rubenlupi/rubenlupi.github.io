@@ -1,0 +1,15 @@
+---
+import Base from '../../layouts/Base.astro';
+import { slugTag } from '../../site';
+import { UI, href, type Lang } from '../../i18n';
+import { postsIn } from '../../lib-posts';
+const { lang } = Astro.props as { lang: Lang };
+const t = UI[lang];
+const counts = new Map<string, number>();
+(await postsIn(lang)).forEach((p) => p.data.tags.forEach((tg: string) => counts.set(tg, (counts.get(tg) ?? 0) + 1)));
+const tags = [...counts].sort((a, b) => a[0].localeCompare(b[0]));
+---
+<Base title={t.tags} lang={lang}>
+  <h1>{t.tags}</h1>
+  {tags.length ? <ul class="tags">{tags.map(([tg, n]) => <li><a href={href(lang, `/tags/${slugTag(tg)}/`)}>{tg} · {n}</a></li>)}</ul> : <p class="meta">{t.nothing}</p>}
+</Base>

@@ -1,0 +1,16 @@
+---
+import Base from '../../layouts/Base.astro';
+import PostList from '../PostList.astro';
+import { SERIES } from '../../site';
+import { UI, type Lang } from '../../i18n';
+import { postsIn } from '../../lib-posts';
+const { lang } = Astro.props as { lang: Lang };
+const t = UI[lang];
+const posts = await postsIn(lang, (p) => p.data.series === 'break-and-change');
+---
+<Base title={SERIES.name} description={t.seriesBlurb} lang={lang}>
+  <h1>{SERIES.name}</h1>
+  <p class="lede">{t.seriesBlurb}</p>
+  <p class="meta">{t.seriesMeta}</p>
+  {posts.length ? <PostList posts={posts} lang={lang} /> : <p class="meta">{t.nothing}</p>}
+</Base>

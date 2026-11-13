@@ -1,20 +1,11 @@
 ---
-import { getCollection } from 'astro:content';
-import Base from '../../layouts/Base.astro';
-import PostList from '../../components/PostList.astro';
-import { AREAS, sortDate } from '../../site';
+import TopicView from '../../components/views/TopicView.astro';
+import { AREAS } from '../../site';
+import { postsIn } from '../../lib-posts';
 export async function getStaticPaths() {
-  const posts = (await getCollection('posts', (p) => !p.data.draft)).sort((a, b) => sortDate(b) - sortDate(a));
-  return AREAS.map((a) => ({
-    params: { area: a.slug },
-    props: { area: a, posts: posts.filter((p) => p.data.topics.includes(a.name)) },
-  }));
+  const posts = await postsIn('en');
+  return AREAS.map((a) => ({ params: { area: a.slug }, props: { area: a, posts: posts.filter((p) => p.data.topics.includes(a.name)) } }));
 }
 const { area, posts } = Astro.props;
 ---
-<Base title={area.name} description={area.blurb}>
-  <p class="section-label"><a href="/topics/">Topics</a></p>
-  <h1>{area.name}</h1>
-  <p class="lede">{area.blurb}</p>
-  {posts.length ? <PostList posts={posts} /> : <p class="meta">Nothing here yet.</p>}
-</Base>
+<TopicView lang="en" area={area} posts={posts} />

@@ -4,7 +4,8 @@ Personal blog built with [Astro](https://astro.build) and Markdown, deployed to 
 
 ## Write a post
 
-Add a Markdown file to `src/content/posts/`:
+Add a Markdown file to `src/content/posts/` (English original; the Spanish edition goes in `src/content/posts/es/`
+with `lang: es` and `translationOf: <english-slug>`):
 
 ```md
 ---
@@ -37,7 +38,8 @@ New articles start with `draft: true`. Publish only after the quality gate in th
 `/write-article <topic>` runs a two-agent workflow: **critical-editor** (Claude Opus 5.5) researches and writes a brief,
 **editorial-writer** (Claude Sonnet 5.5) drafts, and the editor reviews, with up to 3 revision rounds. Gates in
 `scripts/editorial/pipeline.mjs` enforce the contracts. Output lands in `editorial/<slug>/` and is never published
-automatically. See [`docs/EDITORIAL_WORKFLOW.md`](docs/EDITORIAL_WORKFLOW.md).
+automatically. **editorial-translator** (Claude Sonnet 5.5) produces the Spanish edition (`/translate-article`),
+served under `/es/`. See [`docs/EDITORIAL_WORKFLOW.md`](docs/EDITORIAL_WORKFLOW.md).
 
 ## Checks
 

@@ -99,3 +99,4 @@ h2 { font-size: 1.4rem; margin: 2.5rem 0 .75rem; }
 .series-nav li { margin-bottom: .35rem; }
 .series-nav li[aria-current] span { font-weight: 600; }
 .series-step { display: flex; flex-wrap: wrap; justify-content: space-between; gap: .5rem 1rem; margin: 0; }
+.site-header nav a.lang-switch { font-size: .8rem; letter-spacing: .06em; border: 1px solid var(--line); border-radius: 999px; padding: 0 .55rem; }

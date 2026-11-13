@@ -1,0 +1,12 @@
+---
+import Base from '../../layouts/Base.astro';
+import PostList from '../PostList.astro';
+import { UI, href, type Lang } from '../../i18n';
+const { lang, name, posts } = Astro.props as { lang: Lang; name: string; posts: any[] };
+const t = UI[lang];
+---
+<Base title={`${t.tagPrefix}: ${name}`} lang={lang}>
+  <p class="section-label"><a href={href(lang, '/tags/')}>{t.tags}</a></p>
+  <h1>{name}</h1>
+  <PostList posts={posts} lang={lang} />
+</Base>

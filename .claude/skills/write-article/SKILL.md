@@ -73,9 +73,13 @@ Request: **$ARGUMENTS**
 
    Gate: `pipeline.mjs check-revision <slug>`, then back to step 5.
 7. **Finalize.** `pipeline.mjs finalize <slug>`. This writes `final.md` (still `draft: true`) and `publication.md`.
+7b. **Spanish edition.** Every article is published in English and Spanish together (policy §1). Run the
+   `/translate-article` procedure (`.claude/skills/translate-article/SKILL.md`) with job `<slug>` and the approved
+   `editorial/<slug>/final.md`, or every file in `editorial/<slug>/final/` for a series, as sources.
 8. **Present and stop.** Tell the author, briefly:
    - the slug, thesis, outcome and number of rounds, with each round's verdict and lowest score;
-   - the paths to `final.md`, `publication.md`, `editorial-brief.md` and `review.md`;
+   - the paths to `final.md`, `publication.md`, `editorial-brief.md` and `review.md`, and the Spanish edition
+     (`translation-es/publication.md`, translator's open questions);
    - any warnings, unverifiable claims, hypothetical examples and research gaps the brief lists;
    - that nothing has been committed or published, and what publishing would involve.
 

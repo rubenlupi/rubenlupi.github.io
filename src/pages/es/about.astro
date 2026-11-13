@@ -1,0 +1,29 @@
+---
+import Base from '../../layouts/Base.astro';
+import { SITE } from '../../site';
+---
+<Base title="Sobre mí" description="Sobre Ruben Lupi" lang="es">
+  <h1>Sobre mí</h1>
+  <div class="prose">
+    <p>Soy Ruben, ingeniero de software. El software es mi profesión y buena parte de lo que me da que pensar,
+    pero no es todo lo que despierta mi curiosidad.</p>
+    <p>También me gusta leer sobre cómo aprende la gente y en qué se diferencian las escuelas en Europa, sobre
+    Montessori y Emmi Pikler. Me interesa cómo se adapta el cuerpo al entrenamiento de fuerza, qué pensaron y
+    construyeron griegos y romanos, las matemáticas de razonar en condiciones de incertidumbre y cómo acaban las
+    organizaciones produciendo los resultados que producen. No los veo como aficiones separadas. Todos nacen de
+    querer entender cómo funcionan las cosas, y a veces se solapan. A menudo no, y prefiero no forzarlo.</p>
+    <p>No soy experto en la mayoría de estos temas, y no necesito serlo para disfrutar estudiándolos. Prefiero
+    hacer una buena pregunta antes que fingir que tengo la respuesta, y me interesan tanto las ideas que fallan, y
+    las contradicciones y los puntos ciegos de cada disciplina, como las que funcionan.</p>
+    <blockquote>Curiosidad antes que experiencia. Preguntas antes que certezas. Comprensión antes que modas.</blockquote>
+    <p>Aquí encontrarás ensayos y notas, y una colección creciente de lecturas críticas de libros. A veces me
+    equivocaré, y lo diré cuando me dé cuenta.</p>
+    <p>Los textos se escriben primero en inglés; la versión en español es una traducción cuidada del original.</p>
+    <h2>En otros sitios</h2>
+    <ul>
+      <li><a href={SITE.github} rel="me">GitHub</a></li>
+      <li><a href={SITE.linkedin} rel="me">LinkedIn</a></li>
+      <li><a href="/cv_rubensanchez_swengineer.pdf">CV (PDF, en inglés)</a></li>
+    </ul>
+  </div>
+</Base>

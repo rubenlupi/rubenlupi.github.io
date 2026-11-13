@@ -1,0 +1,23 @@
+---
+import Base from '../../layouts/Base.astro';
+import { AREAS, areaL } from '../../site';
+import { UI, href, type Lang } from '../../i18n';
+import { postsIn } from '../../lib-posts';
+const { lang } = Astro.props as { lang: Lang };
+const t = UI[lang];
+const posts = await postsIn(lang);
+const count = (name: string) => posts.filter((p) => p.data.topics.includes(name)).length;
+---
+<Base title={t.topicsTitle} description={t.topicsDesc} lang={lang}>
+  <h1>{t.topicsTitle}</h1>
+  <p class="lede">{t.topicsLede}</p>
+  <ul class="topic-list">
+    {AREAS.map((a) => { const l = areaL(a, lang); return (
+      <li>
+        <h2><a href={href(lang, `/topics/${a.slug}/`)}>{l.name}</a> <span class="meta">{count(a.name)}</span></h2>
+        <p>{l.blurb}</p>
+      </li>
+    ); })}
+  </ul>
+  <p class="meta">{t.byTag[0]} <a href={href(lang, '/tags/')}>{t.byTag[1]}</a>.</p>
+</Base>

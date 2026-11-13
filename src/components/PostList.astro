@@ -1,17 +1,19 @@
 ---
-import { fmtDate, areaByName, SERIES } from '../site';
-const { posts } = Astro.props;
+import { fmtDate, areaByName, areaL, SERIES } from '../site';
+import { UI, href, slugOf, type Lang } from '../i18n';
+const { posts, lang = 'en' } = Astro.props as { posts: any[]; lang?: Lang };
+const t = UI[lang];
 ---
 <ul class="post-list">
   {posts.map((p) => (
     <li>
       <div class="meta">
-        <time datetime={p.data.date.toISOString()}>{fmtDate(p.data.date)}</time>
-        {p.data.series && <> · <a href={`/${SERIES.slug}/`}>{SERIES.name}</a></>}
-        {p.data.seriesPart && <> · Part {p.data.seriesPart.number} of {p.data.seriesPart.total}</>}
-        {p.data.topics.map((t) => <> · <a href={`/topics/${areaByName(t)?.slug}/`}>{areaByName(t)?.short}</a></>)}
+        <time datetime={p.data.date.toISOString()}>{fmtDate(p.data.date, t.locale)}</time>
+        {p.data.series && <> · <a href={href(lang, `/${SERIES.slug}/`)}>{SERIES.name}</a></>}
+        {p.data.seriesPart && <> · {t.part(p.data.seriesPart.number, p.data.seriesPart.total)}</>}
+        {p.data.topics.map((name: string) => { const a = areaByName(name); return a && <> · <a href={href(lang, `/topics/${a.slug}/`)}>{areaL(a, lang).short}</a></>; })}
       </div>
-      <h3><a href={`/posts/${p.id}/`}>{p.data.title}</a></h3>
+      <h3><a href={href(lang, `/posts/${slugOf(p)}/`)}>{p.data.title}</a></h3>
       <p>{p.data.description}</p>
     </li>
   ))}

@@ -1,0 +1,28 @@
+---
+import { render } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import SeriesNav from '../SeriesNav.astro';
+import { slugTag, fmtDate, SERIES } from '../../site';
+import { UI, href, langOf } from '../../i18n';
+import { counterpartOf } from '../../lib-posts';
+const { post } = Astro.props;
+const lang = langOf(post);
+const t = UI[lang];
+const { Content } = await render(post);
+const alternate = await counterpartOf(post);
+---
+<Base title={post.data.title} description={post.data.description} lang={lang} alternate={alternate}>
+  <article>
+    <header class="post-head">
+      <div class="meta">
+        <time datetime={post.data.date.toISOString()}>{fmtDate(post.data.date, t.locale)}</time>
+        {post.data.series && <> · <a href={href(lang, `/${SERIES.slug}/`)}>{SERIES.name}</a></>}
+      </div>
+      <SeriesNav post={post} position="top" />
+      <h1>{post.data.title}</h1>
+      <ul class="tags">{post.data.tags.map((tg: string) => <li><a href={href(lang, `/tags/${slugTag(tg)}/`)}>{tg}</a></li>)}</ul>
+    </header>
+    <div class="prose"><Content /></div>
+    <SeriesNav post={post} position="bottom" />
+  </article>
+</Base>

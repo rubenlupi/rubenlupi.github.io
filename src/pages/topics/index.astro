@@ -1,20 +1,4 @@
 ---
-import { getCollection } from 'astro:content';
-import Base from '../../layouts/Base.astro';
-import { AREAS } from '../../site';
-const posts = await getCollection('posts', (p) => !p.data.draft);
-const count = (name: string) => posts.filter((p) => p.data.topics.includes(name)).length;
+import TopicsView from '../../components/views/TopicsView.astro';
 ---
-<Base title="Topics" description="The areas this blog keeps coming back to.">
-  <h1>Topics</h1>
-  <p class="lede">Six areas I keep coming back to. A post can belong to one, several, or none of them yet.</p>
-  <ul class="topic-list">
-    {AREAS.map((a) => (
-      <li>
-        <h2><a href={`/topics/${a.slug}/`}>{a.name}</a> <span class="meta">{count(a.name)}</span></h2>
-        <p>{a.blurb}</p>
-      </li>
-    ))}
-  </ul>
-  <p class="meta">Prefer finer grain? <a href="/tags/">Browse by tag</a>.</p>
-</Base>
+<TopicsView lang="en" />

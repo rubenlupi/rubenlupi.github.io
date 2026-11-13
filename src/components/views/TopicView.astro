@@ -1,0 +1,15 @@
+---
+import Base from '../../layouts/Base.astro';
+import PostList from '../PostList.astro';
+import { areaL } from '../../site';
+import { UI, href, type Lang } from '../../i18n';
+const { lang, area, posts } = Astro.props as { lang: Lang; area: any; posts: any[] };
+const t = UI[lang];
+const l = areaL(area, lang);
+---
+<Base title={l.name} description={l.blurb} lang={lang}>
+  <p class="section-label"><a href={href(lang, '/topics/')}>{t.topicsTitle}</a></p>
+  <h1>{l.name}</h1>
+  <p class="lede">{l.blurb}</p>
+  {posts.length ? <PostList posts={posts} lang={lang} /> : <p class="meta">{t.nothing}</p>}
+</Base>

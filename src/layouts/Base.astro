@@ -2,20 +2,27 @@
 import '../styles/global.css';
 import { getCollection } from 'astro:content';
 import { SITE } from '../site';
-interface Props { title?: string; description?: string; }
-const { title, description = SITE.tagline } = Astro.props;
-const full = title ? `${title} — ${SITE.title}` : `${SITE.title} — ${SITE.headline}`;
+import { UI, href, switchPath, langOf, type Lang } from '../i18n';
+interface Props { title?: string; description?: string; lang?: Lang; alternate?: string | null; }
+const { title, lang = 'en', alternate } = Astro.props;
+const t = UI[lang];
+const description = Astro.props.description ?? t.tagline;
+const full = title ? `${title} — ${SITE.title}` : `${SITE.title} — ${t.headline}`;
 const path = Astro.url.pathname;
-const hasSeries = (await getCollection('posts', (p) => !p.data.draft && p.data.series === 'break-and-change')).length > 0;
+const bare = path.replace(/^\/es(\/|$)/, '/');
+const hasSeries = (await getCollection('posts', (p) => !p.data.draft && p.data.series === 'break-and-change' && langOf(p) === lang)).length > 0;
 const nav = [
-  { href: '/', label: 'Writing', active: path === '/' || path.startsWith('/posts') },
-  ...(hasSeries ? [{ href: '/break-and-change/', label: 'Break & Change', active: path.startsWith('/break-and-change') }] : []),
-  { href: '/topics/', label: 'Topics', active: path.startsWith('/topics') || path.startsWith('/tags') },
-  { href: '/about/', label: 'About', active: path.startsWith('/about') },
+  { href: href(lang, '/'), label: t.nav.writing, active: bare === '/' || bare.startsWith('/posts') },
+  ...(hasSeries ? [{ href: href(lang, '/break-and-change/'), label: 'Break & Change', active: bare.startsWith('/break-and-change') }] : []),
+  { href: href(lang, '/topics/'), label: t.nav.topics, active: bare.startsWith('/topics') || bare.startsWith('/tags') },
+  { href: href(lang, '/about/'), label: t.nav.about, active: bare.startsWith('/about') },
 ];
+// Counterpart page in the other language. Posts pass it explicitly (null = no translation yet).
+const other: Lang = lang === 'en' ? 'es' : 'en';
+const counterpart = alternate === undefined ? switchPath(path, other) : alternate;
 ---
 <!doctype html>
-<html lang="en">
+<html lang={lang}>
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -23,13 +30,18 @@ const nav = [
     <meta name="description" content={description} />
     <meta property="og:title" content={full} />
     <meta property="og:description" content={description} />
+    <meta property="og:locale" content={lang === 'es' ? 'es_ES' : 'en_GB'} />
     <link rel="canonical" href={new URL(path, Astro.site)} />
+    <link rel="alternate" hreflang={lang} href={new URL(path, Astro.site)} />
+    {counterpart && <link rel="alternate" hreflang={other} href={new URL(counterpart, Astro.site)} />}
+    {lang === 'en' && <link rel="alternate" hreflang="x-default" href={new URL(path, Astro.site)} />}
   </head>
   <body>
     <header class="site-header">
-      <a class="brand" href="/">{SITE.title}</a>
+      <a class="brand" href={href(lang, '/')}>{SITE.title}</a>
       <nav aria-label="Main">
         {nav.map((n) => <a href={n.href} aria-current={n.active ? 'page' : undefined}>{n.label}</a>)}
+        {counterpart && <a class="lang-switch" href={counterpart} hreflang={other} lang={other} title={t.switchLabel}>{other.toUpperCase()}</a>}
       </nav>
     </header>
     <main><slot /></main>

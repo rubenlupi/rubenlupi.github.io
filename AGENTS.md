@@ -33,7 +33,8 @@ You MUST, in this order:
   article as a draft and say what access is missing.
 - **Separate** established evidence, interpretation, hypothesis and personal assessment, and say which is which.
 - **If a claim cannot be verified:** qualify it, remove it, or keep the article `draft: true`.
-- **All public content is in English.**
+- **Bilingual edition.** Articles are written in English; each published article also gets a faithful Spanish (Spain)
+  edition in `src/content/posts/es/`, produced by `editorial-translator` and published together with the original.
 - **New articles start as `draft: true`.** Never set `draft: false` (or push to `master`) unless the quality gate
   in the policy has passed and the owner (Ruben) has approved publication. Never bypass validation to hit a schedule.
 - **Never rewrite Git history** or fabricate publication dates. Archive dating uses explicit metadata
@@ -46,7 +47,8 @@ You MUST, in this order:
 
 New articles are normally produced with the `/write-article` skill (`.claude/skills/write-article/SKILL.md`), which
 coordinates two subagents: `critical-editor` (brief and review) and `editorial-writer` (draft and revisions), with
-deterministic gates in `scripts/editorial/pipeline.mjs`. Contracts and stop conditions: [`docs/EDITORIAL_WORKFLOW.md`](docs/EDITORIAL_WORKFLOW.md).
+deterministic gates in `scripts/editorial/pipeline.mjs`. The Spanish edition is produced by `editorial-translator`
+(`/translate-article`, gates in `scripts/editorial/translation.mjs`). Contracts and stop conditions: [`docs/EDITORIAL_WORKFLOW.md`](docs/EDITORIAL_WORKFLOW.md).
 The workflow ends at `editorial/<slug>/final.md` and never publishes; publication needs the owner's explicit approval.
 
 ## Project facts

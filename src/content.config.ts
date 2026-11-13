@@ -28,6 +28,9 @@ const posts = defineCollection({
     }).optional(),
     tags: z.array(z.string()).default([]),
     draft: z.boolean().default(false),
+    // Bilingual edition: Spanish posts live in src/content/posts/es/ with lang: es and the English slug they translate.
+    lang: z.enum(['en', 'es']).default('en'),
+    translationOf: z.string().optional(),
   }).refine((d) => !d.series || (d.book && d.editorialDate !== undefined) || d.draft, {
     message: 'Published Break & Change articles need `book` and `editorialDate` (see docs/EDITORIAL_POLICY.md)',
   }),

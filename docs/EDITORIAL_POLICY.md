@@ -16,7 +16,11 @@ and the connections between them. Some articles are purely historical, mathemati
 between disciplines appear only when they add value; no article has to end by explaining what software
 engineering can learn from it.
 
-- All public content is written in **English**.
+- Articles are written, researched and approved in **English**. **Owner decision (2026-11-13):** every published
+  article also has a **Spanish (Spain) edition** under `/es/`, produced by the `editorial-translator` agent and
+  published together with the original (never before it). A translation adds, removes or changes no claim,
+  source, caveat or conclusion; it keeps every link; translated quotations are marked as the blog's own
+  translation. Style: [`TRANSLATION_STYLE_ES.md`](TRANSLATION_STYLE_ES.md).
 - Voice: thoughtful, accessible, technically credible; curiosity over expertise, questions over certainty,
   understanding over trends. There should be a person behind the article, not a personal brand.
 - Avoid: corporate marketing language, generic AI-sounding conclusions, excessive jargon, artificial enthusiasm,

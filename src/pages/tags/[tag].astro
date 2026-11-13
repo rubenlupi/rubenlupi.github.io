@@ -1,21 +1,7 @@
 ---
-import { getCollection } from 'astro:content';
-import Base from '../../layouts/Base.astro';
-import PostList from '../../components/PostList.astro';
-import { slugTag, sortDate } from '../../site';
-export async function getStaticPaths() {
-  const posts = (await getCollection('posts', (p) => !p.data.draft)).sort((a, b) => sortDate(b) - sortDate(a));
-  const names = new Map<string, string>();
-  posts.forEach((p) => p.data.tags.forEach((t) => names.set(slugTag(t), t)));
-  return [...names].map(([slug, name]) => ({
-    params: { tag: slug },
-    props: { name, posts: posts.filter((p) => p.data.tags.some((t) => slugTag(t) === slug)) },
-  }));
-}
+import TagView from '../../components/views/TagView.astro';
+import { tagPaths } from '../../lib-posts';
+export async function getStaticPaths() { return tagPaths('en'); }
 const { name, posts } = Astro.props;
 ---
-<Base title={`Tag: ${name}`}>
-  <p class="section-label"><a href="/tags/">Tags</a></p>
-  <h1>{name}</h1>
-  <PostList posts={posts} />
-</Base>
+<TagView lang="en" name={name} posts={posts} />

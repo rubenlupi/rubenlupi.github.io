@@ -1,0 +1,22 @@
+---
+import Base from '../../layouts/Base.astro';
+import PostList from '../PostList.astro';
+import { AREAS, areaL } from '../../site';
+import { UI, href, type Lang } from '../../i18n';
+import { postsIn } from '../../lib-posts';
+const { lang } = Astro.props as { lang: Lang };
+const t = UI[lang];
+const posts = await postsIn(lang);
+---
+<Base lang={lang}>
+  <header class="intro">
+    <h1>{t.headline}</h1>
+    <p class="subtitle">{t.tagline}</p>
+    <p class="lede">{t.lede}</p>
+    <p class="topic-line">
+      {AREAS.map((a, i) => <>{i > 0 && ' · '}<a href={href(lang, `/topics/${a.slug}/`)}>{areaL(a, lang).short}</a></>)}
+    </p>
+  </header>
+  <p class="section-label">{t.writing}</p>
+  {posts.length ? <PostList posts={posts} lang={lang} /> : <p class="meta">{t.nothing}</p>}
+</Base>

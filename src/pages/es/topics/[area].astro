@@ -1,0 +1,11 @@
+---
+import TopicView from '../../../components/views/TopicView.astro';
+import { AREAS } from '../../../site';
+import { postsIn } from '../../../lib-posts';
+export async function getStaticPaths() {
+  const posts = await postsIn('es');
+  return AREAS.map((a) => ({ params: { area: a.slug }, props: { area: a, posts: posts.filter((p) => p.data.topics.includes(a.name)) } }));
+}
+const { area, posts } = Astro.props;
+---
+<TopicView lang="es" area={area} posts={posts} />

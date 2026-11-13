@@ -13,6 +13,7 @@ Where anything here conflicts with the policy, the policy wins.
 | **Coordinator** | `/write-article` skill (`.claude/skills/write-article/SKILL.md`), run by the main Claude Code session | the session's model | `input.md`, `state.json` (via the pipeline script), `final.md`, `publication.md` |
 | **Critical Editor** | `.claude/agents/critical-editor.md` | `claude-opus-5-5` (Claude Opus 5.5) | `editorial-brief.md`; appends rounds to `review.md` |
 | **Editorial Writer** | `.claude/agents/editorial-writer.md` | `claude-sonnet-5-5` (Claude Sonnet 5.5) | `draft.md`; appends to `revision-notes.md` |
+| **Editorial Translator** | `.claude/agents/editorial-translator.md` | `claude-sonnet-5-5` (Claude Sonnet 5.5) | `translation-es/*.md` (Spanish edition) |
 
 The agents never call each other. Claude Code subagents cannot spawn subagents, and the coordinator invokes each one
 explicitly with file paths. Each invocation starts with a fresh context, so everything an agent needs must be in the
@@ -323,6 +324,28 @@ Gate rules: a part may be `APPROVED` only with every scored criterion ≥ 4 and 
 `APPROVED` only if all parts and the series block are approved with no open items. Otherwise the **entire series is
 held**. Revision notes must answer every `P<n>-I…`, `P<n>-F…` and `S-F…` ID. `finalize` writes `final/<slug>.md` for
 each part (plus `final.md` with all parts) and `publication.md`.
+
+## Spanish edition
+
+After an article is approved (and before it is presented for publication), the coordinator runs the
+`/translate-article` procedure. The translator writes into `editorial/<job>/translation-es/`; nothing else.
+
+| File | Written by | Purpose |
+|---|---|---|
+| `translation-es/state.json` | `translation.mjs` only | Sources (with hashes), stage, attempts, log |
+| `translation-es/<spanish-slug>.md` | editorial-translator | One translation per source, `lang: es`, `translationOf: <english slug>`, `draft: true` |
+| `translation-es/notes.md` | editorial-translator | `## Terminology`, `## Quotations`, `## Open questions` |
+| `translation-es/publication.md` | `translation.mjs` | Target paths and remaining human checks |
+
+Gate (`node scripts/editorial/translation.mjs check <job>`): exactly one translation per source; nothing outside the
+folder changed; the sources did not change; and the repository validator's **parity rules** pass. Parity means the
+same external URLs, the same number of sections, identical `topics`, `tags`, `book`, `series`, `editorialDate` and
+`seriesPart` slug/number/total/stage, a date no earlier than the original's, and the Spanish References heading.
+A large length deviation (Spanish < 0.85× or > 1.5× the English word count) is flagged as a possible omission or
+addition. The gate cannot judge fidelity or style; the author reviews the open questions.
+
+Published Spanish posts live in `src/content/posts/es/` and are served at `/es/posts/<spanish-slug>/`, with
+`hreflang` links and a language switch to the original.
 
 ## Stop conditions
 

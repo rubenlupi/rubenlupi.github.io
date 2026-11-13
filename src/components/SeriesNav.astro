@@ -2,33 +2,36 @@
 // Previous / Next / All parts navigation for multi-post series. Rendered from seriesPart metadata,
 // so the links never need to be written (or kept up to date) by hand.
 import { getCollection } from 'astro:content';
-const { post } = Astro.props;
+import { UI, href, slugOf, langOf } from '../i18n';
+const { post, position = 'top' } = Astro.props;
+const lang = langOf(post);
+const t = UI[lang];
 const sp = post.data.seriesPart;
 const parts = sp
-  ? (await getCollection('posts', (p) => !p.data.draft && p.data.seriesPart?.slug === sp.slug))
+  ? (await getCollection('posts', (p) => !p.data.draft && langOf(p) === lang && p.data.seriesPart?.slug === sp.slug))
       .sort((a, b) => a.data.seriesPart.number - b.data.seriesPart.number)
   : [];
 const i = parts.findIndex((p) => p.id === post.id);
 const prev = i > 0 ? parts[i - 1] : null;
 const next = i >= 0 && i < parts.length - 1 ? parts[i + 1] : null;
-const { position = 'top' } = Astro.props;
+const url = (p) => href(lang, `/posts/${slugOf(p)}/`);
 ---
 {sp && parts.length > 0 && (
   position === 'top' ? (
-    <p class="series-label">Part {sp.number} of {sp.total} · <em>{sp.title}</em></p>
+    <p class="series-label">{t.part(sp.number, sp.total)} · <em>{sp.title}</em></p>
   ) : (
-    <nav class="series-nav" aria-label={`Series: ${sp.title}`}>
+    <nav class="series-nav" aria-label={`${t.series}: ${sp.title}`}>
       <p class="section-label">{sp.title}</p>
       <ol>
         {parts.map((p) => (
           <li aria-current={p.id === post.id ? 'page' : undefined}>
-            {p.id === post.id ? <span>{p.data.title}</span> : <a href={`/posts/${p.id}/`}>{p.data.title}</a>}
+            {p.id === post.id ? <span>{p.data.title}</span> : <a href={url(p)}>{p.data.title}</a>}
           </li>
         ))}
       </ol>
       <p class="series-step">
-        {prev && <a href={`/posts/${prev.id}/`} rel="prev">← Previous: {prev.data.title}</a>}
-        {next && <a href={`/posts/${next.id}/`} rel="next">Next: {next.data.title} →</a>}
+        {prev && <a href={url(prev)} rel="prev">← {t.prev}: {prev.data.title}</a>}
+        {next && <a href={url(next)} rel="next">{t.next}: {next.data.title} →</a>}
       </p>
     </nav>
   )

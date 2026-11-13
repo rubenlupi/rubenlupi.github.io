@@ -1,6 +1,6 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { mkdtempSync, writeFileSync, rmSync } from 'node:fs';
+import { mkdtempSync, writeFileSync, rmSync, mkdirSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { validate } from '../lib/validate.mjs';
@@ -15,6 +15,7 @@ const fm = (o = {}) => {
 function run(files, opts = {}) {
   const dir = mkdtempSync(join(tmpdir(), 'posts-'));
   try {
+    mkdirSync(join(dir, 'es'), { recursive: true });
     for (const [n, c] of Object.entries(files)) writeFileSync(join(dir, n), c);
     return validate(dir, { catalogPath: CATALOG, today: new Date('2026-11-13'), ...opts });
   } finally { rmSync(dir, { recursive: true, force: true }); }
@@ -130,4 +131,32 @@ test('series: stage must match the part number; duplicates rejected', () => {
   assert.ok(has(run(series((n) => ({ stage: n === 2 ? 'BREAK' : undefined }))), /stage must be "CHANGE"/));
   const s = series(); s['part-5.md'] = part(4).replace('Part 4 title', 'Part 4b'); 
   assert.ok(has(run(s), /appears more than once/));
+});
+
+// ---- Spanish edition (translations) ----
+const ES_BODY = `Intro con una [fuente](https://example.org/specific/page).\n\n${filler(450)}\n\n## Referencias y lecturas recomendadas\n\n- **Specific page**, Example Org, 2024. <https://example.org/specific/page>. Respalda la introducción.\n`;
+const esFm = (o = {}) => fm({ title: '"Un título"', lang: 'es', translationOf: 'good-post', ...o });
+
+test('es: a faithful translation passes', () => {
+  assert.deepEqual(run({ 'good-post.md': fm() + GOOD_BODY, 'es/buen-post.md': esFm() + ES_BODY }).errors, []);
+});
+test('es: needs lang, an existing original, and the Spanish References heading', () => {
+  assert.ok(has(run({ 'good-post.md': fm() + GOOD_BODY, 'es/x.md': esFm({ lang: undefined }) + ES_BODY }), /need lang: es/));
+  assert.ok(has(run({ 'good-post.md': fm() + GOOD_BODY, 'es/x.md': esFm({ translationOf: 'nope' }) + ES_BODY }), /does not match any English post/));
+  assert.ok(has(run({ 'good-post.md': fm() + GOOD_BODY, 'es/x.md': esFm() + ES_BODY.replace('Referencias y lecturas recomendadas', 'References & Further Reading') }), /Referencias y lecturas recomendadas/));
+});
+test('es: parity with the original (URLs, sections, topics, dates, publication order)', () => {
+  const base = { 'good-post.md': fm() + GOOD_BODY };
+  assert.ok(has(run({ ...base, 'es/x.md': esFm() + ES_BODY.replace(/https:\/\/example.org\/specific\/page/g, 'https://example.org/other/page') }), /drops source URLs/));
+  assert.ok(has(run({ ...base, 'es/x.md': esFm() + ES_BODY.replace('## Referencias', '## Extra\n\nx\n\n## Referencias') }), /section count differs/));
+  assert.ok(has(run({ ...base, 'es/x.md': esFm({ topics: '["Learning & Education"]' }) + ES_BODY }), /topics must match/));
+  assert.ok(has(run({ ...base, 'es/x.md': esFm({ date: '2025-12-31' }) + ES_BODY }), /dated before its original/));
+  assert.ok(has(run({ 'good-post.md': fm({ draft: 'true' }) + GOOD_BODY, 'es/x.md': esFm() + ES_BODY }), /cannot be published before its original/));
+  assert.ok(has(run({ ...base, 'es/x.md': esFm() + ES_BODY, 'es/y.md': esFm({ title: '"Otro"' }) + ES_BODY }), /already has a Spanish translation/));
+});
+test('es: translated series parts share the original slot and do not collide with it', () => {
+  const s = series();
+  for (let n = 1; n <= 5; n++) s[`es/parte-${n}.md`] = part(n).replace(`title: "Part ${n} title"`, `title: "Parte ${n}"\nlang: es\ntranslationOf: part-${n}`).replace('## References & Further Reading', '## Referencias y lecturas recomendadas');
+  const r = run(s);
+  assert.deepEqual(r.errors.filter((e) => !/translationOf "part-/.test(e)), []);
 });

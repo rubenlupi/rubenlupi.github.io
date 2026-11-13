@@ -1,15 +1,4 @@
 ---
-import { getCollection } from 'astro:content';
-import Base from '../../layouts/Base.astro';
-import { slugTag } from '../../site';
-const posts = await getCollection('posts', (p) => !p.data.draft);
-const counts = new Map<string, number>();
-posts.forEach((p) => p.data.tags.forEach((t) => counts.set(t, (counts.get(t) ?? 0) + 1)));
-const tags = [...counts].sort((a, b) => a[0].localeCompare(b[0]));
+import TagsView from '../../components/views/TagsView.astro';
 ---
-<Base title="Tags">
-  <h1>Tags</h1>
-  <ul class="tags">
-    {tags.map(([t, n]) => <li><a href={`/tags/${slugTag(t)}/`}>{t} · {n}</a></li>)}
-  </ul>
-</Base>
+<TagsView lang="en" />
