@@ -98,6 +98,17 @@ meeting, slides, the gym membership nobody uses, pizza orders, coffee, Mondays, 
 - **Comparisons must not smuggle in facts.** A reference to real history, science or people is a factual claim
   and needs a source. Prefer invented or physical images to anecdotes.
 
+**Laugh out loud, not just smile (owner feedback, 2026-11-13, second round).** Dry wit alone reads as polite. The
+author wants passages a reader would quote to a friend. Aim higher, while keeping every rule in this section:
+
+- **Escalation**: follow a mechanism to its absurd but logical conclusion, one straight-faced step at a time.
+- **Absurd literalism**: take the jargon at its word ("technical debt" as an actual loan with an actual bailiff).
+- **Mock-formal register** for something petty, or a petty register for something grand.
+- **Running gags**: plant an image early and pay it off two or three times, each time worse.
+- **Comic specificity**: the exact, odd number or object is funnier than the general one.
+- **Density**: a real laugh roughly every two or three paragraphs, with the biggest ones where the argument turns.
+  The serious sentences carrying evidence stay serious; the joke goes next to them, never inside them.
+
 **Openings**: no archetypal vignette ("A manager pushes the team…", "Picture a team that…"). Open on a specific,
 surprising detail the article actually contains, such as a quotation, a number or a strange fact.
 
