@@ -1,11 +1,11 @@
 ---
 title: "Los límites de verlo todo como un sistema"
-description: "Todos los modelos son erróneos: dónde explica el pensamiento sistémico, dónde no puede predecir y cuándo borra a las personas que están dentro del sistema."
+description: "Todos los modelos son erróneos: dónde explica el pensamiento sistémico, dónde no puede predecir y cuándo borra a las personas que hay dentro del sistema."
 date: 2026-11-13
 editorialDate: 2026-11-02
 series: break-and-change
 seriesPart:
-  title: "Los sistemas que construimos, los sistemas en que vivimos"
+  title: "Los sistemas que construimos, los sistemas que habitamos"
   slug: systems-we-build
   number: 4
   total: 5
@@ -22,79 +22,79 @@ translationOf: systems-we-build-4-limits
 draft: false
 ---
 
-El pensamiento sistémico es en sí mismo un modelo, y un modelo tiene un límite. Es más fuerte explicando dinámicas recurrentes. Es más débil prediciendo, atribuyendo causas y en todo lo que tenga que ver con el poder y el propósito.
+El pensamiento sistémico también es un modelo, y todo modelo tiene una frontera. Donde más fuerte se muestra es al explicar dinámicas que se repiten; donde más flojea, al predecir, al atribuir causas y en todo lo que tiene que ver con el poder y el propósito.
 
-Los artículos anteriores de esta serie se apoyaron en el lenguaje de los sistemas. Este lo vuelve contra sí mismo. Una serie que critica los límites estrechos debe trazar honestamente el suyo.
+Las entregas anteriores de esta serie se apoyaron en el lenguaje de los sistemas. Esta lo vuelve contra sí mismo, porque una serie que critica las fronteras estrechas debería trazar las suyas con honestidad.
 
-*Sobre las fuentes. Esta serie dialoga con las ideas de Donella Meadows tal como aparecen en fuentes de acceso legal (un extracto en borrador de* Thinking in Systems *publicado por el Donella Meadows Project, sus ensayos e investigación independiente sobre sistemas), no como una reseña del libro completo. Ese límite no es una nota al pie de este artículo; es uno de sus ejemplos.*
+*Sobre las fuentes. Esta serie trabaja con las ideas de Donella Meadows tal como aparecen en fuentes de acceso legal (un fragmento de un borrador de* Thinking in Systems *publicado por el Donella Meadows Project, sus ensayos e investigación independiente sobre sistemas); no es una reseña del libro completo. Ese límite no es una nota al pie de este artículo, sino uno de sus ejemplos.*
 
-## La propia advertencia del constructor de modelos
+## La advertencia de quien construye modelos
 
-John Sterman, que estudió con Meadows y es un conocedor comprensivo desde dentro, [escribió](https://www.mit.edu/~jsterman/All_Models_Are_Wrong_%28SDR%29.pdf) que todos los modelos son erróneos. Dice que los especialistas en dinámica de sistemas rechazan la validación entendida como «establecer la veracidad», y que los resultados de los modelos suelen ser más sensibles a los supuestos sobre el límite, la agregación y las reglas de decisión que a los parámetros.
+John Sterman, que estudió con Meadows y habla desde dentro y con simpatía, [escribió](https://www.mit.edu/~jsterman/All_Models_Are_Wrong_%28SDR%29.pdf) que todos los modelos son erróneos. Según él, quienes se dedican a la dinámica de sistemas rechazan la idea de validar un modelo como «establecer su veracidad», y los resultados de un modelo suelen ser más sensibles a los supuestos sobre la frontera, la agregación y las reglas de decisión que a los parámetros.
 
-Sostiene también que los mapas causales por sí solos son insuficientes, porque las personas no pueden simular mentalmente ni siquiera sistemas dinámicos simples. Eso va en contra de los diagramas de esta serie. Cuando dibujé en texto la trampa de la capacidad en la Parte 3, tomé prestada una estructura de investigación publicada. Mi dibujo es un modelo interpretativo. No es un hallazgo, y carga con el exceso de confianza que se supone que debe curar.
+Sostiene también que los mapas causales no bastan por sí solos, porque la gente no es capaz de simular mentalmente ni siquiera sistemas dinámicos sencillos. Y eso va en contra de los diagramas de esta serie. Cuando en la tercera entrega dibujé en texto la trampa de la capacidad, tomé prestada una estructura de una investigación publicada. Mi dibujo es un modelo interpretativo, no un hallazgo, y arrastra el exceso de confianza que pretende curar.
 
-Sterman llega incluso a llamar a la dinámica de sistemas «una cosmovisión, un paradigma en el sentido de Thomas Kuhn». Es una descripción honesta. Significa que el pensamiento sistémico tiene prioridades, y que la lente no es neutral.
+Sterman llega a describir la dinámica de sistemas como «una visión del mundo, un paradigma en el sentido de Thomas Kuhn». Es una descripción honesta, y significa que el pensamiento sistémico tiene prioridades y que su lente no es neutral.
 
-## Meadows también es humilde
+## También Meadows es humilde
 
-Los propios ensayos de Meadows son cautelosos. En [Dancing With Systems](https://donellameadows.org/archives/dancing-with-systems/) escribe que «todo lo que sabes, y todo lo que sabe todo el mundo, es solo un modelo», y que «Los sistemas no pueden controlarse, pero sí diseñarse y rediseñarse».
+Los ensayos de la propia Meadows son prudentes. En [Dancing With Systems](https://donellameadows.org/archives/dancing-with-systems/) escribe que «todo lo que sabes, y todo lo que sabe todo el mundo, es solo un modelo», y que «los sistemas no se pueden controlar, pero sí se pueden diseñar y rediseñar».
 
-Su [lista de puntos de apalancamiento](https://donellameadows.org/archives/leverage-points-places-to-intervene-in-a-system/) es, en sus palabras, «tentativa» y «su orden es resbaladizo». Mi interpretación es que la jerarquía es una lente heurística, no una clasificación predictiva validada. Si alguien presenta «el paradigma vence a las reglas, que vencen a los parámetros» como una ley, ha ido más lejos que Meadows, y más lejos que la evidencia usada en esta serie.
+Su [lista de puntos de apalancamiento](https://donellameadows.org/archives/leverage-points-places-to-intervene-in-a-system/) es, en sus palabras, «provisional», y «su orden es resbaladizo». Mi interpretación es que esa jerarquía es una lente heurística, no una clasificación predictiva validada. Quien presente como ley que «el paradigma pesa más que las reglas, y las reglas más que los parámetros» ha ido más lejos que Meadows, y más lejos que las pruebas que maneja esta serie.
 
-Hay además una diferencia de énfasis sin resolver. El ensayo de Meadows sitúa los paradigmas cerca de lo más alto de su lista. Sterman dice que, para los modeladores, el punto de apalancamiento más alto es cambiar los modelos mentales de los clientes haciéndolos participar en la búsqueda de los fallos del modelo. Estas posturas son compatibles, pero no idénticas. ¿Un paradigma cambia con argumentos, con participación o con experiencia?
+Queda además una diferencia de énfasis sin resolver. El ensayo de Meadows sitúa los paradigmas cerca de lo más alto de su lista. Sterman, en cambio, dice que para quien construye modelos el punto de mayor apalancamiento es cambiar los modelos mentales de sus clientes implicándolos en la búsqueda de los defectos del modelo. Son posturas compatibles, pero no idénticas. ¿Un paradigma se cambia con argumentos, con participación o con experiencia?
 
-## Qué tipo de evidencia tenemos realmente
+## Qué clase de pruebas tenemos en realidad
 
-La teoría de la trampa de la capacidad es el mecanismo mejor documentado de esta serie, y su evidencia tiene una forma concreta. La teoría de Repenning y Sterman [«surgió inicialmente del estudio de dos iniciativas de mejora en un gran fabricante de automóviles»](https://web.mit.edu/nelsonr/www/Repenning=Sterman_CMR_su01_.pdf) y la respaldan «más de una docena de estudios de caso en profundidad» y modelos de simulación. Es evidencia real. No es un ensayo aleatorizado, y las cifras de DuPont y BP son resultados comunicados por profesionales, no evaluaciones independientes.
+La teoría de la trampa de la capacidad es el mecanismo mejor documentado de la serie, y sus pruebas tienen una forma muy concreta. Según Repenning y Sterman, su teoría [«surgió inicialmente del estudio de dos iniciativas de mejora en un gran fabricante de automóviles»](https://web.mit.edu/nelsonr/www/Repenning=Sterman_CMR_su01_.pdf) y se apoya en «más de una docena de estudios de caso en profundidad» y en modelos de simulación. Son pruebas reales. Pero no es un ensayo aleatorizado, y las cifras de DuPont y BP son resultados comunicados por profesionales del sector, no evaluaciones independientes.
 
-La consecuencia es una distinción que debería haber mantenido más nítida antes. Un modelo puede explicar por qué un patrón se repite sin predecir cuándo ocurrirá en tu organización. La explicación es donde el pensamiento sistémico es fuerte. La predicción y la atribución de una causa concreta a un resultado concreto necesitan datos que los diagramas no pueden proporcionar.
+De ahí se sigue una distinción que debería haber marcado con más nitidez desde el principio. Un modelo puede explicar por qué se repite un patrón sin predecir cuándo va a darse en tu organización. Explicar es lo que mejor hace el pensamiento sistémico. Predecir, o atribuir una causa concreta a un resultado concreto, exige datos que los diagramas no pueden dar.
 
-Toma el equipo de plataforma hipotético de la Parte 3. Los incidentes y el retrabajo aumentan tras un trimestre de presión. El diagrama dice: capacidad drenada. Una explicación rival encaja con la misma imagen: la demanda creció, o llegó una dependencia nueva, y los incidentes habrían aumentado de todos modos. Un diagrama de bucles causales no puede descartarlo. Los datos podrían ayudar a separar ambas: tasas de incidentes por unidad de tráfico en lugar de recuentos brutos, si los componentes que fallan son aquellos cuyos tests, runbooks o actualizaciones se aplazaron, y si un equipo comparable bajo la misma demanda pero sin la presión salió de otra manera. Ese es un razonamiento mío, no un método tomado de una fuente.
+Volvamos al equipo de plataforma hipotético de la tercera entrega. Tras un trimestre de presión, aumentan los incidentes y el retrabajo. El diagrama dice que se ha agotado la capacidad. Pero hay una explicación rival que encaja con el mismo cuadro: creció la demanda, o llegó una dependencia nueva, y los incidentes habrían aumentado de todos modos. Un diagrama de bucles causales no puede descartarlo. Los datos sí podrían ayudar a separar una explicación de otra: tasas de incidentes por unidad de tráfico en lugar de recuentos brutos; comprobar si los componentes que fallan son aquellos cuyas pruebas, runbooks o actualizaciones se aplazaron; y ver si a un equipo comparable, con la misma demanda pero sin la presión, le fue de otra manera. Este razonamiento es mío, no un método sacado de ninguna fuente.
 
-La misma cautela vale para la comparación de DuPont, 23 plantas comparables frente a las que aplicaban el programa. No es aleatorizada, de modo que la selección podría explicar parte de la diferencia: las plantas que eligieron el programa pueden diferir en aspectos que también afectan a sus bombas.
+La misma cautela vale para la comparación de DuPont entre las plantas que aplicaron el programa y otras 23 plantas comparables. Como no es aleatorizada, la selección podría explicar parte de la diferencia: las plantas que eligieron el programa quizá se distingan en aspectos que también afectan a sus bombas.
 
-Esto es lo que contaría en contra de la tesis de esta serie. Si una organización escapara de una trampa de la capacidad solo mediante la mejora de componentes, la afirmación de que los componentes no pueden arreglarla se debilitaría. Si cambiar la medición o los objetivos produjera de forma sistemática o ningún cambio o solo nuevas manipulaciones, la afirmación de que la estructura a veces ayuda se debilitaría. Las fuentes usadas aquí no contienen evidencia de ninguna de las dos cosas, aunque eso dice más sobre el límite de la serie que sobre el mundo.
+¿Qué contaría en contra de la tesis de esta serie? Si una organización saliera de una trampa de la capacidad solo a base de mejorar componentes, perdería fuerza la idea de que los componentes no pueden resolverla. Si cambiar la medición o los objetivos produjera de forma sistemática o ningún cambio o solo nuevas formas de manipular las cifras, perdería fuerza la idea de que la estructura a veces ayuda. Las fuentes que uso aquí no contienen pruebas de ninguna de las dos cosas, aunque eso dice más de la frontera de la serie que del mundo.
 
-## La imagen especular del error de culpar
+## El reverso del error de culpar
 
-Repenning y Sterman critican el error fundamental de atribución: culpar a las personas cuando la causa es la estructura. Hay un error especular: culpar a la estructura de todo. Borra la responsabilidad individual y oculta algo que un diagrama de retroalimentación rara vez muestra: quién diseñó la estructura y quién se beneficia de ella.
+Repenning y Sterman critican el error fundamental de atribución: culpar a las personas cuando la causa está en la estructura. Pero existe el error simétrico, que consiste en culpar de todo a la estructura. Borra la responsabilidad individual y oculta algo que un diagrama de retroalimentación rara vez enseña: quién diseñó la estructura y quién sale ganando con ella.
 
-Aristóteles da un peso real al lado individual. En la [*Ética a Nicómaco*](http://classics.mit.edu/Aristotle/nicomachaen.2.ii.html) dice que «la virtud moral resulta del hábito», y también que «los legisladores hacen buenos a los ciudadanos formando hábitos en ellos». El hábito lo practican los individuos y lo moldean los legisladores. Ambas cosas pertenecen al relato. Mi interpretación es que una explicación sistémica que omita cualquiera de las dos es incompleta.
+Aristóteles le da verdadero peso al lado individual. En la [*Ética a Nicómaco*](http://classics.mit.edu/Aristotle/nicomachaen.2.ii.html) dice que «la virtud moral es fruto del hábito», y también que «los legisladores hacen buenos a los ciudadanos formando en ellos hábitos». El hábito lo practican los individuos y lo moldean los legisladores, y los dos tienen su sitio en la explicación. Mi interpretación es que una explicación sistémica que deje fuera a cualquiera de ellos está incompleta.
 
-Los errores de atribución también se agrian hasta convertirse en estereotipos. Repenning y Sterman citan a un directivo que culpaba a los ingenieros «occidentales», y leo el ejemplo como revelador: un problema estructural que se convierte en un rasgo de un grupo. Un marco sistémico puede ser un correctivo moral frente a eso. También puede ser un acto político, porque decidir que «el sistema» es la causa decide asimismo quién es responsable de cambiarlo. Meadows no ignora esto. Su ensayo Leverage Points dice «El poder sobre las reglas es poder real», y aconseja prestar atención «a las reglas y a quién tiene poder sobre ellas». Así que la crítica tiene que ser más afilada que «el pensamiento sistémico olvida el poder». Lo que las fuentes accesibles no aportan es un método para disputar ese poder: nombrarlo no es lo mismo que mostrar cómo discuten grupos rivales sobre un objetivo. Y los diagramas de bucles causales como los de esta serie lo siguen dejando fuera.
+Los errores de atribución, además, se agrian hasta convertirse en estereotipos. Repenning y Sterman citan a un directivo que culpaba a los ingenieros «occidentales», y el ejemplo me parece revelador: un problema estructural convertido en un rasgo de grupo. Frente a eso, el enfoque sistémico puede servir de correctivo moral. Pero también puede ser un acto político, porque decidir que la causa es «el sistema» es decidir también a quién le toca cambiarlo. Meadows no pasa esto por alto. En su ensayo Leverage Points afirma que «el poder sobre las reglas es poder real» y aconseja prestar atención «a las reglas y a quién tiene poder sobre ellas». La crítica tiene que ser, por tanto, más fina que un «el pensamiento sistémico se olvida del poder». Lo que no aportan las fuentes accesibles es un método para disputar ese poder: nombrarlo no es lo mismo que mostrar cómo distintos grupos se enfrentan por un objetivo. Y los diagramas de bucles causales, incluidos los de esta serie, siguen dejándolo fuera.
 
 ## Donde se rompen las analogías
 
-Usé un autoescalador de pods para hacer visible el retraso. La [documentación de Kubernetes](https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale/) describe un bucle de control literal con un periodo, una tolerancia y una ventana de estabilización definidos. Puedes leer su fórmula y probarla.
+Para hacer visible el retraso recurrí a un autoescalador de pods. La [documentación de Kubernetes](https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale/) describe un bucle de control literal, con un periodo, una tolerancia y una ventana de estabilización definidos. Su fórmula se puede leer y poner a prueba.
 
-El régimen de evaluación de una escuela no es un controlador. En el trabajo sobre Chicago, docentes y estudiantes se adaptaron, hicieron trampas y se resistieron: [Jacob y Levitt](https://www.nber.org/papers/w9413) encontraron trampas que respondían con fuerza a cambios relativamente menores en los incentivos. Un controlador que cambiara de opinión sobre qué estaba optimizando porque no le gustara el número sería un controlador muy extraño.
+El sistema de evaluación de una escuela no es un controlador. En los trabajos sobre Chicago, docentes y alumnos se adaptaron, hicieron trampas y se resistieron: [Jacob y Levitt](https://www.nber.org/papers/w9413) encontraron trampas que reaccionaban con fuerza a cambios relativamente menores en los incentivos. Un controlador que cambiara de opinión sobre lo que optimiza porque no le gusta la cifra sería un controlador muy extraño.
 
-Así que el autoescalador es una ilustración de un mecanismo, no una prueba de que las aulas o los equipos de ingeniería se comporten del mismo modo. El uso honesto de la analogía es hacer vívido el retraso y detenerse ahí.
+Así que el autoescalador ilustra un mecanismo, pero no demuestra que las aulas o los equipos de ingeniería se comporten igual. El uso honesto de la analogía consiste en hacer tangible el retraso y detenerse ahí.
 
-La historia tiene también una versión del problema. Jenofonte, como señalé en la Parte 1, era un ateniense admirador de Esparta, y [su relato](https://www.perseus.tufts.edu/hopper/text?doc=Perseus%3Atext%3A1999.01.0210%3Atext%3DConst.+Lac.%3Achapter%3D2) la idealiza; esa salvedad es mía, ya que el texto muestra admiración sin probar idealización. Las fuentes griegas describen a varones ciudadanos de élite. Ninguna es un manual de diseño para las escuelas modernas.
+La historia tiene también su versión del problema. Jenofonte, como señalé en la primera entrega, era un ateniense admirador de Esparta, y [su relato](https://www.perseus.tufts.edu/hopper/text?doc=Perseus%3Atext%3A1999.01.0210%3Atext%3DConst.+Lac.%3Achapter%3D2) la idealiza; esa salvedad es mía, porque el texto deja ver admiración, pero no demuestra la idealización. Las fuentes griegas describen a los varones ciudadanos de la élite. Ni lo uno ni lo otro sirve como pliego de condiciones para la escuela de hoy.
 
-## El límite de esta serie
+## La frontera de esta serie
 
-El último ejemplo es la propia serie. Se apoya en un extracto en borrador del libro y en dos ensayos de Meadows, además de investigación independiente. El contenido de un capítulo ausente no debe presentarse como opinión de Meadows, y la serie procura no hacerlo. Donde estarían los demás capítulos del libro, la serie tiene un punto ciego propio.
+El último ejemplo es la propia serie. Se basa en un único fragmento del borrador del libro y en dos ensayos de Meadows, más investigación independiente. El contenido de un capítulo que falta no puede presentarse como opinión de Meadows, y la serie procura no hacerlo. Allí donde estarían los demás capítulos del libro, la serie tiene un punto ciego propio.
 
-Eso es, creo, una pequeña demostración práctica de la tesis de Sterman sobre los límites. Lo que un modelo deja fuera es invisible desde dentro, y este relato de las ideas de Meadows tiene una valla cuya posición la serie no eligió.
+Creo que esto es una demostración pequeña y práctica de lo que dice Sterman sobre las fronteras. Lo que un modelo deja fuera es invisible desde dentro, y este relato de las ideas de Meadows tiene una valla cuya posición la serie no eligió.
 
-## Lo que sobrevive
+## Lo que queda en pie
 
-¿Qué queda después de todo esto? Diría que el pensamiento sistémico es una buena manera de preguntar por qué un patrón se repite, y una mala manera de afirmar que sabes cuál será el próximo resultado. Se gana la confianza con la humildad que sus mejores practicantes muestran hacia él.
+¿Qué queda después de todo esto? Yo diría que el pensamiento sistémico es una buena manera de preguntarse por qué un patrón se repite y una mala manera de presumir de saber cuál será el próximo resultado. Se gana la confianza gracias a la humildad con que lo tratan sus mejores practicantes.
 
-La pregunta que llevo al último artículo es esta. Si todo modelo tiene un límite que su constructor no puede ver del todo, ¿cómo descubrirían quienes se apoyan en el modelo dónde termina, antes de que el mundo se lo muestre?
+La pregunta que me llevo a la última entrega es esta: si todo modelo tiene una frontera que quien lo construye no alcanza a ver del todo, ¿cómo podrían descubrir quienes se apoyan en él dónde termina, antes de que se lo enseñe el mundo?
 
 ## Referencias y lecturas recomendadas
 
-- **All models are wrong: reflections on becoming a systems scientist**, John D. Sterman, System Dynamics Review 18(4), 2002. <https://www.mit.edu/~jsterman/All_Models_Are_Wrong_%28SDR%29.pdf>. Fuente sobre los límites de los modelos, la validación, los supuestos de límite, los mapas causales y la descripción de «paradigma». Escrito por un conocedor comprensivo desde dentro.
-- **Dancing With Systems**, Donella Meadows, Donella Meadows Project, sin fecha. <https://donellameadows.org/archives/dancing-with-systems/>. Fuente de las afirmaciones de Meadows sobre los modelos y el control. Su ensayo, no el libro.
-- **Leverage Points: Places to Intervene in a System**, Donella Meadows, Donella Meadows Project, sin fecha. <https://donellameadows.org/archives/leverage-points-places-to-intervene-in-a-system/>. Fuente de las salvedades «tentativa» y «resbaladizo». Su ensayo, no el libro.
-- **Nobody Ever Gets Credit for Fixing Problems that Never Happened**, Nelson P. Repenning y John D. Sterman, California Management Review 43(4), 2001. <https://web.mit.edu/nelsonr/www/Repenning=Sterman_CMR_su01_.pdf>. Fuente de la base de evidencia de la trampa de la capacidad y de los errores de atribución.
+- **All models are wrong: reflections on becoming a systems scientist**, John D. Sterman, System Dynamics Review 18(4), 2002. <https://www.mit.edu/~jsterman/All_Models_Are_Wrong_%28SDR%29.pdf>. Fuente sobre los límites de los modelos, la validación, los supuestos sobre la frontera, los mapas causales y la descripción como «paradigma». Escrito por alguien de dentro y bien dispuesto hacia la disciplina.
+- **Dancing With Systems**, Donella Meadows, Donella Meadows Project, sin fecha. <https://donellameadows.org/archives/dancing-with-systems/>. Fuente de las afirmaciones de Meadows sobre los modelos y el control. Es un ensayo suyo, no el libro.
+- **Leverage Points: Places to Intervene in a System**, Donella Meadows, Donella Meadows Project, sin fecha. <https://donellameadows.org/archives/leverage-points-places-to-intervene-in-a-system/>. Fuente de las salvedades «provisional» y «resbaladizo». Es un ensayo suyo, no el libro.
+- **Nobody Ever Gets Credit for Fixing Problems that Never Happened**, Nelson P. Repenning y John D. Sterman, California Management Review 43(4), 2001. <https://web.mit.edu/nelsonr/www/Repenning=Sterman_CMR_su01_.pdf>. Fuente sobre la base empírica de la trampa de la capacidad y sobre los errores de atribución.
 - **Nicomachean Ethics, Book II**, Aristotle, trad. W. D. Ross, MIT Internet Classics Archive. <http://classics.mit.edu/Aristotle/nicomachaen.2.ii.html>. El hábito y el papel de los legisladores en la formación de la virtud.
 - **Horizontal Pod Autoscaling**, documentación de Kubernetes (versión actual). <https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale/>. Un bucle de control literal, usado como contraste con los sistemas sociales.
-- **Rotten Apples: An Investigation of the Prevalence and Predictors of Teacher Cheating**, Brian A. Jacob y Steven D. Levitt, NBER Working Paper 9413, 2003. <https://www.nber.org/papers/w9413>. Evidencia de Chicago de que las personas se adaptan a los incentivos (a nivel de resumen).
-- **Constitution of the Lacedaimonians, ch. 2**, Xenophon, trad. E. C. Marchant, Perseus Digital Library (Loeb), 1925. <https://www.perseus.tufts.edu/hopper/text?doc=Perseus%3Atext%3A1999.01.0210%3Atext%3DConst.+Lac.%3Achapter%3D2>. Una fuente cuya admiración por Esparta moldea su relato.
+- **Rotten Apples: An Investigation of the Prevalence and Predictors of Teacher Cheating**, Brian A. Jacob y Steven D. Levitt, NBER Working Paper 9413, 2003. <https://www.nber.org/papers/w9413>. Datos de Chicago de que las personas se adaptan a los incentivos (consultado a nivel de resumen).
+- **Constitution of the Lacedaimonians, ch. 2**, Xenophon, trad. E. C. Marchant, Perseus Digital Library (Loeb), 1925. <https://www.perseus.tufts.edu/hopper/text?doc=Perseus%3Atext%3A1999.01.0210%3Atext%3DConst.+Lac.%3Achapter%3D2>. Una fuente cuya admiración por Esparta da forma a su relato.
 
 Las citas de textos en inglés son traducción propia.
