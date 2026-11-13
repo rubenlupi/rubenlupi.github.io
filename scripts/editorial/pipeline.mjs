@@ -4,7 +4,7 @@
 // must stop and report to the author: NEEDS_INPUT, BLOCKED, revision limit, thesis change request).
 // These checks verify structure, contracts and file ownership. They cannot verify that sources support claims.
 import { existsSync, mkdirSync, readFileSync, writeFileSync, copyFileSync, readdirSync, mkdtempSync, rmSync } from 'node:fs';
-import { join, relative } from 'node:path';
+import { join, relative, dirname } from 'node:path';
 import { tmpdir } from 'node:os';
 import { createHash } from 'node:crypto';
 import { execFileSync, spawnSync } from 'node:child_process';
@@ -13,6 +13,7 @@ import { validate } from '../lib/validate.mjs';
 import { extractLinks, isExternal, splitReferences, readPosts } from '../lib/content.mjs';
 
 export const MAX_REVISIONS = 3;
+export const SHORT = ['Originality', 'Accuracy', 'Evidence', 'Systems', 'Cross-disc.', 'Accessibility', 'Clarity', 'Practical', 'Question'];
 export const CRITERIA = [
   'Originality of the argument', 'Technical accuracy', 'Quality of evidence and citations', 'Depth of Systems Thinking',
   'Quality of cross-disciplinary connections', 'Accessibility to the intended audience', 'Clarity and narrative flow',
@@ -380,7 +381,7 @@ export function finalize(root, slug) {
 
 ## Review history
 
-| Round | Verdict | ${CRITERIA.map((c) => c.replace(/ of the| to the| and /g, ' ')).join(' | ')} |
+| Round | Verdict | ${SHORT.join(' | ')} |
 |---|---|${CRITERIA.map(() => '---').join('|')}|
 ${s.reviews.map((r) => `| ${r.round} | ${r.verdict} | ${CRITERIA.map((c) => r.scores[c]).join(' | ')} |`).join('\n')}
 
@@ -427,7 +428,13 @@ export function status(root, slug) {
 const isMain = process.argv[1] && import.meta.url === new URL(`file://${process.argv[1]}`).href;
 if (isMain) {
   const [cmd, slug, ...rest] = process.argv.slice(2);
-  const root = process.env.EDITORIAL_ROOT ?? process.cwd();
+  // Repo root: EDITORIAL_ROOT, else the nearest ancestor of cwd that contains docs/EDITORIAL_WORKFLOW.md.
+  let root = process.env.EDITORIAL_ROOT;
+  if (!root) {
+    let d = process.cwd();
+    while (!existsSync(join(d, 'docs', 'EDITORIAL_WORKFLOW.md')) && dirname(d) !== d) d = dirname(d);
+    root = existsSync(join(d, 'docs', 'EDITORIAL_WORKFLOW.md')) ? d : process.cwd();
+  }
   const cmds = {
     init: () => init(root, slug, rest[0] ?? '', rest.slice(1).join(' ')),
     begin: () => begin(root, slug, rest[0]),

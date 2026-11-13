@@ -28,6 +28,10 @@ Request: **$ARGUMENTS**
   "fix" an agent's artifact. The only file you write is `input.md`, before the brief stage.
 - Never commit, push, deploy, or copy anything into `src/content/posts/`. Publication is the author's decision.
 - Report honestly: if a stage failed, was retried, or a check was skipped, say so.
+- Do not make editorial judgments yourself, including whether the request duplicates an existing article. If you
+  notice an overlap, note it in `input.md` under *Constraints* (e.g. "Overlaps with `src/content/posts/<file>`")
+  and let the critical-editor's duplication check decide (new angle, or `BLOCKED`). Only the gates and the agents'
+  verdicts stop the workflow.
 
 ## Procedure
 
