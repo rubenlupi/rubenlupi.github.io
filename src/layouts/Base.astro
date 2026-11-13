@@ -1,13 +1,16 @@
 ---
 import '../styles/global.css';
+import { getCollection } from 'astro:content';
 import { SITE } from '../site';
 interface Props { title?: string; description?: string; }
 const { title, description = SITE.tagline } = Astro.props;
-const full = title ? `${title} — ${SITE.title}` : SITE.title;
+const full = title ? `${title} — ${SITE.title}` : `${SITE.title} — ${SITE.headline}`;
 const path = Astro.url.pathname;
+const hasBooks = (await getCollection('posts', (p) => !p.data.draft && p.data.kind === 'book')).length > 0;
 const nav = [
   { href: '/', label: 'Writing', active: path === '/' || path.startsWith('/posts') },
-  { href: '/tags/', label: 'Tags', active: path.startsWith('/tags') },
+  ...(hasBooks ? [{ href: '/books/', label: 'Books', active: path.startsWith('/books') }] : []),
+  { href: '/topics/', label: 'Topics', active: path.startsWith('/topics') || path.startsWith('/tags') },
   { href: '/about/', label: 'About', active: path.startsWith('/about') },
 ];
 ---

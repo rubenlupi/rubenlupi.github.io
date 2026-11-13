@@ -2,6 +2,7 @@
 title: "Sometimes the problem isn't the component. It's the system."
 description: "LinkedIn replaced Argo CD for large-scale deployments. Donella Meadows would say that's a story about structure, and it matters for agentic AI too."
 date: 2026-11-12
+topics: ["Software Engineering", "Systems & Organizations"]
 tags: ["Systems Thinking", "Platform Engineering", "Agentic AI", "Architecture"]
 ---
 

@@ -11,6 +11,8 @@ Add a Markdown file to `src/content/posts/`:
 title: "Post title"
 description: "One-line summary shown in the list."
 date: 2026-01-31
+topics: ["Software Engineering"]   # one or more of the six areas, optional
+kind: essay                         # or "book" for a book review (adds a Books page)
 tags: ["Architecture"]
 draft: false   # optional; true hides it
 ---
@@ -18,6 +20,6 @@ draft: false   # optional; true hides it
 Content here.
 ```
 
-Push to `master` and the GitHub Action builds and publishes it.
+The six areas are defined in `src/site.ts`. Push to `master` and the GitHub Action builds and publishes it.
 
 The previous (2022) site is preserved on the `backup-web-2022` branch.

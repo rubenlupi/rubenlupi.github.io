@@ -75,3 +75,21 @@ h2 { font-size: 1.4rem; margin: 2.5rem 0 .75rem; }
   main { padding-top: 2rem; }
   .lede { font-size: 1.12rem; margin-bottom: 2.5rem; }
 }
+
+/* Editorial intro and topics */
+.intro { margin-bottom: 3.5rem; }
+.intro h1 { font-family: var(--serif); font-weight: 600; font-size: clamp(2rem, 7vw, 3rem); letter-spacing: -.025em; line-height: 1.1; margin-bottom: .9rem; }
+.subtitle { font: 1.05rem/1.5 var(--sans); color: var(--muted); margin: 0 0 1.75rem; }
+.intro .lede { margin: 0 0 1.5rem; }
+.topic-line { font: .9rem/1.8 var(--sans); color: var(--muted); margin: 0; }
+.topic-line a { text-decoration: none; }
+.topic-line a:hover { color: var(--accent); }
+.topic-list { list-style: none; padding: 0; margin: 2.5rem 0; }
+.topic-list li { padding: 1.25rem 0; border-top: 1px solid var(--line); }
+.topic-list li:last-child { border-bottom: 1px solid var(--line); }
+.topic-list h2 { font-size: 1.2rem; margin: 0 0 .3rem; }
+.topic-list h2 a { text-decoration: none; }
+.topic-list p { margin: 0; font-size: 1rem; color: #444; line-height: 1.55; }
+.meta a { text-decoration-color: transparent; }
+.meta a:hover { text-decoration-color: currentColor; }
+@media (max-width: 480px) { .subtitle { font-size: 1rem; } }
