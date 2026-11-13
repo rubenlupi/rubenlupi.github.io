@@ -1,8 +1,8 @@
 ---
-title: "Why Intelligent People Keep Making the Same Mistakes"
-description: "Feedback loops, delays and the capability trap, worked step by step through firefighting, autoscalers and technical debt."
+title: "Pressure Works Today. The Bill Comes Later."
+description: "In the authors' worked example, six hours of extra output come from two hours of real effort, and a manager convinced that pressure works: why the shortcut looks like success, why the bill arrives months later, and what firefighting heroes, impatient autoscalers and technical debt have in common."
 date: 2026-11-13
-editorialDate: 2026-11-02   # ONE shared archive slot for the whole series, assigned by pipeline finalize (policy §6)
+editorialDate: 2026-10-26   # ONE shared archive slot for the whole series, assigned by pipeline finalize (policy §6)
 series: break-and-change
 seriesPart:
   title: "The Systems We Build, The Systems We Live In"
@@ -20,23 +20,21 @@ tags: ["Systems Thinking", "Feedback Loops", "Technical Debt", "SRE", "Capabilit
 draft: true
 ---
 
-Some mistakes are not mistakes of intelligence. They are the sensible output of a structure in which costs arrive later than rewards. The structure then teaches its participants the wrong lesson, and clever people learn it faster.
+"The new process is a good one. Someday I'd like to work on a project that actually uses it." An engineer in product development said that, and Nelson Repenning and John Sterman quote it in [their study of process improvement](https://web.mit.edu/nelsonr/www/Repenning=Sterman_CMR_su01_.pdf). The new process has plenty of admirers and no users.
 
-This post works through that claim in three places: an improvement trap documented in field research, a literal control loop in Kubernetes, and a small, explicitly hypothetical platform team. It is the most technical of the five.
+Behind the sentence sits a mechanism about what managers learn from their own data. Pressure raises output, the people applying it see the rise and conclude that pressure works, and months later the bill arrives as rework, at which point the same people, reading the same kind of evidence, ask why the team has got worse. Nobody here needs to be lazy or stupid. When costs arrive later than rewards, the structure teaches the people inside it the wrong lesson, and clever people simply learn it faster.
 
-*About the sources. This series engages with Donella Meadows' ideas as they appear in legally accessible sources (a draft excerpt of* Thinking in Systems *published by the Donella Meadows Project, her essays, and independent systems research), not as a review of the full book. The trap described below is not Meadows' work; it is Nelson Repenning and John Sterman's.*
+I haven't had access to the full book, so I draw on the draft excerpt of *Thinking in Systems* that the Donella Meadows Project publishes, her essays and independent systems research. The trap at the center of what follows belongs to Repenning and Sterman, not to Meadows.
 
-## The documented case: the capability trap
+## The improvement nobody had time for
 
-In ["Nobody Ever Gets Credit for Fixing Problems that Never Happened"](https://web.mit.edu/nelsonr/www/Repenning=Sterman_CMR_su01_.pdf), Repenning and Sterman describe organizations whose improvement programmes decay. The theory, they write, "initially emerged from the study of two improvement initiatives in a major automaker" and is supported by "over a dozen in-depth case studies" plus simulation models. That is rich evidence, but it comes from case studies and models, not from controlled trials.
+In ["Nobody Ever Gets Credit for Fixing Problems that Never Happened"](https://web.mit.edu/nelsonr/www/Repenning=Sterman_CMR_su01_.pdf), Repenning and Sterman describe organizations whose improvement programs decay. Their theory "initially emerged from the study of two improvement initiatives in a major automaker", and it rests on "over a dozen in-depth case studies" along with simulation models: a lot of evidence, though case studies and models rather than controlled trials.
 
-Two field quotes show what it sounds like from inside. An electronics-plant supervisor says: "Supervisors never had time to make improvements…". A product-development engineer says: "The new process is a good one. Someday I'd like to work on a project that actually uses it."
+The engineer has company in the paper. A supervisor at an electronics plant says "Supervisors never had time to make improvements…". Together the two remarks cover the whole life of an improvement program: first nobody has time to build it, then nobody has a project to use it in, and neither speaker objects to it.
 
-Nobody in those sentences is lazy or stupid. They are describing a loop.
+## Four loops, and the one that pays back too late
 
-## The loops
-
-The authors model process capability as a stock: it is eroded continuously and refilled, after a delay, by improvement effort. Around it they describe four loops. What follows is my text adaptation of their structure, not a reproduction of their figures.
+The authors model process capability as a stock that erodes all the time and is refilled, after a delay, by improvement effort. Around it they draw four loops.
 
 ```
 B1 Work Harder:
@@ -56,81 +54,65 @@ R1 Reinvestment:
   (reinforcing: with a high capability it runs in the virtuous direction, with a falling one the vicious)
 ```
 
-(Adapted from Repenning & Sterman, 2001. A schematic in words, not a validated model. The signs are my reading of the loop logic and are not checked link by link against the authors' figures; consult the paper for the exact diagrams.)
+This is my adaptation of Repenning & Sterman, 2001, a schematic in words and not a validated model. I set the signs from my reading of the loop logic rather than by checking each link against the authors' figures; for the exact diagrams, go to the paper.
 
-The timing is the whole story. Working harder (B1) is what the authors call "better-before-worse": output improves now and capability pays later. Working smarter (B2) is "worse-before-better": output dips as time goes to improvement, and capability pays back after a delay. Shortcuts (B3) are the same trade as working harder, made by cutting improvement time. A rewarding loop with short feedback beats a rewarding loop with long feedback every time it is judged on this quarter's numbers.
+Everything turns on timing. Working harder (B1) is what the authors call "better-before-worse": output improves now and capability pays later. Working smarter (B2) is "worse-before-better": output dips while time goes to improvement, and capability repays it only after a delay. Shortcuts (B3) make the same trade as working harder, by raiding improvement time. And the delays are long, on the order of months for simple processes and years for product development, according to the authors. Judge by this quarter's numbers and the scoreboard favors working harder and cutting corners; it has made up its mind long before the slow loop's results come in.
 
-The authors report delays on the order of months for simple processes and years for product development.
+## Six hours of output, two hours of effort
 
-## Superstitious learning, worked through
+The authors make the consequence concrete with a numerical example of their own, built to show the logic rather than drawn from data. A manager sees a gap of six hours per person per week between the output wanted and the output delivered, and applies pressure. Two of those six hours come from people genuinely working harder. The other four come from cutting improvement time: skipped maintenance, documentation or training, say (those examples are mine, not the authors').
 
-The authors also give an illustrative numeric example, which I walk through step by step. It is their example, not data.
+The manager sees six extra hours of output and nothing of where they came from, so concludes that pressure works and, the authors say, overestimates its effect "by as much as a factor of three". Six over two is three. Two hours of real effort, four hours borrowed from the future, and one manager convinced of a miracle. It is the only kind of loan where the bank thanks you for taking it.
 
-Suppose a manager sees a gap of six hours per person per week between the output wanted and the output delivered. The manager applies pressure. Two of those six hours come from people genuinely working harder. The other four come from cutting improvement time. (For instance, skipped maintenance, skipped documentation or skipped training. Those examples are my gloss, not detail from the authors' example.)
+They call this the Self-Confirming Attribution Error. Shortcuts are invisible when they are taken, so the evidence keeps agreeing with what the manager already believes: ask the data for a second opinion and you get the first one back, with numbers attached. When the borrowed hours later come due as rework, many people given the same data would blame the team. You might too; the data are very persuasive, which is the whole problem.
 
-What the manager sees is six hours of extra output. What caused it is two hours of real effort plus four hours borrowed from the future. So the manager concludes that pressure works, and overestimates its effect, the authors say, "by as much as a factor of three". Six over two is three.
+## Nobody gets promoted for the fire that never started
 
-They call this the Self-Confirming Attribution Error, and the "self-confirming" part matters. Because the shortcuts are invisible when taken, the evidence the manager has keeps agreeing with the manager's belief. Months later the borrowed hours come due as rework, and the question becomes why the team has gotten worse. Given the same data, the answer many people reach is "the team".
+Rewards make it worse. An engineer at an auto company gave the paper its title: "Nobody ever gets credit for fixing problems that never happened". The authors describe cultures that prize heroic firefighting over prevention, which in their account creates a second reinforcing loop, through incentives that promote "heroes". The person who stays late putting out the fire is visible; the person whose system never caught fire has produced, as far as any report can show, nothing at all.
 
-## Heroes get credit
+What prevention can buy, and what it costs first, shows in the maintenance programs they report at DuPont and BP Lima. In DuPont plants that implemented the program, pump mean time between failures improved about 12% per doubling of operating experience, against 5% in 23 comparable plants, and direct maintenance costs fell about 20%, against a rise of about 7% in the comparison plants. At BP Lima, maintenance costs rose 30% in the first six months. The authors take these figures from practitioner sources, not independent evaluations. The Lima number interests me more, because that dip was planned: someone agreed in advance to let things look worse. That takes more nerve than any night of firefighting, and there is no medal for it.
 
-One more link in their account is about reward. An auto-company engineer is quoted: "Nobody ever gets credit for fixing problems that never happened". The authors describe cultures that reward heroic firefighting over prevention, which, in their account, adds a second reinforcing loop running through incentives that promote "heroes".
+## A machine that would make the same mistake
 
-Their outcome reports include the DuPont and BP Lima maintenance programmes. DuPont plants implementing the programme saw pump mean time between failures improve about 12% per doubling of operating experience, against 5% in 23 comparable plants, and direct maintenance costs fell about 20% against a rise of about 7%. At BP Lima, maintenance costs rose 30% in the first six months. These are figures the authors report from practitioner sources, not independent evaluations. The Lima number is the more interesting one here, because it is a planned dip.
-
-## A control loop you can read
-
-The same arithmetic of delay shows up, more literally, in Kubernetes. The [Horizontal Pod Autoscaler](https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale/) is documented as an intermittent control loop that by default runs every 15 seconds. Its core rule is:
+The same arithmetic of delay turns up, far more literally, in Kubernetes. Its documentation describes the [Horizontal Pod Autoscaler](https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale/) as an intermittent control loop that runs every 15 seconds by default, built around one core rule:
 
 ```
 desiredReplicas = ceil[ currentReplicas × ( currentMetricValue / desiredMetricValue ) ]
 ```
 
-By default, per the current documentation, it skips changes while the ratio is within a 0.1 tolerance. The documentation also describes "flapping", where the replica count fluctuates, and defaults to a 300-second stabilization window for scale-down.
+By default the controller skips changes while the ratio stays within a 0.1 tolerance. The documentation describes "flapping", where the replica count fluctuates, and sets a default 300-second stabilization window for scale-down.
 
-Here is the mechanism, walked through. This is my interpretation of how the documented parts fit together, symbolically and with no numbers of my own.
+How these pieces fit together is my interpretation. Load rises, the metric climbs above its target, and the controller adds replicas. New pods take time to become ready and their metrics lag, so for a while the metric still reads high. A controller that took that stale reading at face value would add replicas again, and again, ordering capacity already on its way. Once the pods came online there would be more than the load needs, the metric would fall, the controller would scale down, and the cycle would restart. That is overshoot: the correction outlives the problem because the evidence of the solution arrives late. It is the manager's mistake in miniature. The machine, at least, has the excuse of being a machine.
 
-1. Load rises, the metric rises above its target, and the controller adds replicas.
-2. The new pods are not useful immediately. They take time to start and become ready, and their metrics lag. During that time the metric still reads high.
-3. A controller that took that stale reading at face value would add replicas again, and then again, for capacity that is already on its way. When the new pods all come online, there is too much, the metric falls, and it scales down. Repeat.
+The documentation deals with that lag. It describes an initial readiness delay (30 seconds by default) and a CPU initialization period (5 minutes by default) during which pods' metrics are treated with suspicion, and adds that "the controller conservatively assumes that the not-yet-ready pods are consuming 0% of the desired metric, further dampening the magnitude of a scale up". In other words, the controller counts the capacity already on its way before asking for more, which is more patience than the manager with the six hours showed. The scale-down stabilization window does the same job in the other direction. Read this way, overshoot is what the loop would do without those safeguards, and the safeguards buy stability at the price of responsiveness. Meadows' [Leverage Points](https://donellameadows.org/archives/leverage-points-places-to-intervene-in-a-system/) states the general version in one line: "Delays in feedback loops are critical determinants of system behavior." The autoscaler, of course, is a literal loop with a defined period, and a team is not.
 
-So the question is what the documentation does about that lag. It describes an initial readiness delay (by default 30 seconds) and a CPU initialization period (by default 5 minutes) during which pods' metrics are treated with suspicion. And "the controller conservatively assumes that the not-yet-ready pods are consuming 0% of the desired metric, further dampening the magnitude of a scale up". The scale-down stabilization window does the same job on the other side. Read this way, "overshoot" is what the loop would do without those safeguards, and the safeguards trade responsiveness for stability. Meadows' [Leverage Points](https://donellameadows.org/archives/leverage-points-places-to-intervene-in-a-system/) puts the general version in one line: "Delays in feedback loops are critical determinants of system behavior."
+## When the system fights the fix
 
-The autoscaler is a literal loop with a defined period. A team is not. I use it to make the structure visible, and I return to where the analogy stops in Part 4.
+Sterman [defines](https://www.mit.edu/~jsterman/All_Models_Are_Wrong_%28SDR%29.pdf) policy resistance as "the tendency for interventions to be defeated by the response of the system to the intervention itself." Pressure fits uncomfortably well, because it calls up the very responses, shortcuts and hidden workarounds, that defeat it. The medicine produces the symptoms it was prescribed for.
 
-## Policy resistance, and other names
+Calling this a symptomatic fix is my label; Meadows doesn't name the pattern in the texts I've drawn on.
 
-Sterman [defines](https://www.mit.edu/~jsterman/All_Models_Are_Wrong_%28SDR%29.pdf) policy resistance as "the tendency for interventions to be defeated by the response of the system to the intervention itself." That fits: the intervention, pressure, calls up responses (shortcuts, hidden workarounds) that defeat it.
+## Technical debt: interest nobody books
 
-I will use only two named patterns: policy resistance (Sterman) and the capability trap (Repenning and Sterman). Beyond those I describe structures in my own words. One example, as editorial interpretation: pressure and shortcuts have the shape of a symptomatic fix, relieving the visible gap while eroding the capacity to close it. That is my reading of their loops, not a named pattern in the Meadows texts used in this series.
+Software already has a name for those four borrowed hours. Cunningham's [original line](https://c2.com/doc/oopsla92.html) is "Every minute spent on not-quite-right code counts as interest on that debt." Repenning and Sterman reach for a similar example, a software engineer who skips documentation. Google's SRE book makes the same drift plausible for operations work, warning that ["toil tends to expand if left unchecked"](https://sre.google/sre-book/eliminating-toil/).
 
-## Technical debt as a delayed cost
+What drains, as I read it, is the capacity to do the work sustainably, through automation, documentation and clean code. Skipped work leaves no trace on the day it is skipped; no pager has ever gone off because a runbook went quietly out of date this afternoon. It surfaces later as interest in Cunningham's sense, more manual effort and more rework per change. It is a debt that charges its interest in the only currency that could have cleared it.
 
-Cunningham's [original line](https://c2.com/doc/oopsla92.html) is "Every minute spent on not-quite-right code counts as interest on that debt." Repenning and Sterman use the same shape of example, a software engineer skipping documentation. Fowler's [quadrant](https://martinfowler.com/bliki/TechnicalDebtQuadrant.html) distinguishes prudent from reckless debt. I read all of these as capability stocks with a delayed and hard-to-observe drain. Google's SRE book supplies the plausibility for operations work: "toil tends to expand if left unchecked", in the [book's words](https://sre.google/sre-book/eliminating-toil/).
+## A made-up team you may recognize
 
-The mechanism, as my reading: the stock that drains is the capacity to do the work in a sustainable way (automation, documentation, clean code). It drains invisibly because skipped work leaves no trace on the day it is skipped, and it surfaces later as interest, in the Cunningham sense: more manual effort and more rework per change, which then compete for the same hours.
+Take an invented but ordinary case: a team that owns a CI/CD platform. If you recognize it, it is still made up.
 
-## A hypothetical platform team
+The feature backlog grows, so management raises delivery targets (B1), and the team defers flaky-test fixes, runbook updates and dependency upgrades (B3). Throughput rises for a quarter, and management takes that as proof the targets worked, which, on the only numbers available that quarter, it is. Meanwhile the capability stock (test reliability, documentation, how current the dependencies are) drains where nobody is looking.
 
-Consider a **hypothetical** platform team that owns a CI/CD platform. Everything in this paragraph is invented for illustration; no real team or number is described.
+Then incidents and rework eat into improvement time, and R1 turns vicious: the team has less and less capacity to fix the problems consuming its capacity. The manager sees a team that has got worse and reaches for more pressure. As far as the manager can tell, the pressure works fine; it is the team that has stopped working.
 
-The feature backlog grows. Management raises delivery targets (B1). The team defers flaky-test fixes, runbook updates and dependency upgrades (B3). Throughput rises for a quarter, which management reads as proof that the targets worked. Meanwhile the capability stock, meaning test reliability, documentation and how current the dependencies are, drains where nobody is looking.
+## When trying harder digs the hole deeper
 
-Later, incident load and rework rise and eat into the time for improvement, so R1 begins to run in the vicious direction. The team now has less capacity to fix the problems that are consuming its capacity. The manager sees a team that got worse and reaches for more pressure.
+If this reading is right, urging managers to stop pushing will not work, because the evidence they see keeps endorsing the push. Something has to change the rules: when consequences become visible, how well improvement time is protected, and what gets rewarded. Whether a particular team in your organization is caught in such a trap is an empirical question no diagram can settle.
 
-## Learning from loops that close the wrong gap
+Repenning and Sterman carry the pattern into personal life, citing learning new software and committing to a new exercise program. That extension is theirs, and I take it only as an analogy, with no claim about physiology. Still, you will know the structure, and so would the engineer still hoping, someday, for a project that actually uses the new process.
 
-Education offers the same structure with a different gap. In Chicago, as Part 2 described, the measured gap, test scores, was what the system closed ([cheating](https://www.nber.org/papers/w9413) in a minority of classrooms, [gains among students in the middle of the distribution](https://www.nber.org/papers/w13293)). The unmeasured purpose drifted. I read these as balancing loops that close the measured gap, and I would not push the parallel with the engineering case beyond that.
-
-## What the structure predicts, and what it doesn't
-
-If this reading is right, exhorting people harder will not work, because the evidence they see confirms the exhortation. Something has to change the rules: when consequences become visible, how protected the improvement time is, and what is rewarded. Part 5 turns that into an experiment.
-
-Whether a real team in your organisation is in a trap is an empirical question. These diagrams cannot answer it, and neither can this post.
-
-Repenning and Sterman themselves extend the pattern beyond organizations, to personal life: they cite learning new software and committing to a new exercise programme. That is the authors' extension, and I offer it only as an analogy, with no claim about physiology. The structure is familiar: effort spent now on getting better is the first thing sacrificed to the demands of the day, and the cost shows up later.
-
-So here is the question this post leaves open. If a reward structure makes the wrong lesson look like the right one, what kind of evidence would the people inside it actually accept?
+If a reward structure makes the wrong lesson look like the right one, what kind of evidence would the people inside it actually accept?
 
 ## References & Further Reading
 
@@ -139,8 +121,6 @@ So here is the question this post leaves open. If a reward structure makes the w
 - **Leverage Points: Places to Intervene in a System**, Donella Meadows, Donella Meadows Project, undated. <https://donellameadows.org/archives/leverage-points-places-to-intervene-in-a-system/>. Source of the statement on delays in feedback loops. Meadows' essay, not the book.
 - **All models are wrong: reflections on becoming a systems scientist**, John D. Sterman, System Dynamics Review 18(4), 2002. <https://www.mit.edu/~jsterman/All_Models_Are_Wrong_%28SDR%29.pdf>. Definition of policy resistance.
 - **The WyCash Portfolio Management System (OOPSLA '92 Experience Report)**, Ward Cunningham, 1992. <https://c2.com/doc/oopsla92.html>. The debt metaphor, including the interest sentence quoted.
-- **Technical Debt Quadrant**, Martin Fowler, 2009. <https://martinfowler.com/bliki/TechnicalDebtQuadrant.html>. The prudent/reckless distinction.
 - **Eliminating Toil (Site Reliability Engineering, ch. 5)**, Vivek Rau, ed. Betsy Beyer, Google, 2016. <https://sre.google/sre-book/eliminating-toil/>. Documented reason toil is plausible to grow unchecked; a company's practice, not a validated optimum.
-- **Rotten Apples: An Investigation of the Prevalence and Predictors of Teacher Cheating**, Brian A. Jacob and Steven D. Levitt, NBER Working Paper 9413, 2003. <https://www.nber.org/papers/w9413>. Chicago evidence (abstract level).
-- **Left Behind By Design: Proficiency Counts and Test-Based Accountability**, Derek Neal and Diane Whitmore Schanzenbach, NBER Working Paper 13293, 2007. <https://www.nber.org/papers/w13293>. Chicago evidence (abstract level).
+
 

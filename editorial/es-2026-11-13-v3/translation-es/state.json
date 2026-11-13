@@ -1,0 +1,83 @@
+{
+  "job": "es-2026-11-13-v3",
+  "created": "2026-11-13T22:05:02.528Z",
+  "stage": "awaiting-human-approval",
+  "sources": [
+    {
+      "file": "src/content/posts/sometimes-the-problem-isnt-the-component.md",
+      "slug": "sometimes-the-problem-isnt-the-component",
+      "sha": "468f101f0237c2afb8e336f2e5a4b8e9669d2091590364c7515091954f38f544",
+      "title": "When the bug is the shape of the system"
+    },
+    {
+      "file": "src/content/posts/systems-we-build-1-we-create-them.md",
+      "slug": "systems-we-build-1-we-create-them",
+      "sha": "d18afeaccd56e4b7094d29a4806958d8f76de0c19ae1cc026278f3e6831c47f2",
+      "title": "Mission Statements Don't Run Systems. Bathtubs Do."
+    },
+    {
+      "file": "src/content/posts/systems-we-build-2-improving-the-parts.md",
+      "slug": "systems-we-build-2-improving-the-parts",
+      "sha": "caedcf53cdd14e77dbae8fc959a39bb8b0923d6e71b24bdb33ce431046c4cb2b",
+      "title": "Everything Outside the Metric Is Free"
+    },
+    {
+      "file": "src/content/posts/systems-we-build-3-same-mistakes.md",
+      "slug": "systems-we-build-3-same-mistakes",
+      "sha": "5e5a5d399cf57d254302a5698539c8af7155e6e262b1a5dae21d46c0f55fd634",
+      "title": "Pressure Works Today. The Bill Comes Later."
+    },
+    {
+      "file": "src/content/posts/systems-we-build-4-limits.md",
+      "slug": "systems-we-build-4-limits",
+      "sha": "d3d6777ce99ea1afaed55293770c08ad9e2ed2a9e43dedc7cc4b462e8ca5e752",
+      "title": "Systems Thinking Explains Why, Not What Happens Next"
+    },
+    {
+      "file": "src/content/posts/systems-we-build-5-what-are-we-building.md",
+      "slug": "systems-we-build-5-what-are-we-building",
+      "sha": "1bd4fd7db52fc0dce9e2f48efdbcd08afc135510ed495d04553cb4293707ea3b",
+      "title": "Your Metrics Are Quietly Rewriting Your Goals"
+    }
+  ],
+  "attempts": 2,
+  "log": [
+    {
+      "at": "2026-11-13T22:05:02.528Z",
+      "event": "init"
+    },
+    {
+      "at": "2026-11-13T22:05:02.711Z",
+      "event": "begin translation"
+    },
+    {
+      "at": "2026-11-13T22:14:26.285Z",
+      "event": "translation accepted by gate",
+      "warnings": [
+        "validator: es/sistemas-que-construimos-3-mismos-errores.md: 2228 words; series parts aim for roughly 1,000–1,500 (quality takes priority)"
+      ]
+    },
+    {
+      "at": "2026-11-13T22:14:32.277Z",
+      "event": "begin polish"
+    },
+    {
+      "at": "2026-11-13T22:17:28.191Z",
+      "event": "translation accepted by gate",
+      "warnings": [
+        "validator: es/sistemas-que-construimos-3-mismos-errores.md: 2236 words; series parts aim for roughly 1,000–1,500 (quality takes priority)"
+      ],
+      "changed": [
+        "el-problema-no-siempre-es-el-componente.md",
+        "polish-notes.md",
+        "sistemas-que-construimos-1-no-solo-vivimos-en-sistemas.md",
+        "sistemas-que-construimos-2-mejorar-las-partes.md",
+        "sistemas-que-construimos-3-mismos-errores.md",
+        "sistemas-que-construimos-4-limites.md",
+        "sistemas-que-construimos-5-que-construimos.md"
+      ]
+    }
+  ],
+  "active": null,
+  "polishes": 1
+}
