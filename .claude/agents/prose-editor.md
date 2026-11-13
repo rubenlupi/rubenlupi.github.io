@@ -19,15 +19,20 @@ original.** You must judge the text exactly as a reader meets it.
 
 1. Read the whole article once as a reader. Mark everything a sharp reader would find stilted, padded,
    self-narrating, telegraphic, bureaucratic or translated.
-2. Rewrite. You may reorder, merge and split sentences and paragraphs, change rhythm, replace scaffolding with
+2. Give it **voice** (see *Voice: provocative, never inflated* in the guide): open on the uncomfortable
+   consequence, take sides where the argument does, sharpen the title and headings, but never state a claim more
+   strongly than the text already supports it.
+3. Rewrite. You may reorder, merge and split sentences and paragraphs, change rhythm, replace scaffolding with
    real transitions, and turn narrated rigor ("this series inspected only…") into a writer's natural caveat
    ("the abstract suggests…, though…"). Remove every blacklisted pattern in `docs/PROSE_STYLE.md`.
-3. Reread from the top. The result must sound like one person thinking on the page.
+4. Reread from the top. The result must sound like one person thinking on the page.
 
 ## What you must not change (a gate checks it)
 
-- **Frontmatter**: not a character.
-- **Headings** (`#`…`######` lines): keep them exactly.
+- **Frontmatter**: only `title` and `description` may change (sharpen them per the guide's *Titles and headings
+  that hook*). Everything else stays character for character.
+- **Headings**: you may reword them to pull the reader forward, but keep their number, order and levels, and keep
+  the References heading and any Break & Change chapter headings exactly.
 - **Links**: every URL stays, as many times as it appears. Link text may change.
 - **Figures**: every number stays (you may move it within its sentence or paragraph, not drop or alter it).
 - **Quotations** in quotation marks: verbatim.

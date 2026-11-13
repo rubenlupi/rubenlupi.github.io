@@ -80,7 +80,9 @@ Goal: decide whether the current draft meets the standard, and give the writer p
    Strength of the final question; **Prose quality**. Justify each score in one or two sentences with a concrete reference.
    Score Prose quality as a demanding magazine editor would: **any** pattern from the blacklist in
    `docs/PROSE_STYLE.md` caps it at 3 (which blocks approval), and every instance must be listed as a feedback item
-   with its location. Do not reward accuracy with a high prose score: the author withdrew a series that had passed
+   with its location. Prose quality also covers **voice**: a flat, label-like title or a text that never takes a
+   side scores at most 3; a provocation the argument does not cash out (clickbait) is a factual/citation issue.
+   Do not reward accuracy with a high prose score: the author withdrew a series that had passed
    review with accurate but machine-sounding prose.
 5. Verdict:
    - `APPROVED` only if **every** score is ≥ 4 **and** there are **zero** open factual/citation issues.

@@ -14,9 +14,15 @@ const multisetDiff = (a, b) => { const m = new Map(); a.forEach((x) => m.set(x, 
 export function comparePolish(before, after, label = 'text') {
   const errors = [];
   const A = split(before), B = split(after);
-  if (A.fm !== B.fm) errors.push(`${label}: frontmatter changed (a style edit must not touch it)`);
+  // Title and description may be sharpened; every other frontmatter line must stay identical.
+  const fmRest = (fm) => fm.split('\n').filter((l) => !/^(title|description):/.test(l)).join('\n');
+  if (fmRest(A.fm) !== fmRest(B.fm)) errors.push(`${label}: frontmatter changed beyond title/description (a style edit must not touch it)`);
+  // Headings may be reworded to pull the reader forward, but their number, order and levels must stay.
+  const lv = (hs) => hs.map((h) => h.match(/^#+/)[0]);
   const ha = headings(A.body), hb = headings(B.body);
-  if (JSON.stringify(ha) !== JSON.stringify(hb)) errors.push(`${label}: headings changed (they must stay identical)`);
+  if (JSON.stringify(lv(ha)) !== JSON.stringify(lv(hb))) errors.push(`${label}: heading structure changed (same number, order and levels required)`);
+  const fixed = (hs) => hs.filter((h) => /^##\s+(References & Further Reading|Referencias y lecturas recomendadas)\s*$/.test(h) || /—\s*(BREAK|CHANGE|EXPERIENCE|CHALLENGE|QUESTION)\s*$/.test(h));
+  if (JSON.stringify(fixed(ha)) !== JSON.stringify(fixed(hb))) errors.push(`${label}: fixed headings (References, Break & Change chapters) must stay identical`);
   const ud = multisetDiff(urls(A.body), urls(B.body));
   if (ud.length) errors.push(`${label}: links changed: ${ud.map(([u, n]) => `${n > 0 ? 'removed' : 'added'} ${u}`).join('; ')}`);
   const nd = multisetDiff(numbers(A.body), numbers(B.body));

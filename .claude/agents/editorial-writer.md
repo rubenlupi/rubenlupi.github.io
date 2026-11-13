@@ -39,8 +39,9 @@ articles in `src/content/posts/` to match the blog's voice. You have no memory o
 
 ## Style
 
-- English. Clear, intellectually engaging, editorial rather than academic. Reflective, critical, occasionally
-  provocative. Concrete rather than abstract: prefer one worked example to three generalities.
+- English. Clear, intellectually engaging, editorial rather than academic. **Provocative** in framing (see
+  *Voice: provocative, never inflated* in `docs/PROSE_STYLE.md`), never in the strength of claims. Titles and
+  section headings must hook (same guide). Concrete rather than abstract: prefer one worked example to three generalities.
 - Write for technically literate readers without assuming deep specialization. Define terms the first time.
 - Natural transitions between engineering, organizational behavior and philosophy; never bolt them on.
 - Avoid: corporate jargon, generic AI phrasing ("in today's fast-paced world", "it's important to note", "delve",

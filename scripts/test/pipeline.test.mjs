@@ -497,9 +497,10 @@ test('polish: style edits pass; touching links, figures, quotes or headings fail
     };
     attempt(base.replace('42', '43'), /figures changed/);
     attempt(base.replace('a quoted line stays put', 'a quoted line moved'), /quotation altered/);
-    attempt(base.replace('## References & Further Reading', '## Sources'), /headings changed/);
-    attempt(base.replace('title: "A test article"', 'title: "Retitled"'), /frontmatter changed/);
-    attempt(base.replace('This post explains that', 'Consider:'));
+    attempt(base.replace('## References & Further Reading', '## Sources'), /fixed headings/);
+    attempt(base.replace('## References & Further Reading', '### References & Further Reading'), /heading structure changed/);
+    attempt(base.replace('date: 2026-11-13', 'date: 2026-11-14'), /frontmatter changed beyond title/);
+    attempt(base.replace('This post explains that', 'Consider:').replace('title: "A test article"', 'title: "Smart people, same mistakes"'));
     assert.equal(state(root).stage, 'draft-ready');
   } finally { rmSync(root, { recursive: true, force: true }); }
 });

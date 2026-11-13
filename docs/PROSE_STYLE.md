@@ -55,6 +55,35 @@ foundation publishes, her essays, and the research cited along the way." Not a p
 - Endings that summarize. The ending is a real question or a real consequence, never a recap.
 - Symmetric paragraph shapes (claim, three bullets, one-line moral) repeated through the piece.
 
+## Voice: provocative, never inflated
+
+The author wants a provocative blog. Clean prose is necessary but not enough: each article should unsettle a
+comfortable assumption and make the reader want to argue back. Provocation lives in the **framing**, never in the
+**evidence**: a claim may be stated with conviction, but not one notch stronger than its support.
+
+- **Lead with the uncomfortable consequence**, not the background. "Your best engineers may be the reason your
+  platform keeps breaking" beats "This post examines feedback loops in platform teams".
+- **Take a side.** Say what you think is wrong and who believes it. Hedges belong to the evidence (and stay), not
+  to the author's judgment.
+- **Sharp contrasts and concrete stakes.** Name the cost, the person who pays it, the decision it distorts.
+- **Speak to the reader** when it helps: "You have seen this meeting."
+- **Earn it.** Every provocation must be cashed out by the argument that follows. A provocative opening the article
+  doesn't support is clickbait, and the critical editor will flag it.
+
+### Titles and headings that hook
+
+A title is the article's thesis with an edge: a paradox, an accusation, a reversal or a question the reader can't
+ignore. Section headings should pull the reader forward too, not label the contents.
+
+| Flat (rejected) | With a hook |
+|---|---|
+| Why Intelligent People Keep Making the Same Mistakes | Smart people, same mistakes: the trap is in the plumbing |
+| The Limits of Seeing Everything as a System | When "it's the system" becomes an alibi |
+| Stocks and flows (heading) | What piles up when nobody's looking |
+
+Never: false promises, manufactured outrage, "you won't believe", numbered-list bait, or a title the article
+does not deliver on. Keep titles short (ideally under ten words).
+
 ## What good looks like
 - **Start in the material**: a scene, a number, a quotation, a puzzle. Not a preview.
 - **One idea per paragraph**, joined by reasons (*because, so, but, which is why*).
