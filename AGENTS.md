@@ -37,7 +37,7 @@ You MUST, in this order:
 - **New articles start as `draft: true`.** Never set `draft: false` (or push to `master`) unless the quality gate
   in the policy has passed and the owner (Ruben) has approved publication. Never bypass validation to hit a schedule.
 - **Never rewrite Git history** or fabricate publication dates. Archive dating uses explicit metadata
-  (`editorialDate`) and a visible archive note. See the policy.
+  (`editorialDate`, metadata only; posts display and are ordered by their actual date). See the policy.
 - **Do not invent books** or add filler to occupy schedule slots. Do not silently substitute books or authors in
   the catalogue.
 - Preserve existing articles, routes, styles and functionality. Make the smallest change that does the job.

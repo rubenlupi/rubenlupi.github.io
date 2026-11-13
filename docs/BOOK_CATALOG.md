@@ -55,7 +55,7 @@ horizon, and that a slot never precedes the book's publication year.
 
 The first-season order above is the **writing** order, so book 1 gets the most recent slot. Going backwards, the most
 recent books (*AI Engineering*, *Irresistible Change*, *Nexus*) are placed late enough to exist on their slot date,
-which resolves the earlier conflict. Each article still shows a visible archive note with its actual writing date,
+which resolves the earlier conflict. Posts display their actual publication date; the slot is editorial metadata only (not displayed, no archive note),
 and Git history is never rewritten.
 
 ## Future expansions

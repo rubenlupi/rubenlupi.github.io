@@ -175,8 +175,10 @@ horizon of about 240 weeks before November 2026). Honesty about dates is mandato
 
 Rules:
 
-- Never present a newly written article as genuinely published years ago. Any article with an
-  `editorialDate` shows a visible archive note stating when it was actually written.
+- Never present a newly written article as genuinely published years ago. **Owner decision (2026-11-13):**
+  no archive note is shown in posts. Instead, the site always **displays the actual publication date** (`date`);
+  `editorialDate` is transparent metadata (in the frontmatter and the public repository) that records the
+  editorial slot; it is never displayed, and lists are ordered by the actual date.
 - Never rewrite Git history or backdate commits.
 - `editorialDate` must not be later than `date`, and must not precede the book's original publication year.
   If a catalogue sequence and these constraints conflict, the conflict is resolved by the owner, not by

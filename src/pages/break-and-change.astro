@@ -8,7 +8,6 @@ const posts = (await getCollection('posts', (p) => !p.data.draft && p.data.serie
 <Base title={SERIES.name} description={SERIES.blurb}>
   <h1>{SERIES.name}</h1>
   <p class="lede">{SERIES.blurb}</p>
-  <p class="meta">Each book gets one article in five parts: Break, Change, Experience, Challenge, Question.
-  Some entries sit at an archive date; each says when it was actually written.</p>
+  <p class="meta">Each book gets one article in five parts: Break, Change, Experience, Challenge, Question.</p>
   {posts.length ? <PostList posts={posts} /> : <p class="meta">Nothing here yet.</p>}
 </Base>
