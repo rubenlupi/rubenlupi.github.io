@@ -10,9 +10,14 @@ const posts = defineCollection({
     description: z.string(),
     date: z.coerce.date(),
     topics: z.array(z.enum(AREAS.map((a) => a.name) as [string, ...string[]])).default([]),
-    kind: z.enum(['essay', 'book']).default('essay'),
+    series: z.enum(['break-and-change']).optional(),
+    book: z.object({ title: z.string(), author: z.string(), year: z.number().int() }).optional(),
+    editorialDate: z.coerce.date().optional(),
+    selfContained: z.boolean().default(false),
     tags: z.array(z.string()).default([]),
     draft: z.boolean().default(false),
+  }).refine((d) => !d.series || (d.book && d.editorialDate !== undefined) || d.draft, {
+    message: 'Published Break & Change articles need `book` and `editorialDate` (see docs/EDITORIAL_POLICY.md)',
   }),
 });
 

@@ -2,9 +2,9 @@
 import { getCollection } from 'astro:content';
 import Base from '../../layouts/Base.astro';
 import PostList from '../../components/PostList.astro';
-import { AREAS } from '../../site';
+import { AREAS, sortDate } from '../../site';
 export async function getStaticPaths() {
-  const posts = (await getCollection('posts', (p) => !p.data.draft)).sort((a, b) => +b.data.date - +a.data.date);
+  const posts = (await getCollection('posts', (p) => !p.data.draft)).sort((a, b) => sortDate(b) - sortDate(a));
   return AREAS.map((a) => ({
     params: { area: a.slug },
     props: { area: a, posts: posts.filter((p) => p.data.topics.includes(a.name)) },

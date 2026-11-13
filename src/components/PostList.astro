@@ -1,13 +1,14 @@
 ---
-import { fmtDate, areaByName } from '../site';
+import { fmtDate, areaByName, SERIES } from '../site';
 const { posts } = Astro.props;
 ---
 <ul class="post-list">
   {posts.map((p) => (
     <li>
       <div class="meta">
-        <time datetime={p.data.date.toISOString()}>{fmtDate(p.data.date)}</time>
-        {p.data.kind === 'book' && <> · Book notes</>}
+        <time datetime={(p.data.editorialDate ?? p.data.date).toISOString()}>{fmtDate(p.data.editorialDate ?? p.data.date)}</time>
+        {p.data.editorialDate && <> (archive)</>}
+        {p.data.series && <> · <a href={`/${SERIES.slug}/`}>{SERIES.name}</a></>}
         {p.data.topics.map((t) => <> · <a href={`/topics/${areaByName(t)?.slug}/`}>{areaByName(t)?.short}</a></>)}
       </div>
       <h3><a href={`/posts/${p.id}/`}>{p.data.title}</a></h3>

@@ -24,7 +24,8 @@ jobs:
           node-version: 22
           cache: npm
       - run: npm ci
-      - run: npm run build
+      - run: npm test
+      - run: npm run build   # runs the editorial validation first; a failure blocks deployment
       - uses: actions/upload-pages-artifact@v3
         with:
           path: dist

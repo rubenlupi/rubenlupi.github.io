@@ -6,10 +6,10 @@ interface Props { title?: string; description?: string; }
 const { title, description = SITE.tagline } = Astro.props;
 const full = title ? `${title} — ${SITE.title}` : `${SITE.title} — ${SITE.headline}`;
 const path = Astro.url.pathname;
-const hasBooks = (await getCollection('posts', (p) => !p.data.draft && p.data.kind === 'book')).length > 0;
+const hasSeries = (await getCollection('posts', (p) => !p.data.draft && p.data.series === 'break-and-change')).length > 0;
 const nav = [
   { href: '/', label: 'Writing', active: path === '/' || path.startsWith('/posts') },
-  ...(hasBooks ? [{ href: '/books/', label: 'Books', active: path.startsWith('/books') }] : []),
+  ...(hasSeries ? [{ href: '/break-and-change/', label: 'Break & Change', active: path.startsWith('/break-and-change') }] : []),
   { href: '/topics/', label: 'Topics', active: path.startsWith('/topics') || path.startsWith('/tags') },
   { href: '/about/', label: 'About', active: path.startsWith('/about') },
 ];

@@ -1,0 +1,14 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../layouts/Base.astro';
+import PostList from '../components/PostList.astro';
+import { SERIES, sortDate } from '../site';
+const posts = (await getCollection('posts', (p) => !p.data.draft && p.data.series === 'break-and-change')).sort((a, b) => sortDate(b) - sortDate(a));
+---
+<Base title={SERIES.name} description={SERIES.blurb}>
+  <h1>{SERIES.name}</h1>
+  <p class="lede">{SERIES.blurb}</p>
+  <p class="meta">Each book gets one article in five parts: Break, Change, Experience, Challenge, Question.
+  Some entries sit at an archive date; each says when it was actually written.</p>
+  {posts.length ? <PostList posts={posts} /> : <p class="meta">Nothing here yet.</p>}
+</Base>

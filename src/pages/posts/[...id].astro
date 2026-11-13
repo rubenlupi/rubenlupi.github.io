@@ -1,7 +1,7 @@
 ---
 import { getCollection, render } from 'astro:content';
 import Base from '../../layouts/Base.astro';
-import { slugTag, fmtDate } from '../../site';
+import { slugTag, fmtDate, SERIES } from '../../site';
 export async function getStaticPaths() {
   const posts = await getCollection('posts', (p) => !p.data.draft);
   return posts.map((post) => ({ params: { id: post.id }, props: { post } }));
@@ -12,10 +12,20 @@ const { Content } = await render(post);
 <Base title={post.data.title} description={post.data.description}>
   <article>
     <header class="post-head">
-      <div class="meta"><time datetime={post.data.date.toISOString()}>{fmtDate(post.data.date)}</time></div>
+      <div class="meta">
+        <time datetime={(post.data.editorialDate ?? post.data.date).toISOString()}>{fmtDate(post.data.editorialDate ?? post.data.date)}</time>
+        {post.data.series && <> · <a href={`/${SERIES.slug}/`}>{SERIES.name}</a></>}
+      </div>
       <h1>{post.data.title}</h1>
       <ul class="tags">{post.data.tags.map((t) => <li><a href={`/tags/${slugTag(t)}/`}>{t}</a></li>)}</ul>
     </header>
+    {post.data.editorialDate && (
+      <aside class="archive-note">
+        <strong>Archive note.</strong> This article is filed at {fmtDate(post.data.editorialDate)} for editorial
+        organisation. It was actually written and published on {fmtDate(post.data.date)}.
+        {post.data.book && <> Book: <em>{post.data.book.title}</em>, {post.data.book.author} ({post.data.book.year}).</>}
+      </aside>
+    )}
     <div class="prose"><Content /></div>
   </article>
 </Base>

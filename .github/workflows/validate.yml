@@ -1,0 +1,43 @@
+name: Validate content
+
+# Machine-verifiable editorial checks. These cannot establish factual accuracy or source relevance;
+# that requires editorial review (docs/EDITORIAL_POLICY.md).
+on:
+  pull_request:
+  push:
+    branches-ignore: [master]   # master is validated by the deploy workflow's build step
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - name: Validator tests
+        run: npm test
+      - name: Validate article metadata and structure
+        run: npm run validate
+      - name: Build
+        run: npm run build
+
+  links:
+    # Fails only on definitively broken links (404/410/DNS). Blocked, rate-limited or flaky sites are
+    # reported as UNVERIFIED for manual review. A reachable URL is not evidence that it supports a claim.
+    runs-on: ubuntu-latest
+    needs: validate
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npm run check-links
