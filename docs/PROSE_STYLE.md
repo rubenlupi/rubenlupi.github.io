@@ -109,6 +109,20 @@ author wants passages a reader would quote to a friend. Aim higher, while keepin
 - **Density**: a real laugh roughly every two or three paragraphs, with the biggest ones where the argument turns.
   The serious sentences carrying evidence stay serious; the joke goes next to them, never inside them.
 
+**The register the author chose: columnist irony (owner decision, 2026-11-13, third round).** After seeing
+samples, the author picked the voice of a sharp newspaper columnist: a mordant comment on the fact just stated, which
+lands **on first reading**. The author did not understand the elaborate humor of the fifth draft (extended lift-button
+metaphors, "postal votes arriving after the victory speech", "a bailiff dressed as a flaky test"). So:
+
+- Comment on the fact itself, in plain words, with a twist at the end. Model line: "Two hours of real effort, four
+  hours borrowed from the future, and one manager convinced of a miracle. It is the only kind of loan where the bank
+  thanks you for taking it."
+- No extended or chained metaphors, no running image that needs the reader to track it, no culture-bound
+  references (elections, legal procedure, idioms a non-native reader of English might miss). Many readers are not
+  native English speakers.
+- If a joke takes more than one sentence to set up, cut it. The tests above (escalation, running gags) are optional
+  tools, never at the cost of clarity.
+
 **Openings**: no archetypal vignette ("A manager pushes the team…", "Picture a team that…"). Open on a specific,
 surprising detail the article actually contains, such as a quotation, a number or a strange fact.
 
