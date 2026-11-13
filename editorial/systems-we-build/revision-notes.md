@@ -49,3 +49,57 @@ Thesis: unchanged
 
 ### Requests to the editor
 - P3-F1 (carried over): the Part 3 schematic's signs remain unchecked against S5's figures; a manual comparison in a PDF viewer is still needed before publication.
+
+## Round 4 response
+- P1-I1: done — now "a sensible idea backed mostly by experience, which makes it a very ordinary idea in software."
+- P1-F1: done — cut the sentence announcing Parts 2 and 3.
+- P1-F2: done — cut "and the queue is the memory of that", the "As I read those sources…" paragraph, "Two more properties matter later." and "so I attribute these lines…"; the sources note now says "pre-publication draft excerpt".
+- P1-F3: done — the last section now starts with the team and the school examples; the never-out-of-date line is kept.
+- P2-F1: done — (a) replaced with "which doesn't say why; my guess, prompted by the title ("Left Behind By Design"), is that…"; (b) cut the "open question… the rest of the series" sentence.
+- P2-F2: done — dropped the second "score is what got optimized"; kept one Chicago caveat ("I won't generalize them", merged into the closing sentence of the section); cut the DORA warm-up sentence.
+- P2-F3: done — the paragraph is now one cross-reference sentence to Part 5; the SRE sentences and the Eliminating Toil reference are removed from Part 2.
+- P3-I1: done — now "neither speaker objects to it", merged with the P3-F2 sentence.
+- P3-F1: done — cut the four self-narrating sentences or clauses (autoscaler "It is here because…", "Beyond policy resistance…", "kept symbolic…", "Part 5 turns that into an experiment.").
+- P3-F2: done — the supervisor remark is now a full sentence ("A supervisor at an electronics plant says…"); the S5 link sits on "their study of process improvement" in the opening.
+- P3-F3: done — removed "A good process exists…", "Working smarter does pay off…" and "Two thirds of the miracle is a loan"; the bank line now stands on its own.
+- P3-F4: done — cut the "shoulder-high" sentence and "In most organisations".
+- P3-F5: done — cut "that interest competes for the very hours…" (kept the currency line) and kept one "as I read them" label.
+- P3-F6: done — now "against a rise of about 7% in the comparison plants".
+- P3-F7: done — removed the section "Closing the wrong gap, in a classroom" and the two Chicago references from Part 3.
+- P3-F8: done — description now begins "In the authors' worked example, six hours of extra output come from two hours of real effort…".
+- P4-F1: done — cut the "gap turns out to be one of the examples" clause and "a distinction I should have kept sharper earlier"; "Quite a lot." is now "Quite a lot, because systems thinking is…".
+- P4-F2: done — the first section starts at "System dynamicists, Sterman says, reject…"; the sources note is now "I haven't had access to the full book." and "My own fence" holds the source list once.
+- P4-F3: done — cut the Xenophon paragraph and its reference from Part 4.
+- P5-I1: done — the author's question is restored verbatim as the last line ("What if the most important skill in engineering isn't learning how to build better systems, but recognizing when we're solving the wrong problem?"), introduced by "If nobody can answer that, what if…"; the polished wording is gone.
+- P5-F1: done — the first sentence is now "This is a hypothesis about an engineering organization, not a result."; **Title.** dropped and **Hypothesis.** merged into **Intervention.**
+- P5-F2: done — cut the thesis recap; the "I have no evidence that it reliably does" caveat now opens the closing section.
+- P5-F3: done — cut the series recap sentence, the redundant analogy label and "and I won't resolve it artificially".
+- S-F1: done — applied every item above and one more pass for adjacent repeats; caveats said once, links supporting remaining claims, and the failure criteria are kept.
+- S-F2: done — US spelling throughout (behavior, program, modeling, modeler(s), center, honor, favors, organization, practice), except inside quotations.
+- S-F3: done — titles kept unchanged.
+Thesis: unchanged
+
+## Round 5 response
+- P1-F1: done — (a) cut the "people can read the rates" sentence; (b) cut "however busy people feel" and the "mirror image" sentence; (c) Conway paragraph now states the experience point once, as suggested.
+- P2-F1: done — cut "and nothing below depends on more".
+- P2-F2: done — the quotation now joins directly to the point ("…minor changes in incentives": when the score is the boundary, …).
+- P3-F1: done — now "urging managers to stop pushing will not work, because the evidence they see keeps endorsing the push."
+- P3-F2: done — (a) cut the "rendered here in text" clause; (b) cut "That reading is mine;"; (c) cut the restating sentence and moved the label to "What drains, as I read it, is…"; (d) cut "with no real team or number behind it"; (e) cut the repeated rework sentence and joined "many people given the same data would blame the team" to the previous one.
+- P4-F1: done — (a) merged into one sentence ("…or proving what caused a particular outcome; that takes data."); (b) dropped the "good way to ask why… poor way to claim" clause.
+- P4-F2: done — "My own fence" now keeps the source list, one statement about not guessing at the missing chapters, Sterman's point and the closing line.
+- P5-F1: done — (a) the sources note is the plain Part 1/3 sentence; (b) now "That seems to me the largest gap, since the goal is the decision that matters most."
+- P5-F2: done — the "no evidence that it reliably does" sentence now ends **Intervention.** in place of "and that is a hypothesis, nothing more"; the final section opens at "Underneath sits a question none of the frameworks answers: …".
+- S-F1: done — applied only the items above; no jokes, labels or transitions added.
+Thesis: unchanged
+
+## Round 6 response
+- P1-F1: done — the Fowler sentence now states the experience point once and has no colon reveal: "…which puts reorganizing teams for a better architecture where most software advice lives."
+- P2-F1: done — (a) cut ", and I won't generalize them"; (b) cut ", and it is the one a manager acts on".
+- P3-F1: done — (a) kept one statement of the scoreboard point, as suggested; (b) the second paragraph is now "Calling this a symptomatic fix is my label; Meadows doesn't name the pattern in the texts I've drawn on."; (c) cut the Fowler quadrant clause and removed "Technical Debt Quadrant" from Part 3's References; (d) cut "the one remedy the evidence has so far endorsed without a single objection" and "You cannot talk people out of a lesson their own numbers keep teaching them", keeping the sentence that says who is urged and why it fails; (e) the last paragraph now ends at "…a project that actually uses the new process." and keeps the callback.
+- P4-F1: done — (a) cut ", which says more about where my own fence stands than about the world"; (b) now "The reasoning is mine."
+- P5-F1: done — cut "It names the right difficulty: …are not it."
+- S-F1: done — applied only the items above; nothing else was changed in the article. Part 5's italic author-review note is untouched.
+Thesis: unchanged
+
+### Requests to the editor
+- None.

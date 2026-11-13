@@ -3,7 +3,7 @@
   "request": "BREAK & CHANGE — EDITORIAL ASSIGNMENT #01: The Systems We Build, The Systems We Live In (Thinking in Systems, Donella H. Meadows). Five-part series.",
   "created": "2026-11-13T03:25:17.691Z",
   "stage": "awaiting-human-approval",
-  "revisions": 2,
+  "revisions": 3,
   "reviews": [
     {
       "round": 1,
@@ -423,6 +423,559 @@
         }
       },
       "seriesVerdict": "APPROVED"
+    },
+    {
+      "round": 4,
+      "at": "2026-11-13T12:12:10.529Z",
+      "verdict": "REVISION_REQUIRED",
+      "scores": {
+        "Part 1": {
+          "Originality": 4,
+          "Technical accuracy": 4,
+          "Intellectual and technical depth": 4,
+          "Quality of evidence": 3,
+          "Systems-thinking rigor": 4,
+          "Historical accuracy where applicable": 4,
+          "Cross-disciplinary connections": 4,
+          "Accessibility": 4,
+          "Narrative coherence": 4,
+          "Practical relevance": 4,
+          "Quality of critical analysis": 4,
+          "Strength of the final question": 4,
+          "Prose quality": 3
+        },
+        "Part 2": {
+          "Originality": 4,
+          "Technical accuracy": 4,
+          "Intellectual and technical depth": 4,
+          "Quality of evidence": 4,
+          "Systems-thinking rigor": 4,
+          "Historical accuracy where applicable": "n/a",
+          "Cross-disciplinary connections": 4,
+          "Accessibility": 4,
+          "Narrative coherence": 4,
+          "Practical relevance": 4,
+          "Quality of critical analysis": 4,
+          "Strength of the final question": 4,
+          "Prose quality": 3
+        },
+        "Part 3": {
+          "Originality": 4,
+          "Technical accuracy": 4,
+          "Intellectual and technical depth": 5,
+          "Quality of evidence": 4,
+          "Systems-thinking rigor": 4,
+          "Historical accuracy where applicable": "n/a",
+          "Cross-disciplinary connections": 4,
+          "Accessibility": 4,
+          "Narrative coherence": 3,
+          "Practical relevance": 4,
+          "Quality of critical analysis": 4,
+          "Strength of the final question": 4,
+          "Prose quality": 3
+        },
+        "Part 4": {
+          "Originality": 5,
+          "Technical accuracy": 4,
+          "Intellectual and technical depth": 4,
+          "Quality of evidence": 4,
+          "Systems-thinking rigor": 4,
+          "Historical accuracy where applicable": 4,
+          "Cross-disciplinary connections": 4,
+          "Accessibility": 4,
+          "Narrative coherence": 4,
+          "Practical relevance": 4,
+          "Quality of critical analysis": 4,
+          "Strength of the final question": 4,
+          "Prose quality": 3
+        },
+        "Part 5": {
+          "Originality": 4,
+          "Technical accuracy": 4,
+          "Intellectual and technical depth": 4,
+          "Quality of evidence": 4,
+          "Systems-thinking rigor": 4,
+          "Historical accuracy where applicable": 4,
+          "Cross-disciplinary connections": 4,
+          "Accessibility": 4,
+          "Narrative coherence": 4,
+          "Practical relevance": 4,
+          "Quality of critical analysis": 4,
+          "Strength of the final question": 4,
+          "Prose quality": 3
+        }
+      },
+      "issues": [
+        "P1-I1",
+        "P3-I1",
+        "P5-I1"
+      ],
+      "feedback": [
+        "P1-F1",
+        "P1-F2",
+        "P1-F3",
+        "P2-F1",
+        "P2-F2",
+        "P2-F3",
+        "P3-F1",
+        "P3-F2",
+        "P3-F3",
+        "P3-F4",
+        "P3-F5",
+        "P3-F6",
+        "P3-F7",
+        "P3-F8",
+        "P4-F1",
+        "P4-F2",
+        "P4-F3",
+        "P5-F1",
+        "P5-F2",
+        "P5-F3",
+        "S-F1",
+        "S-F2",
+        "S-F3"
+      ],
+      "thesisPreserved": "yes",
+      "parts": {
+        "1": {
+          "verdict": "REVISION_REQUIRED",
+          "issues": [
+            "P1-I1"
+          ],
+          "feedback": [
+            "P1-F1",
+            "P1-F2",
+            "P1-F3"
+          ]
+        },
+        "2": {
+          "verdict": "REVISION_REQUIRED",
+          "issues": [],
+          "feedback": [
+            "P2-F1",
+            "P2-F2",
+            "P2-F3"
+          ]
+        },
+        "3": {
+          "verdict": "REVISION_REQUIRED",
+          "issues": [
+            "P3-I1"
+          ],
+          "feedback": [
+            "P3-F1",
+            "P3-F2",
+            "P3-F3",
+            "P3-F4",
+            "P3-F5",
+            "P3-F6",
+            "P3-F7",
+            "P3-F8"
+          ]
+        },
+        "4": {
+          "verdict": "REVISION_REQUIRED",
+          "issues": [],
+          "feedback": [
+            "P4-F1",
+            "P4-F2",
+            "P4-F3"
+          ]
+        },
+        "5": {
+          "verdict": "REVISION_REQUIRED",
+          "issues": [
+            "P5-I1"
+          ],
+          "feedback": [
+            "P5-F1",
+            "P5-F2",
+            "P5-F3"
+          ]
+        }
+      },
+      "seriesVerdict": "REVISION_REQUIRED"
+    },
+    {
+      "round": 5,
+      "at": "2026-11-13T12:23:47.167Z",
+      "verdict": "REVISION_REQUIRED",
+      "scores": {
+        "Part 1": {
+          "Originality": 4,
+          "Technical accuracy": 4,
+          "Intellectual and technical depth": 4,
+          "Quality of evidence": 4,
+          "Systems-thinking rigor": 4,
+          "Historical accuracy where applicable": 4,
+          "Cross-disciplinary connections": 4,
+          "Accessibility": 4,
+          "Narrative coherence": 4,
+          "Practical relevance": 4,
+          "Quality of critical analysis": 4,
+          "Strength of the final question": 4,
+          "Prose quality": 4
+        },
+        "Part 2": {
+          "Originality": 4,
+          "Technical accuracy": 4,
+          "Intellectual and technical depth": 4,
+          "Quality of evidence": 4,
+          "Systems-thinking rigor": 4,
+          "Historical accuracy where applicable": "n/a",
+          "Cross-disciplinary connections": 4,
+          "Accessibility": 4,
+          "Narrative coherence": 4,
+          "Practical relevance": 4,
+          "Quality of critical analysis": 4,
+          "Strength of the final question": 4,
+          "Prose quality": 3
+        },
+        "Part 3": {
+          "Originality": 4,
+          "Technical accuracy": 4,
+          "Intellectual and technical depth": 5,
+          "Quality of evidence": 4,
+          "Systems-thinking rigor": 4,
+          "Historical accuracy where applicable": "n/a",
+          "Cross-disciplinary connections": 4,
+          "Accessibility": 4,
+          "Narrative coherence": 3,
+          "Practical relevance": 4,
+          "Quality of critical analysis": 4,
+          "Strength of the final question": 4,
+          "Prose quality": 4
+        },
+        "Part 4": {
+          "Originality": 5,
+          "Technical accuracy": 4,
+          "Intellectual and technical depth": 4,
+          "Quality of evidence": 4,
+          "Systems-thinking rigor": 4,
+          "Historical accuracy where applicable": "n/a",
+          "Cross-disciplinary connections": 4,
+          "Accessibility": 4,
+          "Narrative coherence": 4,
+          "Practical relevance": 4,
+          "Quality of critical analysis": 4,
+          "Strength of the final question": 4,
+          "Prose quality": 4
+        },
+        "Part 5": {
+          "Originality": 4,
+          "Technical accuracy": 4,
+          "Intellectual and technical depth": 4,
+          "Quality of evidence": 4,
+          "Systems-thinking rigor": 4,
+          "Historical accuracy where applicable": 4,
+          "Cross-disciplinary connections": 4,
+          "Accessibility": 4,
+          "Narrative coherence": 4,
+          "Practical relevance": 4,
+          "Quality of critical analysis": 4,
+          "Strength of the final question": 5,
+          "Prose quality": 3
+        }
+      },
+      "issues": [],
+      "feedback": [
+        "P1-F1",
+        "P2-F1",
+        "P2-F2",
+        "P3-F1",
+        "P3-F2",
+        "P4-F1",
+        "P4-F2",
+        "P5-F1",
+        "P5-F2",
+        "S-F1"
+      ],
+      "thesisPreserved": "yes",
+      "parts": {
+        "1": {
+          "verdict": "REVISION_REQUIRED",
+          "issues": [],
+          "feedback": [
+            "P1-F1"
+          ]
+        },
+        "2": {
+          "verdict": "REVISION_REQUIRED",
+          "issues": [],
+          "feedback": [
+            "P2-F1",
+            "P2-F2"
+          ]
+        },
+        "3": {
+          "verdict": "REVISION_REQUIRED",
+          "issues": [],
+          "feedback": [
+            "P3-F1",
+            "P3-F2"
+          ]
+        },
+        "4": {
+          "verdict": "REVISION_REQUIRED",
+          "issues": [],
+          "feedback": [
+            "P4-F1",
+            "P4-F2"
+          ]
+        },
+        "5": {
+          "verdict": "REVISION_REQUIRED",
+          "issues": [],
+          "feedback": [
+            "P5-F1",
+            "P5-F2"
+          ]
+        }
+      },
+      "seriesVerdict": "REVISION_REQUIRED"
+    },
+    {
+      "round": 6,
+      "at": "2026-11-13T12:29:25.566Z",
+      "verdict": "REVISION_REQUIRED",
+      "scores": {
+        "Part 1": {
+          "Originality": 4,
+          "Technical accuracy": 4,
+          "Intellectual and technical depth": 4,
+          "Quality of evidence": 4,
+          "Systems-thinking rigor": 4,
+          "Historical accuracy where applicable": 4,
+          "Cross-disciplinary connections": 4,
+          "Accessibility": 4,
+          "Narrative coherence": 4,
+          "Practical relevance": 4,
+          "Quality of critical analysis": 4,
+          "Strength of the final question": 4,
+          "Prose quality": 3
+        },
+        "Part 2": {
+          "Originality": 4,
+          "Technical accuracy": 4,
+          "Intellectual and technical depth": 4,
+          "Quality of evidence": 4,
+          "Systems-thinking rigor": 4,
+          "Historical accuracy where applicable": "n/a",
+          "Cross-disciplinary connections": 4,
+          "Accessibility": 4,
+          "Narrative coherence": 4,
+          "Practical relevance": 4,
+          "Quality of critical analysis": 4,
+          "Strength of the final question": 4,
+          "Prose quality": 4
+        },
+        "Part 3": {
+          "Originality": 4,
+          "Technical accuracy": 4,
+          "Intellectual and technical depth": 5,
+          "Quality of evidence": 4,
+          "Systems-thinking rigor": 4,
+          "Historical accuracy where applicable": "n/a",
+          "Cross-disciplinary connections": 4,
+          "Accessibility": 4,
+          "Narrative coherence": 4,
+          "Practical relevance": 4,
+          "Quality of critical analysis": 4,
+          "Strength of the final question": 4,
+          "Prose quality": 4
+        },
+        "Part 4": {
+          "Originality": 5,
+          "Technical accuracy": 4,
+          "Intellectual and technical depth": 4,
+          "Quality of evidence": 4,
+          "Systems-thinking rigor": 4,
+          "Historical accuracy where applicable": "n/a",
+          "Cross-disciplinary connections": 4,
+          "Accessibility": 4,
+          "Narrative coherence": 4,
+          "Practical relevance": 4,
+          "Quality of critical analysis": 4,
+          "Strength of the final question": 4,
+          "Prose quality": 4
+        },
+        "Part 5": {
+          "Originality": 4,
+          "Technical accuracy": 4,
+          "Intellectual and technical depth": 4,
+          "Quality of evidence": 4,
+          "Systems-thinking rigor": 4,
+          "Historical accuracy where applicable": 4,
+          "Cross-disciplinary connections": 4,
+          "Accessibility": 4,
+          "Narrative coherence": 4,
+          "Practical relevance": 4,
+          "Quality of critical analysis": 4,
+          "Strength of the final question": 5,
+          "Prose quality": 4
+        }
+      },
+      "issues": [],
+      "feedback": [
+        "P1-F1",
+        "P2-F1",
+        "P3-F1",
+        "P4-F1",
+        "P5-F1",
+        "S-F1"
+      ],
+      "thesisPreserved": "yes",
+      "parts": {
+        "1": {
+          "verdict": "REVISION_REQUIRED",
+          "issues": [],
+          "feedback": [
+            "P1-F1"
+          ]
+        },
+        "2": {
+          "verdict": "REVISION_REQUIRED",
+          "issues": [],
+          "feedback": [
+            "P2-F1"
+          ]
+        },
+        "3": {
+          "verdict": "REVISION_REQUIRED",
+          "issues": [],
+          "feedback": [
+            "P3-F1"
+          ]
+        },
+        "4": {
+          "verdict": "REVISION_REQUIRED",
+          "issues": [],
+          "feedback": [
+            "P4-F1"
+          ]
+        },
+        "5": {
+          "verdict": "REVISION_REQUIRED",
+          "issues": [],
+          "feedback": [
+            "P5-F1"
+          ]
+        }
+      },
+      "seriesVerdict": "REVISION_REQUIRED"
+    },
+    {
+      "round": 7,
+      "at": "2026-11-13T12:34:18.762Z",
+      "verdict": "APPROVED",
+      "scores": {
+        "Part 1": {
+          "Originality": 4,
+          "Technical accuracy": 4,
+          "Intellectual and technical depth": 4,
+          "Quality of evidence": 4,
+          "Systems-thinking rigor": 4,
+          "Historical accuracy where applicable": 4,
+          "Cross-disciplinary connections": 4,
+          "Accessibility": 4,
+          "Narrative coherence": 4,
+          "Practical relevance": 4,
+          "Quality of critical analysis": 4,
+          "Strength of the final question": 4,
+          "Prose quality": 4
+        },
+        "Part 2": {
+          "Originality": 4,
+          "Technical accuracy": 4,
+          "Intellectual and technical depth": 4,
+          "Quality of evidence": 4,
+          "Systems-thinking rigor": 4,
+          "Historical accuracy where applicable": "n/a",
+          "Cross-disciplinary connections": 4,
+          "Accessibility": 4,
+          "Narrative coherence": 4,
+          "Practical relevance": 4,
+          "Quality of critical analysis": 4,
+          "Strength of the final question": 4,
+          "Prose quality": 4
+        },
+        "Part 3": {
+          "Originality": 4,
+          "Technical accuracy": 4,
+          "Intellectual and technical depth": 5,
+          "Quality of evidence": 4,
+          "Systems-thinking rigor": 4,
+          "Historical accuracy where applicable": "n/a",
+          "Cross-disciplinary connections": 4,
+          "Accessibility": 4,
+          "Narrative coherence": 4,
+          "Practical relevance": 4,
+          "Quality of critical analysis": 4,
+          "Strength of the final question": 4,
+          "Prose quality": 4
+        },
+        "Part 4": {
+          "Originality": 5,
+          "Technical accuracy": 4,
+          "Intellectual and technical depth": 4,
+          "Quality of evidence": 4,
+          "Systems-thinking rigor": 4,
+          "Historical accuracy where applicable": "n/a",
+          "Cross-disciplinary connections": 4,
+          "Accessibility": 4,
+          "Narrative coherence": 4,
+          "Practical relevance": 4,
+          "Quality of critical analysis": 4,
+          "Strength of the final question": 4,
+          "Prose quality": 4
+        },
+        "Part 5": {
+          "Originality": 4,
+          "Technical accuracy": 4,
+          "Intellectual and technical depth": 4,
+          "Quality of evidence": 4,
+          "Systems-thinking rigor": 4,
+          "Historical accuracy where applicable": 4,
+          "Cross-disciplinary connections": 4,
+          "Accessibility": 4,
+          "Narrative coherence": 4,
+          "Practical relevance": 4,
+          "Quality of critical analysis": 4,
+          "Strength of the final question": 5,
+          "Prose quality": 4
+        }
+      },
+      "issues": [],
+      "feedback": [],
+      "thesisPreserved": "yes",
+      "parts": {
+        "1": {
+          "verdict": "APPROVED",
+          "issues": [],
+          "feedback": []
+        },
+        "2": {
+          "verdict": "APPROVED",
+          "issues": [],
+          "feedback": []
+        },
+        "3": {
+          "verdict": "APPROVED",
+          "issues": [],
+          "feedback": []
+        },
+        "4": {
+          "verdict": "APPROVED",
+          "issues": [],
+          "feedback": []
+        },
+        "5": {
+          "verdict": "APPROVED",
+          "issues": [],
+          "feedback": []
+        }
+      },
+      "seriesVerdict": "APPROVED"
     }
   ],
   "locks": {
@@ -585,8 +1138,224 @@
     {
       "at": "2026-11-13T05:10:10.608Z",
       "event": "series finalized; awaiting human approval"
+    },
+    {
+      "at": "2026-11-13T07:35:41.591Z",
+      "event": "reopened: owner withdrew the series: prose reads as machine-written; rewrite for prose under docs/PROSE_STYLE.md"
+    },
+    {
+      "at": "2026-11-13T07:35:42.234Z",
+      "event": "begin polish"
+    },
+    {
+      "at": "2026-11-13T07:39:55.178Z",
+      "event": "polish 1 accepted by gate",
+      "words": "1361/1219/1909/1410/1625"
+    },
+    {
+      "at": "2026-11-13T08:37:04.590Z",
+      "event": "begin polish"
+    },
+    {
+      "at": "2026-11-13T08:40:19.309Z",
+      "event": "polish 2 accepted by gate",
+      "words": "1361/1219/2092/1410/1625"
+    },
+    {
+      "at": "2026-11-13T08:55:07.881Z",
+      "event": "begin polish"
+    },
+    {
+      "at": "2026-11-13T08:56:50.082Z",
+      "event": "polish 3 accepted by gate",
+      "words": "1361/1219/2259/1410/1625"
+    },
+    {
+      "at": "2026-11-13T08:58:35.489Z",
+      "event": "begin polish"
+    },
+    {
+      "at": "2026-11-13T09:01:00.987Z",
+      "event": "polish 4 accepted by gate",
+      "words": "1361/1219/2337/1410/1625"
+    },
+    {
+      "at": "2026-11-13T10:17:13.264Z",
+      "event": "begin polish"
+    },
+    {
+      "at": "2026-11-13T10:28:49.322Z",
+      "event": "polish 5 accepted by gate",
+      "words": "1361/1219/2546/1410/1625"
+    },
+    {
+      "at": "2026-11-13T11:02:29.099Z",
+      "event": "begin polish"
+    },
+    {
+      "at": "2026-11-13T11:04:19.043Z",
+      "event": "polish 6 accepted by gate",
+      "words": "1361/1219/2526/1410/1625"
+    },
+    {
+      "at": "2026-11-13T11:50:31.154Z",
+      "event": "begin polish"
+    },
+    {
+      "at": "2026-11-13T11:59:56.440Z",
+      "event": "polish 7 accepted by gate",
+      "words": "1548/1338/2526/1515/1760"
+    },
+    {
+      "at": "2026-11-13T12:00:19.892Z",
+      "event": "begin polish"
+    },
+    {
+      "at": "2026-11-13T12:06:25.874Z",
+      "event": "polish 8 accepted by gate",
+      "words": "1430/1226/2277/1444/1668"
+    },
+    {
+      "at": "2026-11-13T12:07:02.965Z",
+      "event": "begin review"
+    },
+    {
+      "at": "2026-11-13T12:12:10.531Z",
+      "event": "review round 4: REVISION_REQUIRED"
+    },
+    {
+      "at": "2026-11-13T12:12:31.014Z",
+      "event": "begin revise"
+    },
+    {
+      "at": "2026-11-13T12:16:38.234Z",
+      "event": "revise accepted by gate",
+      "words": "1321/1105/2082/1329/1541",
+      "warnings": [
+        "part 3: 2082 words; brief target is 1000-1500",
+        "validator: systems-we-build-1-we-create-them.md: non-HTTPS link: http://classics.mit.edu/Aristotle/politics.8.eight.html",
+        "validator: systems-we-build-1-we-create-them.md: non-HTTPS link: http://classics.mit.edu/Plato/republic.8.vii.html",
+        "validator: systems-we-build-1-we-create-them.md: non-HTTPS link: http://classics.mit.edu/Aristotle/nicomachaen.2.ii.html",
+        "validator: systems-we-build-1-we-create-them.md: non-HTTPS link: http://classics.mit.edu/Aristotle/politics.8.eight.html",
+        "validator: systems-we-build-1-we-create-them.md: non-HTTPS link: http://classics.mit.edu/Plato/republic.8.vii.html",
+        "validator: systems-we-build-1-we-create-them.md: non-HTTPS link: http://classics.mit.edu/Aristotle/nicomachaen.2.ii.html",
+        "validator: systems-we-build-3-same-mistakes.md: 2082 words; series parts aim for roughly 1,000–1,500 (quality takes priority)",
+        "validator: systems-we-build-4-limits.md: non-HTTPS link: http://classics.mit.edu/Aristotle/nicomachaen.2.ii.html",
+        "validator: systems-we-build-4-limits.md: non-HTTPS link: http://classics.mit.edu/Aristotle/nicomachaen.2.ii.html",
+        "validator: systems-we-build-5-what-are-we-building.md: non-HTTPS link: http://classics.mit.edu/Aristotle/politics.8.eight.html",
+        "validator: systems-we-build-5-what-are-we-building.md: non-HTTPS link: http://classics.mit.edu/Plato/republic.8.vii.html",
+        "validator: systems-we-build-5-what-are-we-building.md: non-HTTPS link: http://classics.mit.edu/Aristotle/politics.8.eight.html",
+        "validator: systems-we-build-5-what-are-we-building.md: non-HTTPS link: http://classics.mit.edu/Plato/republic.8.vii.html"
+      ]
+    },
+    {
+      "at": "2026-11-13T12:16:52.774Z",
+      "event": "begin polish"
+    },
+    {
+      "at": "2026-11-13T12:18:31.132Z",
+      "event": "polish 9 accepted by gate",
+      "words": "1321/1111/2084/1332/1544"
+    },
+    {
+      "at": "2026-11-13T12:18:39.223Z",
+      "event": "begin review"
+    },
+    {
+      "at": "2026-11-13T12:23:47.175Z",
+      "event": "review round 5: REVISION_REQUIRED"
+    },
+    {
+      "at": "2026-11-13T12:23:54.738Z",
+      "event": "begin revise"
+    },
+    {
+      "at": "2026-11-13T12:25:06.158Z",
+      "event": "revise accepted by gate",
+      "words": "1266/1097/2038/1256/1522",
+      "warnings": [
+        "part 3: 2038 words; brief target is 1000-1500",
+        "validator: systems-we-build-1-we-create-them.md: non-HTTPS link: http://classics.mit.edu/Aristotle/politics.8.eight.html",
+        "validator: systems-we-build-1-we-create-them.md: non-HTTPS link: http://classics.mit.edu/Plato/republic.8.vii.html",
+        "validator: systems-we-build-1-we-create-them.md: non-HTTPS link: http://classics.mit.edu/Aristotle/nicomachaen.2.ii.html",
+        "validator: systems-we-build-1-we-create-them.md: non-HTTPS link: http://classics.mit.edu/Aristotle/politics.8.eight.html",
+        "validator: systems-we-build-1-we-create-them.md: non-HTTPS link: http://classics.mit.edu/Plato/republic.8.vii.html",
+        "validator: systems-we-build-1-we-create-them.md: non-HTTPS link: http://classics.mit.edu/Aristotle/nicomachaen.2.ii.html",
+        "validator: systems-we-build-3-same-mistakes.md: 2038 words; series parts aim for roughly 1,000–1,500 (quality takes priority)",
+        "validator: systems-we-build-4-limits.md: non-HTTPS link: http://classics.mit.edu/Aristotle/nicomachaen.2.ii.html",
+        "validator: systems-we-build-4-limits.md: non-HTTPS link: http://classics.mit.edu/Aristotle/nicomachaen.2.ii.html",
+        "validator: systems-we-build-5-what-are-we-building.md: non-HTTPS link: http://classics.mit.edu/Aristotle/politics.8.eight.html",
+        "validator: systems-we-build-5-what-are-we-building.md: non-HTTPS link: http://classics.mit.edu/Plato/republic.8.vii.html",
+        "validator: systems-we-build-5-what-are-we-building.md: non-HTTPS link: http://classics.mit.edu/Aristotle/politics.8.eight.html",
+        "validator: systems-we-build-5-what-are-we-building.md: non-HTTPS link: http://classics.mit.edu/Plato/republic.8.vii.html"
+      ]
+    },
+    {
+      "at": "2026-11-13T12:25:06.656Z",
+      "event": "begin polish"
+    },
+    {
+      "at": "2026-11-13T12:26:17.870Z",
+      "event": "polish 10 accepted by gate",
+      "words": "1266/1096/2036/1259/1526"
+    },
+    {
+      "at": "2026-11-13T12:26:18.094Z",
+      "event": "begin review"
+    },
+    {
+      "at": "2026-11-13T12:29:25.567Z",
+      "event": "review round 6: REVISION_REQUIRED"
+    },
+    {
+      "at": "2026-11-13T12:29:33.161Z",
+      "event": "begin revise"
+    },
+    {
+      "at": "2026-11-13T12:31:17.595Z",
+      "event": "revise accepted by gate",
+      "words": "1261/1082/1951/1239/1501",
+      "warnings": [
+        "part 3: 1951 words; brief target is 1000-1500",
+        "validator: systems-we-build-1-we-create-them.md: non-HTTPS link: http://classics.mit.edu/Aristotle/politics.8.eight.html",
+        "validator: systems-we-build-1-we-create-them.md: non-HTTPS link: http://classics.mit.edu/Plato/republic.8.vii.html",
+        "validator: systems-we-build-1-we-create-them.md: non-HTTPS link: http://classics.mit.edu/Aristotle/nicomachaen.2.ii.html",
+        "validator: systems-we-build-1-we-create-them.md: non-HTTPS link: http://classics.mit.edu/Aristotle/politics.8.eight.html",
+        "validator: systems-we-build-1-we-create-them.md: non-HTTPS link: http://classics.mit.edu/Plato/republic.8.vii.html",
+        "validator: systems-we-build-1-we-create-them.md: non-HTTPS link: http://classics.mit.edu/Aristotle/nicomachaen.2.ii.html",
+        "validator: systems-we-build-3-same-mistakes.md: 1951 words; series parts aim for roughly 1,000–1,500 (quality takes priority)",
+        "validator: systems-we-build-4-limits.md: non-HTTPS link: http://classics.mit.edu/Aristotle/nicomachaen.2.ii.html",
+        "validator: systems-we-build-4-limits.md: non-HTTPS link: http://classics.mit.edu/Aristotle/nicomachaen.2.ii.html",
+        "validator: systems-we-build-5-what-are-we-building.md: non-HTTPS link: http://classics.mit.edu/Aristotle/politics.8.eight.html",
+        "validator: systems-we-build-5-what-are-we-building.md: non-HTTPS link: http://classics.mit.edu/Plato/republic.8.vii.html",
+        "validator: systems-we-build-5-what-are-we-building.md: non-HTTPS link: http://classics.mit.edu/Aristotle/politics.8.eight.html",
+        "validator: systems-we-build-5-what-are-we-building.md: non-HTTPS link: http://classics.mit.edu/Plato/republic.8.vii.html"
+      ]
+    },
+    {
+      "at": "2026-11-13T12:31:26.669Z",
+      "event": "begin polish"
+    },
+    {
+      "at": "2026-11-13T12:32:41.387Z",
+      "event": "polish 11 accepted by gate",
+      "words": "1261/1082/1951/1239/1501"
+    },
+    {
+      "at": "2026-11-13T12:32:41.672Z",
+      "event": "begin review"
+    },
+    {
+      "at": "2026-11-13T12:34:18.764Z",
+      "event": "review round 7: APPROVED"
+    },
+    {
+      "at": "2026-11-13T22:01:30.014Z",
+      "event": "series finalized; awaiting human approval"
     }
   ],
   "active": null,
-  "editorialDate": "2026-11-02"
+  "editorialDate": "2026-10-26",
+  "reopened": 1,
+  "polishes": 11
 }
