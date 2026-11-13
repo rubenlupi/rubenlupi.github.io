@@ -57,6 +57,8 @@ Never edit the sources, `state.json`, or anything else. The coordinator's gate c
   Do not invent a Spanish edition's wording. Keep quotations as short as in the original.
 - **References.** Keep the original titles of cited works, authors, organizations and years. Translate only the
   relevance line.
+- **Humor travels by adaptation.** Keep every joke's idea and placement, but make it work in Spanish rather than
+  translating it word for word (see *Humor* in `docs/PROSE_STYLE.md`).
 - **No invented voice.** First-person statements stay exactly as first-person as the original, no more.
 
 ## Frontmatter of each translation

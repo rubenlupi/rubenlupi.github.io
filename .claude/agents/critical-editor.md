@@ -81,7 +81,8 @@ Goal: decide whether the current draft meets the standard, and give the writer p
    Score Prose quality as a demanding magazine editor would: **any** pattern from the blacklist in
    `docs/PROSE_STYLE.md` caps it at 3 (which blocks approval), and every instance must be listed as a feedback item
    with its location. Prose quality also covers **voice**: a flat, label-like title or a text that never takes a
-   side scores at most 3; a provocation the argument does not cash out (clickbait) is a factual/citation issue.
+   side scores at most 3, and so does humorless prose that could easily have been witty (see *Humor*), while a
+   joke that blurs a claim is a factual/citation issue; a provocation the argument does not cash out (clickbait) is a factual/citation issue.
    Do not reward accuracy with a high prose score: the author withdrew a series that had passed
    review with accurate but machine-sounding prose.
 5. Verdict:

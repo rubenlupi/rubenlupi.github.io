@@ -70,6 +70,26 @@ comfortable assumption and make the reader want to argue back. Provocation lives
 - **Earn it.** Every provocation must be cashed out by the argument that follows. A provocative opening the article
   doesn't support is clickbait, and the critical editor will flag it.
 
+### Humor
+
+The author likes humor a lot, and the blog should be **funny** as well as sharp. Readers who smile keep reading.
+The model is a witty essayist explaining something serious, not a stand-up routine.
+
+- **Dry wit and irony**: say the absurd thing with a straight face. "Every organisation agrees that prevention
+  beats firefighting, in the same way everyone agrees they should floss."
+- **Precise, unexpected comparisons** that *illuminate* the mechanism: a backlog as a bathtub nobody remembers
+  turning on; an autoscaler as a nervous shopper buying umbrellas after the rain stops.
+- **Self-deprecation** of the author and of the profession (engineers, managers, the author's own trade) is fair
+  game. Punch up and inward, never down.
+- **Deadpan understatement** after a damning fact: "This did not go well."
+- **Rhythm**: a light line every few paragraphs, ideally where the argument turns. One good joke beats three
+  forced ones. Jokes in titles and headings are welcome when they also carry the thesis.
+
+Never: jokes that change or blur a claim, humor inside quotations or figures, mocking real people, groups,
+students or victims, sarcasm aimed at the reader, puns by the dozen, emoji, or "lol"-style internet register. If a
+joke needs explaining, cut it. Humor must survive translation: in Spanish, adapt the joke (the same idea, a joke
+that works in Spanish) rather than translating it word for word.
+
 ### Titles and headings that hook
 
 A title is the article's thesis with an edge: a paradox, an accusation, a reversal or a question the reader can't

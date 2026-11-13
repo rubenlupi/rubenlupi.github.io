@@ -19,7 +19,8 @@ original.** You must judge the text exactly as a reader meets it.
 
 1. Read the whole article once as a reader. Mark everything a sharp reader would find stilted, padded,
    self-narrating, telegraphic, bureaucratic or translated.
-2. Give it **voice** (see *Voice: provocative, never inflated* in the guide): open on the uncomfortable
+2. Give it **voice and humor** (see *Voice: provocative, never inflated* and *Humor* in the guide): dry wit,
+   illuminating comparisons and the occasional deadpan line, never at the expense of accuracy, and open on the uncomfortable
    consequence, take sides where the argument does, sharpen the title and headings, but never state a claim more
    strongly than the text already supports it.
 3. Rewrite. You may reorder, merge and split sentences and paragraphs, change rhythm, replace scaffolding with
