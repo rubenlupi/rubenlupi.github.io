@@ -38,7 +38,7 @@ New articles start with `draft: true`. Publish only after the quality gate in th
 `/write-article <topic>` runs a two-agent workflow: **critical-editor** (Claude Opus 5.5) researches and writes a brief,
 **editorial-writer** (Claude Sonnet 5.5) drafts, and the editor reviews, with up to 3 revision rounds. Gates in
 `scripts/editorial/pipeline.mjs` enforce the contracts. Output lands in `editorial/<slug>/` and is never published
-automatically. **editorial-translator** (Claude Sonnet 5.5) produces the Spanish edition (`/translate-article`),
+automatically. **editorial-translator** (Claude Opus 5.5) produces the Spanish edition (`/translate-article`),
 served under `/es/`. See [`docs/EDITORIAL_WORKFLOW.md`](docs/EDITORIAL_WORKFLOW.md).
 
 ## Checks

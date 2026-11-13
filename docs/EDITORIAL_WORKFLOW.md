@@ -13,7 +13,7 @@ Where anything here conflicts with the policy, the policy wins.
 | **Coordinator** | `/write-article` skill (`.claude/skills/write-article/SKILL.md`), run by the main Claude Code session | the session's model | `input.md`, `state.json` (via the pipeline script), `final.md`, `publication.md` |
 | **Critical Editor** | `.claude/agents/critical-editor.md` | `claude-opus-5-5` (Claude Opus 5.5) | `editorial-brief.md`; appends rounds to `review.md` |
 | **Editorial Writer** | `.claude/agents/editorial-writer.md` | `claude-sonnet-5-5` (Claude Sonnet 5.5) | `draft.md`; appends to `revision-notes.md` |
-| **Editorial Translator** | `.claude/agents/editorial-translator.md` | `claude-sonnet-5-5` (Claude Sonnet 5.5) | `translation-es/*.md` (Spanish edition) |
+| **Editorial Translator** | `.claude/agents/editorial-translator.md` | `claude-opus-5-5` (Claude Opus 5.5) | `translation-es/*.md` (Spanish edition) |
 
 The agents never call each other. Claude Code subagents cannot spawn subagents, and the coordinator invokes each one
 explicitly with file paths. Each invocation starts with a fresh context, so everything an agent needs must be in the
