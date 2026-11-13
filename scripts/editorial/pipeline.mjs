@@ -12,19 +12,20 @@ import YAML from 'yaml';
 import { validate } from '../lib/validate.mjs';
 import { extractLinks, isExternal, splitReferences, readPosts, parsePost } from '../lib/content.mjs';
 import { CATEGORIES, nextSlot } from '../lib/archive.mjs';
+import { comparePolish } from '../lib/polish.mjs';
 
 export const MAX_REVISIONS = 3;
-export const SHORT = ['Originality', 'Accuracy', 'Evidence', 'Systems', 'Cross-disc.', 'Accessibility', 'Clarity', 'Practical', 'Question'];
+export const SHORT = ['Originality', 'Accuracy', 'Evidence', 'Systems', 'Cross-disc.', 'Accessibility', 'Clarity', 'Practical', 'Question', 'Prose'];
 export const CRITERIA = [
   'Originality of the argument', 'Technical accuracy', 'Quality of evidence and citations', 'Depth of Systems Thinking',
   'Quality of cross-disciplinary connections', 'Accessibility to the intended audience', 'Clarity and narrative flow',
-  'Practical relevance', 'Strength of the final question',
+  'Practical relevance', 'Strength of the final question', 'Prose quality',
 ];
 // Review criteria for multi-post series (owner assignment, 2026-11-13). "Historical accuracy where applicable" may be n/a.
 export const SERIES_CRITERIA = [
   'Originality', 'Technical accuracy', 'Intellectual and technical depth', 'Quality of evidence', 'Systems-thinking rigor',
   'Historical accuracy where applicable', 'Cross-disciplinary connections', 'Accessibility', 'Narrative coherence',
-  'Practical relevance', 'Quality of critical analysis', 'Strength of the final question',
+  'Practical relevance', 'Quality of critical analysis', 'Strength of the final question', 'Prose quality',
 ];
 const OPTIONAL_CRITERIA = new Set(['Historical accuracy where applicable']);
 const BRIEF_SECTIONS = ['Thesis', 'Break', 'Challenge', 'Experience', 'Change', 'Question', 'Claims and Evidence', 'Sources',
@@ -40,10 +41,11 @@ const OWNERSHIP = {
   draft: ['draft.md'],
   review: ['review.md'],
   revise: ['draft.md', 'revision-notes.md'],
+  polish: ['draft.md', 'polish-notes.md'],
 };
-const APPEND_ONLY = { review: ['review.md'], revise: ['revision-notes.md'] };
+const APPEND_ONLY = { review: ['review.md'], revise: ['revision-notes.md'], polish: ['polish-notes.md'] };
 const TRANSITIONS = { // stage you can `begin` -> required current stage(s)
-  brief: ['initialized', 'needs-input'], draft: ['brief-approved'], review: ['draft-ready'], revise: ['revision-required'],
+  brief: ['initialized', 'needs-input'], draft: ['brief-approved'], polish: ['draft-written', 'draft-ready'], review: ['draft-ready'], revise: ['revision-required'],
 };
 
 export class GateError extends Error { constructor(msg, code = 1) { super(msg); this.code = code; } }
@@ -55,7 +57,7 @@ export function paths(root, slug) {
   const dir = join(root, 'editorial', slug);
   return {
     root, slug, dir, state: join(dir, 'state.json'), input: join(dir, 'input.md'), brief: join(dir, 'editorial-brief.md'),
-    draft: join(dir, 'draft.md'), review: join(dir, 'review.md'), notes: join(dir, 'revision-notes.md'),
+    draft: join(dir, 'draft.md'), review: join(dir, 'review.md'), notes: join(dir, 'revision-notes.md'), polishNotes: join(dir, 'polish-notes.md'),
     final: join(dir, 'final.md'), publication: join(dir, 'publication.md'), history: join(dir, 'history'),
     posts: join(root, 'src', 'content', 'posts'), catalog: join(root, 'docs', 'BOOK_CATALOG.md'),
   };
@@ -112,15 +114,16 @@ export function init(root, slug, request = '', extra = '') {
 export function begin(root, slug, stage) {
   const p = paths(root, slug);
   const s = loadState(p);
-  if (!TRANSITIONS[stage]) fail(`unknown stage "${stage}" (brief|draft|review|revise)`);
+  if (!TRANSITIONS[stage]) fail(`unknown stage "${stage}" (brief|draft|polish|review|revise)`);
   if (!TRANSITIONS[stage].includes(s.stage)) fail(`cannot begin "${stage}" while workflow is "${s.stage}"`);
   if (stage === 'revise' && s.revisions >= MAX_REVISIONS) stop(`revision limit (${MAX_REVISIONS}) reached`);
-  s.active = { stage, at: now(), files: snapshotDir(p.dir), git: gitStatus(root),
+  s.active = { stage, at: now(), files: snapshotDir(p.dir), git: gitStatus(root), ...(stage === 'polish' ? { prePolish: read(p.draft) } : {}),
     appendOnly: Object.fromEntries((APPEND_ONLY[stage] ?? []).map((f) => [f, existsSync(join(p.dir, f)) ? read(join(p.dir, f)) : ''])) };
   s.stage = `${stage}-in-progress`;
   s.log.push({ at: now(), event: `begin ${stage}` });
   saveState(p, s);
-  return `stage "${stage}" started; ${stage === 'brief' || stage === 'review' ? 'critical-editor' : 'editorial-writer'} may now write: ${OWNERSHIP[stage].join(', ')}`;
+  const who = { brief: 'critical-editor', review: 'critical-editor', polish: 'prose-editor' }[stage] ?? 'editorial-writer';
+  return `stage "${stage}" started; ${who} may now write: ${OWNERSHIP[stage].join(', ')}`;
 }
 
 function checkOwnership(p, s, stage) {
@@ -278,12 +281,57 @@ export function checkDraft(root, slug, stage = 'draft') {
   if (errors.length) fail(`draft gate failed:\n  - ${errors.join('\n  - ')}${warnings.length ? `\n warnings:\n  - ${warnings.join('\n  - ')}` : ''}`);
   if (stage === 'revise') s.revisions += 1;
   s.active = null;
-  s.stage = 'draft-ready';
+  s.stage = 'draft-written';
   s.log.push({ at: now(), event: `${stage} accepted by gate`, words, warnings });
   saveState(p, s);
-  return `draft OK (${words} words)${warnings.length ? `\nwarnings (for the editor to judge):\n  - ${warnings.join('\n  - ')}` : ''}`;
+  return `draft OK (${words} words); next: begin ${slug} polish (prose-editor)${warnings.length ? `\nwarnings (for the editor to judge):\n  - ${warnings.join('\n  - ')}` : ''}`;
 }
 export const checkRevision = (root, slug) => checkDraft(root, slug, 'revise');
+
+/** After prose-editor: the edit must stay within style, and the draft must still pass every draft gate. */
+export function checkPolish(root, slug) {
+  const p = paths(root, slug);
+  const s = loadState(p);
+  checkOwnership(p, s, 'polish');
+  const before = s.active.prePolish, after = read(p.draft);
+  const errors = [];
+  if (s.locks.series) {
+    const A = splitParts(before), B = splitParts(after);
+    if (A.length !== B.length || A.some((x, i) => x.slug !== B[i]?.slug)) errors.push('part markers changed');
+    else A.forEach((x, i) => errors.push(...comparePolish(x.text, B[i].text, `part ${x.number}`)));
+  } else errors.push(...comparePolish(before, after, 'draft'));
+  const notes = existsSync(p.polishNotes) ? read(p.polishNotes) : '';
+  const polishRound = (s.polishes ?? 0) + 1;
+  if (!new RegExp(`^## Polish ${polishRound}\\s*$`, 'm').test(notes)) errors.push(`polish-notes.md needs "## Polish ${polishRound}"`);
+  const content = checkDraftContent(p, s);
+  errors.push(...content.errors);
+  if (errors.length) fail(`polish gate failed:\n  - ${errors.join('\n  - ')}`);
+  s.polishes = polishRound;
+  s.active = null;
+  s.stage = 'draft-ready';
+  s.log.push({ at: now(), event: `polish ${polishRound} accepted by gate`, words: content.words });
+  saveState(p, s);
+  return `polish OK (${content.words} words); next: begin ${slug} review`;
+}
+
+/** Reopen a finalized workflow for another editing cycle (e.g. a prose rewrite), keeping its history. */
+export function reopen(root, slug, reason = '') {
+  const p = paths(root, slug);
+  const s = loadState(p);
+  if (!['awaiting-human-approval', 'approved'].includes(s.stage)) fail(`cannot reopen while workflow is "${s.stage}"`);
+  if (!reason.trim()) fail('reopen needs a reason');
+  const src = existsSync(p.final) ? read(p.final) : read(p.draft);
+  mkdirSync(p.history, { recursive: true });
+  copyFileSync(p.draft, join(p.history, `draft-before-reopen-${(s.reopened ?? 0) + 1}.md`));
+  writeFileSync(p.draft, src.replace(/^editorialDate:.*\n/gm, '').replace(/^draft:\s*false\s*$/gm, 'draft: true'));
+  s.reopened = (s.reopened ?? 0) + 1;
+  s.revisions = 0;
+  s.stage = 'draft-written';
+  s.active = null;
+  s.log.push({ at: now(), event: `reopened: ${reason}` });
+  saveState(p, s);
+  return `reopened (cycle ${s.reopened + 1}); draft.md restored from the final text. Next: begin ${slug} polish`;
+}
 
 function lastRound(text) {
   const parts = text.split(/^## Round (\d+)\s*$/m);
@@ -725,6 +773,8 @@ if (isMain) {
     'check-draft': () => checkDraft(root, slug),
     'check-review': () => checkReview(root, slug),
     'check-revision': () => checkRevision(root, slug),
+    'check-polish': () => checkPolish(root, slug),
+    reopen: () => reopen(root, slug, rest.join(' ')),
     finalize: () => finalize(root, slug),
     status: () => status(root, slug),
   };

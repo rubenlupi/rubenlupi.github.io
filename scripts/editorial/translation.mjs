@@ -9,6 +9,7 @@ import { createHash } from 'node:crypto';
 import { execFileSync } from 'node:child_process';
 import { validate } from '../lib/validate.mjs';
 import { parsePost, readPosts, splitReferences } from '../lib/content.mjs';
+import { comparePolish } from '../lib/polish.mjs';
 
 export class GateError extends Error { constructor(msg, code = 1) { super(msg); this.code = code; } }
 const fail = (m) => { throw new GateError(m, 1); };
@@ -32,7 +33,7 @@ function snapshot(dir) {
   if (existsSync(dir)) for (const f of readdirSync(dir)) if (f !== 'state.json' && f.endsWith('.md')) out[f] = sha(join(dir, f));
   return out;
 }
-const translations = (p) => readdirSync(p.dir).filter((f) => f.endsWith('.md') && !['notes.md', 'publication.md'].includes(f));
+const translations = (p) => readdirSync(p.dir).filter((f) => f.endsWith('.md') && !['notes.md', 'publication.md', 'polish-notes.md'].includes(f));
 
 /** init <job> <source.md...>: sources are English originals (published posts or editorial final/ files). */
 export function init(root, job, files) {
@@ -65,6 +66,10 @@ export function begin(root, job) {
 export function check(root, job) {
   const p = paths(root, job), s = load(p);
   if (s.stage !== 'translating' || !s.active) fail('translation was not started with begin');
+  return verify(root, job, p, s, 'translate');
+}
+
+function verify(root, job, p, s, mode) {
   const errors = [], warnings = [];
   // Ownership: nothing outside the job's translation folder may change.
   const g = gitStatus(root);
@@ -73,6 +78,18 @@ export function check(root, job) {
     const prev = new Set(outside(s.active.git));
     const added = outside(g).filter((f) => !prev.has(f));
     if (added.length) errors.push(`files outside editorial/${job}/translation-es/ changed: ${added.join(', ')}`);
+  }
+  if (mode === 'polish') {
+    // prose-editor may only restyle the Spanish text: compare each translation with its pre-polish version.
+    for (const [f, before] of Object.entries(s.active.prePolish ?? {})) {
+      if (!existsSync(join(p.dir, f))) { errors.push(`${f} was removed`); continue; }
+      errors.push(...comparePolish(before, readFileSync(join(p.dir, f), 'utf8'), f));
+    }
+    const added = translations(p).filter((f) => !(f in (s.active.prePolish ?? {})));
+    if (added.length) errors.push(`polish may not add files: ${added.join(', ')}`);
+    const n = (s.polishes ?? 0) + 1;
+    const pn = join(p.dir, 'polish-notes.md');
+    if (!existsSync(pn) || !new RegExp(`^## Polish ${n}\\s*$`, 'm').test(readFileSync(pn, 'utf8'))) errors.push(`polish-notes.md needs "## Polish ${n}"`);
   }
   for (const src of s.sources) if (sha(join(root, src.file)) !== src.sha) errors.push(`source changed during translation: ${src.file}`);
   // Notes.
@@ -126,9 +143,16 @@ export function check(root, job) {
   const before = s.active.files, after = snapshot(p.dir);
   s.attempts += 1;
   if (errors.length) {
-    s.stage = 'failed'; s.active = null; s.log.push({ at: now(), event: 'check failed', errors }); save(p, s);
+    s.stage = mode === 'polish' ? 'translated' : 'failed'; s.active = null; s.log.push({ at: now(), event: `${mode} check failed`, errors }); save(p, s);
     fail(`translation gate failed:\n  - ${errors.join('\n  - ')}${warnings.length ? `\n warnings:\n  - ${warnings.join('\n  - ')}` : ''}`);
   }
+  if (mode === 'translate') {
+    s.stage = 'translated'; s.active = null;
+    s.log.push({ at: now(), event: 'translation accepted by gate', warnings });
+    save(p, s);
+    return `translations OK (${files.length}); next: begin-polish ${job} (prose-editor, mandatory before publication)${warnings.length ? `\nwarnings:\n  - ${warnings.join('\n  - ')}` : ''}`;
+  }
+  s.polishes = (s.polishes ?? 0) + 1;
   const rows = [...bySource].map(([slug, f]) => `| \`${s.sources.find((x) => x.slug === slug).file}\` | \`src/content/posts/es/${f}\` | ${parsePost(join(p.dir, f)).fm.title} |`);
   writeFileSync(p.publication, `# Spanish edition: ${job}
 
@@ -142,6 +166,7 @@ ${rows.join('\n')}
 
 - Parity with the original (same sources, sections, topics, tags, book, series fields, editorial date): passed
 - Repository validator (as published): passed${warnings.length ? `, with warnings:\n${warnings.map((w) => `  - ${w}`).join('\n')}` : ''}
+- Prose-editor style pass (Spanish only, parity-checked): \`polish-notes.md\`
 - Translator's notes (terminology, quotations, open questions): \`notes.md\`
 
 ## Still requires human review
@@ -160,6 +185,22 @@ A translation may not be published before its original.
   return `translations OK (${files.length}).${warnings.length ? `\nwarnings:\n  - ${warnings.join('\n  - ')}` : ''}\nSTOP: present editorial/${job}/translation-es/publication.md to the author.`;
 }
 
+export function beginPolish(root, job) {
+  const p = paths(root, job), s = load(p);
+  if (s.stage !== 'translated') fail(`cannot polish while job is "${s.stage}" (translate and pass check first)`);
+  s.active = { at: now(), files: snapshot(p.dir), git: gitStatus(root),
+    prePolish: Object.fromEntries(translations(p).map((f) => [f, readFileSync(join(p.dir, f), 'utf8')])) };
+  s.stage = 'polishing';
+  s.log.push({ at: now(), event: 'begin polish' });
+  save(p, s);
+  return `polish started; prose-editor may edit the Spanish files and append to polish-notes.md in ${relative(root, p.dir)}/`;
+}
+export function checkPolish(root, job) {
+  const p = paths(root, job), s = load(p);
+  if (s.stage !== 'polishing' || !s.active) fail('polish was not started with begin-polish');
+  return verify(root, job, p, s, 'polish');
+}
+
 export function status(root, job) {
   const s = load(paths(root, job));
   return JSON.stringify({ job: s.job, stage: s.stage, attempts: s.attempts, sources: s.sources.map((x) => x.file) }, null, 2);
@@ -174,7 +215,8 @@ if (isMain) {
     while (!existsSync(join(d, 'docs', 'EDITORIAL_WORKFLOW.md')) && dirname(d) !== d) d = dirname(d);
     root = existsSync(join(d, 'docs', 'EDITORIAL_WORKFLOW.md')) ? d : process.cwd();
   }
-  const cmds = { init: () => init(root, job, rest), begin: () => begin(root, job), check: () => check(root, job), status: () => status(root, job) };
+  const cmds = { init: () => init(root, job, rest), begin: () => begin(root, job), check: () => check(root, job),
+    'begin-polish': () => beginPolish(root, job), 'check-polish': () => checkPolish(root, job), status: () => status(root, job) };
   if (!cmds[cmd]) { console.error(`usage: translation.mjs <${Object.keys(cmds).join('|')}> <job> [source files]`); process.exit(1); }
   try { console.log(`OK: ${cmds[cmd]()}`); }
   catch (e) { if (e instanceof GateError) { console.error(`${e.code === 3 ? 'STOP' : 'FAIL'}: ${e.message}`); process.exit(e.code); } throw e; }

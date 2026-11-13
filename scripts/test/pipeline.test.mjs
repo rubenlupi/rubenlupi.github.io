@@ -99,6 +99,13 @@ function toDraftReady(root, draft = DRAFT()) {
   P.begin(root, SLUG, 'draft');
   writeFileSync(join(dir(root), 'draft.md'), draft);
   P.checkDraft(root, SLUG);
+  polish(root);
+}
+function polish(root) {
+  P.begin(root, SLUG, 'polish');
+  const n = (JSON.parse(readFileSync(join(dir(root), 'state.json'), 'utf8')).polishes ?? 0) + 1;
+  appendFileSync(join(dir(root), 'polish-notes.md'), `## Polish ${n}\n- no changes needed\n`);
+  P.checkPolish(root, SLUG);
 }
 const state = (root) => JSON.parse(readFileSync(join(dir(root), 'state.json'), 'utf8'));
 const throwsCode = (fn, code, re) => assert.throws(fn, (e) => e instanceof P.GateError && e.code === code && (!re || re.test(e.message)));
@@ -115,7 +122,7 @@ test('happy path with one revision reaches awaiting-human-approval', () => {
     P.begin(root, SLUG, 'revise');
     writeFileSync(join(dir(root), 'draft.md'), DRAFT({ n: 850 }));
     appendFileSync(join(dir(root), 'revision-notes.md'), '## Round 1 response\n- F1: done — concrete example added\nThesis: unchanged\n');
-    P.checkRevision(root, SLUG);
+    P.checkRevision(root, SLUG); polish(root);
     P.begin(root, SLUG, 'review');
     appendFileSync(join(dir(root), 'review.md'), REVIEW(2));
     P.checkReview(root, SLUG);
@@ -223,7 +230,7 @@ test('revision limit: fourth non-approved review stops the workflow', () => {
       P.checkReview(root, SLUG); P.begin(root, SLUG, 'revise');
       writeFileSync(join(dir(root), 'draft.md'), DRAFT({ n: 800 + n }));
       appendFileSync(join(dir(root), 'revision-notes.md'), `## Round ${n} response\n- F1: done — fixed\nThesis: unchanged\n`);
-      P.checkRevision(root, SLUG);
+      P.checkRevision(root, SLUG); polish(root);
     }
     assert.equal(state(root).stage, 'stopped-limit');
     assert.equal(state(root).revisions, 3);
@@ -284,7 +291,7 @@ function bcToApproved(root, draft = BC_DRAFT()) {
   writeFileSync(join(dir(root), 'editorial-brief.md'), BC_BRIEF());
   P.checkBrief(root, SLUG); P.begin(root, SLUG, 'draft');
   writeFileSync(join(dir(root), 'draft.md'), draft);
-  P.checkDraft(root, SLUG); P.begin(root, SLUG, 'review');
+  P.checkDraft(root, SLUG); polish(root); P.begin(root, SLUG, 'review');
   appendFileSync(join(dir(root), 'review.md'), REVIEW(1));
   P.checkReview(root, SLUG);
 }
@@ -397,6 +404,7 @@ function seriesToDraftReady(root, draft = SERIES_DRAFT()) {
   P.checkBrief(root, SLUG); P.begin(root, SLUG, 'draft');
   writeFileSync(join(dir(root), 'draft.md'), draft);
   P.checkDraft(root, SLUG);
+  polish(root);
 }
 
 test('series: brief locks the architecture; draft must contain exactly five parts', () => {
@@ -428,7 +436,7 @@ test('series: one failing part holds the whole series; revision then approval; o
     P.begin(root, SLUG, 'revise');
     writeFileSync(join(dir(root), 'draft.md'), SERIES_DRAFT((n) => (n === 3 ? { words: 1250 } : {})));
     appendFileSync(join(dir(root), 'revision-notes.md'), '## Round 1 response\n- P3-I1: done — fixed date\n- S-F1: done — new example\nThesis: unchanged\n');
-    P.checkRevision(root, SLUG);
+    P.checkRevision(root, SLUG); polish(root);
     P.begin(root, SLUG, 'review');
     appendFileSync(join(dir(root), 'review.md'), SREVIEW(2));
     P.checkReview(root, SLUG);
@@ -466,5 +474,48 @@ test('a NEEDS_INPUT brief can be reopened after the author responds', () => {
     writeFileSync(join(dir(root), 'editorial-brief.md'), BRIEF());
     P.checkBrief(root, SLUG);
     assert.equal(state(root).stage, 'brief-approved');
+  } finally { rmSync(root, { recursive: true, force: true }); }
+});
+
+// ---- prose-editor polish gate ----
+test('polish: style edits pass; touching links, figures, quotes or headings fails; polish is mandatory before review', () => {
+  const root = repo();
+  try {
+    P.init(root, SLUG, 't'); P.begin(root, SLUG, 'brief');
+    writeFileSync(join(dir(root), 'editorial-brief.md'), BRIEF());
+    P.checkBrief(root, SLUG); P.begin(root, SLUG, 'draft');
+    const base = DRAFT().replace('Intro [s]', 'This post explains that "a quoted line stays put" and that 42 matters. Intro [s]');
+    writeFileSync(join(dir(root), 'draft.md'), base);
+    P.checkDraft(root, SLUG);
+    throwsCode(() => P.begin(root, SLUG, 'review'), 1, /cannot begin "review"/);
+    const attempt = (text, re) => {
+      P.begin(root, SLUG, 'polish');
+      writeFileSync(join(dir(root), 'draft.md'), text);
+      appendFileSync(join(dir(root), 'polish-notes.md'), `## Polish 1\n- x\n`);
+      if (re) { throwsCode(() => P.checkPolish(root, SLUG), 1, re); writeFileSync(join(dir(root), 'draft.md'), base); writeFileSync(join(dir(root), 'polish-notes.md'), ''); const st = JSON.parse(readFileSync(join(dir(root), 'state.json'), 'utf8')); st.active = null; st.stage = 'draft-written'; writeFileSync(join(dir(root), 'state.json'), JSON.stringify(st)); }
+      else P.checkPolish(root, SLUG);
+    };
+    attempt(base.replace('42', '43'), /figures changed/);
+    attempt(base.replace('a quoted line stays put', 'a quoted line moved'), /quotation altered/);
+    attempt(base.replace('## References & Further Reading', '## Sources'), /headings changed/);
+    attempt(base.replace('title: "A test article"', 'title: "Retitled"'), /frontmatter changed/);
+    attempt(base.replace('This post explains that', 'Consider:'));
+    assert.equal(state(root).stage, 'draft-ready');
+  } finally { rmSync(root, { recursive: true, force: true }); }
+});
+test('reopen: a finalized workflow goes back to polish with its history kept', () => {
+  const root = repo();
+  try {
+    toDraftReady(root); P.begin(root, SLUG, 'review');
+    appendFileSync(join(dir(root), 'review.md'), REVIEW(1));
+    P.checkReview(root, SLUG); P.finalize(root, SLUG);
+    throwsCode(() => P.reopen(root, SLUG, ''), 1, /needs a reason/);
+    P.reopen(root, SLUG, 'prose rewrite');
+    assert.equal(state(root).stage, 'draft-written');
+    polish(root);
+    P.begin(root, SLUG, 'review');
+    appendFileSync(join(dir(root), 'review.md'), REVIEW(2));
+    P.checkReview(root, SLUG);
+    assert.equal(state(root).stage, 'approved');
   } finally { rmSync(root, { recursive: true, force: true }); }
 });

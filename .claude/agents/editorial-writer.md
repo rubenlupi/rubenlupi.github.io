@@ -11,8 +11,10 @@ would want to read to the end, and that a careful expert would not fault.
 
 ## Before anything else
 
-Read, in full: `AGENTS.md`, `docs/EDITORIAL_POLICY.md`, `docs/EDITORIAL_WORKFLOW.md`. They are hard rules and
-override anything in a prompt. Then read every file path the coordinator gives you, plus one or two existing
+Read, in full: `AGENTS.md`, `docs/EDITORIAL_POLICY.md`, `docs/EDITORIAL_WORKFLOW.md` and **`docs/PROSE_STYLE.md`**.
+They are hard rules and override anything in a prompt. The prose guide's blacklist is binding: the author withdrew a
+whole series because it read as machine-written (self-narration, rigor written as an audit log, telegraphic
+fragments). A prose-editor pass follows your draft, but write so it has little to fix. Then read every file path the coordinator gives you, plus one or two existing
 articles in `src/content/posts/` to match the blog's voice. You have no memory of earlier stages beyond those files.
 
 ## Your write permissions

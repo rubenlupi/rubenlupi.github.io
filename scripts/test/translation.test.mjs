@@ -29,6 +29,11 @@ test('faithful translation passes and awaits human approval', () => {
     writeFileSync(join(dir(root), 'original-en-espanol.md'), ES());
     writeFileSync(join(dir(root), 'notes.md'), NOTES);
     T.check(root, JOB);
+    assert.equal(JSON.parse(readFileSync(join(dir(root), 'state.json'), 'utf8')).stage, 'translated');
+    T.beginPolish(root, JOB);
+    writeFileSync(join(dir(root), 'original-en-espanol.md'), ES().replace('Intro [fuente]', 'Para empezar, [fuente]'));
+    writeFileSync(join(dir(root), 'polish-notes.md'), '## Polish 1\n- apertura reescrita\n');
+    T.checkPolish(root, JOB);
     const st = JSON.parse(readFileSync(join(dir(root), 'state.json'), 'utf8'));
     assert.equal(st.stage, 'awaiting-human-approval');
     assert.match(readFileSync(join(dir(root), 'publication.md'), 'utf8'), /src\/content\/posts\/es\/original-en-espanol\.md/);
@@ -59,6 +64,10 @@ test('the original may not change during translation; big length deviations are 
     writeFileSync(join(dir(root), 'x.md'), ES({ words: 200 }));
     writeFileSync(join(dir(root), 'notes.md'), NOTES);
     assert.match(T.check(root, JOB), /check for omissions/);
+    T.beginPolish(root, JOB);
+    writeFileSync(join(dir(root), 'x.md'), ES({ words: 200, url: 'https://example.org/other/page' }));
+    writeFileSync(join(dir(root), 'polish-notes.md'), '## Polish 1\n- x\n');
+    throwsCode(() => T.checkPolish(root, JOB), 1, /links changed/);
   } finally { rmSync(root, { recursive: true, force: true }); }
   const root2 = repo();
   try {
