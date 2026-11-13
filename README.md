@@ -32,12 +32,19 @@ All content follows [`docs/EDITORIAL_POLICY.md`](docs/EDITORIAL_POLICY.md). AI a
 
 New articles start with `draft: true`. Publish only after the quality gate in the policy has passed.
 
+## Editorial team (Claude Code)
+
+`/write-article <topic>` runs a two-agent workflow: **critical-editor** (Claude Opus 5.5) researches and writes a brief,
+**editorial-writer** (Claude Sonnet 5.5) drafts, and the editor reviews, with up to 3 revision rounds. Gates in
+`scripts/editorial/pipeline.mjs` enforce the contracts. Output lands in `editorial/<slug>/` and is never published
+automatically. See [`docs/EDITORIAL_WORKFLOW.md`](docs/EDITORIAL_WORKFLOW.md).
+
 ## Checks
 
 | Command | What it does |
 |---|---|
 | `npm run validate` | Frontmatter, dates, unique slugs/titles, draft vs published, References section, inline citation presence, link syntax, placeholders, five-chapter Break & Change structure, catalogue membership. Also runs as the first step of `npm run build`, so a failure blocks deployment. |
-| `npm test` | Tests for the validator. |
+| `npm test` | Tests for the validator and the editorial pipeline gates. |
 | `npm run check-links` | Link reachability. Fails only on 404/410/DNS errors; blocked or rate-limited sites are reported as *unverified* for manual review. |
 
 These checks verify **structure, not truth**. They cannot tell whether a claim is accurate, a source supports it, or the

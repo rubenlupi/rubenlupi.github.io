@@ -22,8 +22,8 @@ engineering can learn from it.
 - Avoid: corporate marketing language, generic AI-sounding conclusions, excessive jargon, artificial enthusiasm,
   unnecessary repetition, unsupported certainty, motivational clichés, invented anecdotes, and superficial
   cross-disciplinary comparisons.
-- Length: generally 1,500–2,000 words, but quality takes priority over length. Short paragraphs, clear
-  arguments, concrete examples.
+- Length: essays default to 700–1,000 words; Break & Change book articles generally run 1,500–2,000 words.
+  Quality takes priority over length either way. Short paragraphs, clear arguments, concrete examples.
 - Each article should offer original synthesis, not a rearrangement of existing sources.
 
 ## 2. Evidence policy
@@ -203,6 +203,10 @@ They **cannot** establish that a claim is true, that a source supports it, that 
 the reasoning is sound. Those require editorial review against §4 and §7.
 
 ## 9. Required agent workflow
+
+The standard way to produce an article is the editorial team workflow in
+[`EDITORIAL_WORKFLOW.md`](EDITORIAL_WORKFLOW.md) (`/write-article`).
+
 
 Every AI agent creating or modifying content must: read `AGENTS.md`, this policy and the relevant template;
 inspect existing content to avoid duplication; research with authoritative sources; write and verify the

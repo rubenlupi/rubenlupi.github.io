@@ -42,6 +42,13 @@ You MUST, in this order:
   the catalogue.
 - Preserve existing articles, routes, styles and functionality. Make the smallest change that does the job.
 
+## Editorial team workflow
+
+New articles are normally produced with the `/write-article` skill (`.claude/skills/write-article/SKILL.md`), which
+coordinates two subagents: `critical-editor` (brief and review) and `editorial-writer` (draft and revisions), with
+deterministic gates in `scripts/editorial/pipeline.mjs`. Contracts and stop conditions: [`docs/EDITORIAL_WORKFLOW.md`](docs/EDITORIAL_WORKFLOW.md).
+The workflow ends at `editorial/<slug>/final.md` and never publishes; publication needs the owner's explicit approval.
+
 ## Project facts
 
 - Astro static site, content in `src/content/posts/*.md` (Markdown + frontmatter). Schema: `src/content.config.ts`.
