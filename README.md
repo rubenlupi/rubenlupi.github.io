@@ -23,3 +23,8 @@ Content here.
 The six areas are defined in `src/site.ts`. Push to `master` and the GitHub Action builds and publishes it.
 
 The previous (2022) site is preserved on the `backup-web-2022` branch.
+
+## Editorial gate
+
+`npm run build` runs `scripts/check-posts.mjs` first: every published post must have a
+`## References & Further Reading` section, or the build (and deploy) fails. Keep unfinished posts as `draft: true`.
