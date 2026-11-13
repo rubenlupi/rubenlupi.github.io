@@ -1,0 +1,91 @@
+{
+  "job": "es-2026-11-13",
+  "created": "2026-11-13T05:50:35.995Z",
+  "stage": "awaiting-human-approval",
+  "sources": [
+    {
+      "file": "src/content/posts/sometimes-the-problem-isnt-the-component.md",
+      "slug": "sometimes-the-problem-isnt-the-component",
+      "sha": "c2a1a5e12e39df5435fcc4bdfb13612820de510179d73a714749ef310a73ae01",
+      "title": "Sometimes the problem isn't the component. It's the system."
+    },
+    {
+      "file": "src/content/posts/systems-we-build-1-we-create-them.md",
+      "slug": "systems-we-build-1-we-create-them",
+      "sha": "c71a97d0de00902f977bced6404c2b8625828a41f0fc0805ffa17f3d3ae4edaf",
+      "title": "We Don't Just Live in Systems. We Create Them."
+    },
+    {
+      "file": "src/content/posts/systems-we-build-2-improving-the-parts.md",
+      "slug": "systems-we-build-2-improving-the-parts",
+      "sha": "d3cee553dd5a0c5fdd98697a3a8453e0e95254229853bea7d4d0067ad971c210",
+      "title": "When Improving the Parts Makes the Whole Worse"
+    },
+    {
+      "file": "src/content/posts/systems-we-build-3-same-mistakes.md",
+      "slug": "systems-we-build-3-same-mistakes",
+      "sha": "6a2ab65ab72d6965b3864052a1a66acb8572de05c9472eb056d1489078d64b09",
+      "title": "Why Intelligent People Keep Making the Same Mistakes"
+    },
+    {
+      "file": "src/content/posts/systems-we-build-4-limits.md",
+      "slug": "systems-we-build-4-limits",
+      "sha": "d77f264b250389ca0537670007fb76c4748a825c9c612f6a7cd3f86d39a7e44c",
+      "title": "The Limits of Seeing Everything as a System"
+    },
+    {
+      "file": "src/content/posts/systems-we-build-5-what-are-we-building.md",
+      "slug": "systems-we-build-5-what-are-we-building",
+      "sha": "161b94cda21f40ae3397e01eb199affdf9a45b18cc1d1bb2a52a853dab030207",
+      "title": "What Are We Actually Trying to Build?"
+    }
+  ],
+  "attempts": 2,
+  "log": [
+    {
+      "at": "2026-11-13T05:50:35.998Z",
+      "event": "init"
+    },
+    {
+      "at": "2026-11-13T05:50:36.225Z",
+      "event": "begin translation"
+    },
+    {
+      "at": "2026-11-13T05:54:41.210Z",
+      "event": "check failed",
+      "errors": [
+        "validator: es/el-problema-no-siempre-es-el-componente.md: contains a placeholder marker (TODO/TBD/FIXME/[VERIFY]/…)",
+        "validator: es/sistemas-que-construimos-1-no-solo-vivimos-en-sistemas.md: contains a placeholder marker (TODO/TBD/FIXME/[VERIFY]/…)",
+        "validator: es/sistemas-que-construimos-2-mejorar-las-partes.md: contains a placeholder marker (TODO/TBD/FIXME/[VERIFY]/…)",
+        "validator: es/sistemas-que-construimos-3-mismos-errores.md: contains a placeholder marker (TODO/TBD/FIXME/[VERIFY]/…)",
+        "validator: es/sistemas-que-construimos-4-limites.md: contains a placeholder marker (TODO/TBD/FIXME/[VERIFY]/…)",
+        "validator: es/sistemas-que-construimos-5-que-construimos.md: contains a placeholder marker (TODO/TBD/FIXME/[VERIFY]/…)"
+      ]
+    },
+    {
+      "at": "2026-11-13T05:55:19.460Z",
+      "event": "begin translation"
+    },
+    {
+      "at": "2026-11-13T05:55:20.059Z",
+      "event": "translation accepted by gate",
+      "warnings": [
+        "validator: es/sistemas-que-construimos-1-no-solo-vivimos-en-sistemas.md: non-HTTPS link: http://classics.mit.edu/Aristotle/politics.8.eight.html",
+        "validator: es/sistemas-que-construimos-1-no-solo-vivimos-en-sistemas.md: non-HTTPS link: http://classics.mit.edu/Plato/republic.8.vii.html",
+        "validator: es/sistemas-que-construimos-1-no-solo-vivimos-en-sistemas.md: non-HTTPS link: http://classics.mit.edu/Aristotle/nicomachaen.2.ii.html",
+        "validator: es/sistemas-que-construimos-1-no-solo-vivimos-en-sistemas.md: non-HTTPS link: http://classics.mit.edu/Aristotle/politics.8.eight.html",
+        "validator: es/sistemas-que-construimos-1-no-solo-vivimos-en-sistemas.md: non-HTTPS link: http://classics.mit.edu/Plato/republic.8.vii.html",
+        "validator: es/sistemas-que-construimos-1-no-solo-vivimos-en-sistemas.md: non-HTTPS link: http://classics.mit.edu/Aristotle/nicomachaen.2.ii.html",
+        "validator: es/sistemas-que-construimos-3-mismos-errores.md: 2204 words; series parts aim for roughly 1,000–1,500 (quality takes priority)",
+        "validator: es/sistemas-que-construimos-4-limites.md: non-HTTPS link: http://classics.mit.edu/Aristotle/nicomachaen.2.ii.html",
+        "validator: es/sistemas-que-construimos-4-limites.md: non-HTTPS link: http://classics.mit.edu/Aristotle/nicomachaen.2.ii.html",
+        "validator: es/sistemas-que-construimos-5-que-construimos.md: non-HTTPS link: http://classics.mit.edu/Aristotle/politics.8.eight.html",
+        "validator: es/sistemas-que-construimos-5-que-construimos.md: non-HTTPS link: http://classics.mit.edu/Plato/republic.8.vii.html",
+        "validator: es/sistemas-que-construimos-5-que-construimos.md: non-HTTPS link: http://classics.mit.edu/Aristotle/politics.8.eight.html",
+        "validator: es/sistemas-que-construimos-5-que-construimos.md: non-HTTPS link: http://classics.mit.edu/Plato/republic.8.vii.html"
+      ],
+      "changed": []
+    }
+  ],
+  "active": null
+}
