@@ -85,6 +85,22 @@ The model is a witty essayist explaining something serious, not a stand-up routi
 - **Rhythm**: a light line every few paragraphs, ideally where the argument turns. One good joke beats three
   forced ones. Jokes in titles and headings are welcome when they also carry the thesis.
 
+**Originality (owner feedback, 2026-11-13).** Stock office comedy is banned: the pushy manager, the pointless
+meeting, slides, the gym membership nobody uses, pizza orders, coffee, Mondays, the yes-man, the LinkedIn guru,
+"we've all been there". The author has seen it all and finds it stale. Good humor here comes from:
+
+- **The material itself.** The irony is usually already inside the documented case: find it and point at it with
+  a straight face, instead of importing a sitcom character.
+- **Precise, unexpected images**: physical, specific, a little strange (a stock that fills like sediment, a metric
+  as a thermometer someone keeps warming with their hand). If the comparison has appeared in a thousand business
+  blogs, it's not allowed.
+- **Callbacks** to something earlier in the same piece, and understatement.
+- **Comparisons must not smuggle in facts.** A reference to real history, science or people is a factual claim
+  and needs a source. Prefer invented or physical images to anecdotes.
+
+**Openings**: no archetypal vignette ("A manager pushes the team…", "Picture a team that…"). Open on a specific,
+surprising detail the article actually contains, such as a quotation, a number or a strange fact.
+
 Never: jokes that change or blur a claim, humor inside quotations or figures, mocking real people, groups,
 students or victims, sarcasm aimed at the reader, puns by the dozen, emoji, or "lol"-style internet register. If a
 joke needs explaining, cut it. Humor must survive translation: in Spanish, adapt the joke (the same idea, a joke
