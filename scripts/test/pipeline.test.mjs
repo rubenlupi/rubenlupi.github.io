@@ -520,3 +520,20 @@ test('reopen: a finalized workflow goes back to polish with its history kept', (
     assert.equal(state(root).stage, 'approved');
   } finally { rmSync(root, { recursive: true, force: true }); }
 });
+
+test('reopened series: its own earlier posts in src/content/posts are not collisions and keep their slot', () => {
+  const root = repo();
+  try {
+    seriesToDraftReady(root);
+    P.begin(root, SLUG, 'review');
+    appendFileSync(join(dir(root), 'review.md'), SREVIEW(1));
+    P.checkReview(root, SLUG); P.finalize(root, SLUG);
+    for (let n = 1; n <= 5; n++) copyFileSync(join(dir(root), `final/series-part-${n}.md`), join(root, `src/content/posts/series-part-${n}.md`));
+    P.reopen(root, SLUG, 'prose rewrite');
+    polish(root);
+    P.begin(root, SLUG, 'review');
+    appendFileSync(join(dir(root), 'review.md'), SREVIEW(2));
+    P.checkReview(root, SLUG); P.finalize(root, SLUG);
+    assert.match(readFileSync(join(dir(root), 'final/series-part-1.md'), 'utf8'), /^editorialDate: 2026-11-02\b/m);
+  } finally { rmSync(root, { recursive: true, force: true }); }
+});

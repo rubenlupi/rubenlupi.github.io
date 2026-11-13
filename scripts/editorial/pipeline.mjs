@@ -257,7 +257,7 @@ function checkDraftContent(p, s) {
   } finally { rmSync(tmp, { recursive: true, force: true }); }
 
   if (existsSync(p.posts)) {
-    for (const post of readPosts(p.posts)) {
+    for (const post of readPosts(p.posts).filter((x) => !ownPost(p, s, x))) {
       if (post.slug === p.slug) errors.push(`slug collides with existing post ${post.slug}`);
       if (post.fm?.title && fm.title && post.fm.title.trim().toLowerCase() === String(fm.title).trim().toLowerCase()) errors.push(`title collides with existing post ${post.slug}`);
     }
@@ -420,11 +420,22 @@ function checkNotes(p, s) {
   return errors;
 }
 
+/** Posts in src/content/posts that are this workflow's own earlier versions (a reopened cycle), not collisions. */
+function ownPost(p, s, post) {
+  if (!s.reopened) return false;
+  if (post.lang && post.lang !== 'en') return false;
+  if (post.fm?.seriesPart?.slug === p.slug) return true;
+  const fd = join(p.dir, 'final');
+  if (existsSync(fd) && readdirSync(fd).includes(`${post.slug}.md`)) return true;
+  return post.slug === p.slug;
+}
+
 /** Archive slots already used by posts (published or draft) and by other finalized workflows. */
 export function takenSlots(p) {
   const out = new Set();
   const add = (v) => { if (v) out.add(v instanceof Date ? v.toISOString().slice(0, 10) : String(v)); };
-  if (existsSync(p.posts)) for (const post of readPosts(p.posts)) add(post.fm?.editorialDate);
+  const st = existsSync(p.state) ? JSON.parse(readFileSync(p.state, 'utf8')) : {};
+  if (existsSync(p.posts)) for (const post of readPosts(p.posts)) if (!ownPost(p, st, post)) add(post.fm?.editorialDate);
   const ed = join(p.root, 'editorial');
   if (existsSync(ed)) for (const d of readdirSync(ed)) {
     if (d === p.slug) continue;
@@ -550,7 +561,7 @@ function checkSeriesDraftContent(p, s) {
   if (parts.length !== N) return { errors: [`series draft must contain exactly ${N} "<!-- PART N: slug -->" sections, found ${parts.length}`], warnings };
   const briefUrls = new Set(Object.values(parseBrief(read(p.brief), p.slug).sources ?? {}).map((x) => x.url).filter(Boolean));
   const slot = L.kind === 'break-and-change' ? (nextSlot(takenSlots(p)) ?? '1900-01-01') : null;
-  const existing = existsSync(p.posts) ? readPosts(p.posts) : [];
+  const existing = existsSync(p.posts) ? readPosts(p.posts).filter((x) => !ownPost(p, s, x)) : [];
   const [lo, hi] = L.target_words.split('-').map((x) => parseInt(x, 10));
   const words = [];
   const tmp = mkdtempSync(join(tmpdir(), 'editorial-series-'));
