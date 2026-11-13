@@ -20,7 +20,9 @@ const CHAPTERS = [
   ['Key Ideas', 'BREAK'], ['What Still Matters Today', 'CHANGE'], ['Why We Keep Getting It Wrong', 'EXPERIENCE'],
   ["The Book's Blind Spots", 'CHALLENGE'], ['My Take', 'QUESTION'],
 ];
-const PLACEHOLDER = /\b(TODO|TBD|FIXME|XXX)\b|\[VERIFY\]|\[CITATION NEEDED\]|\[citation needed\]|lorem ipsum/i;
+// Markers are matched in UPPERCASE only: "todo" is an ordinary Spanish word ("all").
+const PLACEHOLDER_RE = [/\b(TODO|TBD|FIXME|XXX)\b/, /\[(VERIFY|CITATION NEEDED)\]|lorem ipsum/i];
+const PLACEHOLDER = { test: (t) => PLACEHOLDER_RE.some((r) => r.test(t)) };
 const norm = (s) => s.replace(/[’‘]/g, "'");
 
 const asDate = (v) => {

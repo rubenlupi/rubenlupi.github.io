@@ -160,3 +160,10 @@ test('es: translated series parts share the original slot and do not collide wit
   const r = run(s);
   assert.deepEqual(r.errors.filter((e) => !/translationOf "part-/.test(e)), []);
 });
+
+test('placeholders: uppercase markers only; Spanish "todo" is a word, not a marker', () => {
+  const base = { 'good-post.md': fm() + GOOD_BODY };
+  assert.deepEqual(run({ ...base, 'es/x.md': esFm() + ES_BODY.replace('Intro con', 'Sobre todo, intro con') }).errors, []);
+  assert.ok(has(run({ ...base, 'es/x.md': esFm() + ES_BODY + '\nTODO revisar\n' }), /placeholder/));
+  assert.ok(has(run({ 'a-post.md': fm() + GOOD_BODY + '\nsee [verify]\n' }), /placeholder/));
+});
