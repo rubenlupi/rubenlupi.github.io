@@ -238,3 +238,92 @@ test('stages must run in order', () => {
     throwsCode(() => P.finalize(root, SLUG), 1, /cannot finalize/);
   } finally { rmSync(root, { recursive: true, force: true }); }
 });
+
+// ---- Break & Change: book access, category lock, backwards archive slots ----
+const BC_FM = (o = {}) => `kind: break-and-change
+book_title: "Thinking in Systems"
+book_author: "Donella H. Meadows"
+book_year: 2008
+category: "${o.category ?? 'Systems, Execution & Organizational Design'}"
+book_access: ${o.access ?? 'full-text'}`;
+const BC_BRIEF = (o = {}) => BRIEF(o).replace('kind: essay', BC_FM(o)).replace('target_words: 700-1000', 'target_words: 1500-2000');
+const ch = (n) => Array.from({ length: n }, (_, i) => `c${i}`).join(' ');
+const BC_DRAFT = (o = {}) => `---
+title: "${o.title ?? 'Stocks, flows and the limits of tuning'}"
+description: "D"
+date: 2026-11-13
+series: break-and-change
+book:
+  title: "Thinking in Systems"
+  author: "Donella H. Meadows"
+  year: 2008
+  category: "${o.category ?? 'Systems, Execution & Organizational Design'}"
+topics: ["Systems & Organizations"]
+tags: []
+draft: true
+---
+Intro [s](https://example.org/a/b).
+
+## 1. Key Ideas — BREAK
+${ch(340)}
+## 2. What Still Matters Today — CHANGE
+${ch(340)}
+## 3. Why We Keep Getting It Wrong — EXPERIENCE
+${ch(340)}
+## 4. The Book's Blind Spots — CHALLENGE
+${ch(340)}
+## 5. My Take — QUESTION
+${ch(340)}
+
+## References & Further Reading
+
+- **A source**, Org, 2024. <https://example.org/a/b>. Relevant.
+`;
+function bcToApproved(root, draft = BC_DRAFT()) {
+  P.init(root, SLUG, 'Thinking in Systems'); P.begin(root, SLUG, 'brief');
+  writeFileSync(join(dir(root), 'editorial-brief.md'), BC_BRIEF());
+  P.checkBrief(root, SLUG); P.begin(root, SLUG, 'draft');
+  writeFileSync(join(dir(root), 'draft.md'), draft);
+  P.checkDraft(root, SLUG); P.begin(root, SLUG, 'review');
+  appendFileSync(join(dir(root), 'review.md'), REVIEW(1));
+  P.checkReview(root, SLUG);
+}
+
+test('Break & Change brief without access to the book cannot be BRIEF_READY', () => {
+  const root = repo();
+  try {
+    P.init(root, SLUG, 't'); P.begin(root, SLUG, 'brief');
+    writeFileSync(join(dir(root), 'editorial-brief.md'), BC_BRIEF({ access: 'none' }));
+    throwsCode(() => P.checkBrief(root, SLUG), 1, /book_access is "none"/);
+    writeFileSync(join(dir(root), 'editorial-brief.md'), BC_BRIEF({ category: 'Cooking' }));
+    throwsCode(() => P.checkBrief(root, SLUG), 1, /category "Cooking"/);
+  } finally { rmSync(root, { recursive: true, force: true }); }
+});
+
+test('Break & Change draft must keep the editor\'s category', () => {
+  const root = repo();
+  try {
+    P.init(root, SLUG, 't'); P.begin(root, SLUG, 'brief');
+    writeFileSync(join(dir(root), 'editorial-brief.md'), BC_BRIEF());
+    P.checkBrief(root, SLUG); P.begin(root, SLUG, 'draft');
+    writeFileSync(join(dir(root), 'draft.md'), BC_DRAFT({ category: 'Communication' }));
+    throwsCode(() => P.checkDraft(root, SLUG), 1, /book.category must match/);
+  } finally { rmSync(root, { recursive: true, force: true }); }
+});
+
+test('finalize assigns archive slots backwards from the anchor', () => {
+  const root = repo();
+  try {
+    bcToApproved(root);
+    P.finalize(root, SLUG);
+    assert.match(readFileSync(join(dir(root), 'final.md'), 'utf8'), /^editorialDate: 2026-11-02\b/m);
+    assert.equal(state(root).editorialDate, '2026-11-02');
+  } finally { rmSync(root, { recursive: true, force: true }); }
+  const root2 = repo();
+  try {
+    writeFileSync(join(root2, 'src/content/posts/older.md'), '---\ntitle: "x"\ndescription: "d"\ndate: 2026-11-10\neditorialDate: 2026-11-02\ntopics: []\ntags: []\ndraft: true\n---\nx\n');
+    bcToApproved(root2);
+    P.finalize(root2, SLUG);
+    assert.match(readFileSync(join(dir(root2), 'final.md'), 'utf8'), /^editorialDate: 2026-10-26\b/m);
+  } finally { rmSync(root2, { recursive: true, force: true }); }
+});

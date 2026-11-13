@@ -22,8 +22,8 @@ function run(files, opts = {}) {
 const has = (r, re) => r.errors.some((e) => re.test(e));
 
 const chapters = (extra = '') => `Intro [src](https://example.org/a/b).\n\n## 1. Key Ideas — BREAK\n${filler(300)}\n## 2. What Still Matters Today — CHANGE\n${filler(300)}\n## 3. Why We Keep Getting It Wrong — EXPERIENCE\n${filler(300)}\n## 4. The Book's Blind Spots — CHALLENGE\n${filler(300)}\n## 5. My Take — QUESTION\n${filler(300)} ${extra}\n\n## References & Further Reading\n\n- **A**, B, 2020. <https://example.org/a/b>. Relevant.\n`;
-const bc = (o = {}) => fm({ series: 'break-and-change', 'book': undefined, editorialDate: '2025-02-01',
-  ...o }).replace('---\n', '---\nbook:\n  title: "Thinking in Systems"\n  author: "Donella H. Meadows"\n  year: 2008\n');
+const bc = (o = {}) => fm({ series: 'break-and-change', 'book': undefined, editorialDate: '2025-02-03',
+  ...o }).replace('---\n', '---\nbook:\n  title: "Thinking in Systems"\n  author: "Donella H. Meadows"\n  year: 2008\n  category: \"Systems, Execution & Organizational Design\"\n');
 
 test('valid published article passes', () => {
   const r = run({ 'good-post.md': fm() + GOOD_BODY });
@@ -77,9 +77,15 @@ test('Break & Change: book must be in the catalogue', () => {
   const r = run({ 'bc-post.md': bc().replace('Thinking in Systems', 'A Book Not In The Catalogue') + chapters() });
   assert.ok(has(r, /not in docs\/BOOK_CATALOG/));
 });
-test('Break & Change: unresolved catalogue entry (Nexus) is refused', () => {
-  const r = run({ 'bc-post.md': bc().replace('Thinking in Systems', 'Nexus') + chapters() });
+test('Break & Change: unresolved catalogue entry is refused', () => {
+  const cat = join(mkdtempSync(join(tmpdir(), 'cat-')), 'BOOK_CATALOG.md');
+  writeFileSync(cat, '| # | Title | Author(s) | Year | Status | Category | Notes |\n|---|---|---|---|---|---|---|\n| 1 | Thinking in Systems | **unresolved** | **?** | ? |  | x |\n');
+  const r = run({ 'bc-post.md': bc() + chapters() }, { catalogPath: cat });
   assert.ok(has(r, /unresolved/));
+});
+test('catalogue: Nexus is now resolved as Harari (2024)', () => {
+  const r = run({ 'bc-post.md': bc().replace('Thinking in Systems', 'Nexus').replace('Donella H. Meadows', 'Yuval Noah Harari').replace('year: 2008', 'year: 2024') + chapters() });
+  assert.ok(!has(r, /unresolved|not in docs/));
 });
 test('Break & Change: editorialDate must not precede the book nor follow the actual date', () => {
   assert.ok(has(run({ 'bc-post.md': bc({ editorialDate: '2005-01-01' }) + chapters() }), /precedes the book/));
@@ -88,4 +94,14 @@ test('Break & Change: editorialDate must not precede the book nor follow the act
 test('Break & Change: published needs editorialDate, draft does not', () => {
   assert.ok(has(run({ 'bc-post.md': bc({ editorialDate: undefined }) + chapters() }), /editorialDate/));
   assert.deepEqual(run({ 'bc-post.md': bc({ editorialDate: undefined, draft: 'true' }) + chapters() }).errors, []);
+});
+
+test('archive slots: Monday, unique, within horizon, category valid', () => {
+  assert.ok(has(run({ 'bc-post.md': bc({ editorialDate: '2025-02-04' }) + chapters() }), /must be a Monday/));
+  assert.ok(has(run({ 'bc-post.md': bc({ editorialDate: '2021-01-04' }) + chapters() }), /before the archive horizon|precedes the book/));
+  assert.ok(has(run({ 'bc-post.md': bc({ editorialDate: '2026-11-09', date: '2026-11-12' }) + chapters() }), /after the archive anchor/));
+  const two = run({ 'bc-one.md': bc() + chapters(), 'bc-two.md': bc().replace('title: "T"', 'title: "T2"') + chapters() });
+  assert.ok(has(two, /already used/));
+  assert.ok(has(run({ 'bc-post.md': bc().replace('Systems, Execution & Organizational Design', 'Cooking') + chapters() }), /book.category/));
+  assert.ok(has(run({ 'bc-post.md': bc().replace(/\n  category: .*\n/, '\n') + chapters() }), /need book.category/));
 });

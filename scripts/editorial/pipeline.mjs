@@ -10,7 +10,8 @@ import { createHash } from 'node:crypto';
 import { execFileSync, spawnSync } from 'node:child_process';
 import YAML from 'yaml';
 import { validate } from '../lib/validate.mjs';
-import { extractLinks, isExternal, splitReferences, readPosts } from '../lib/content.mjs';
+import { extractLinks, isExternal, splitReferences, readPosts, parsePost } from '../lib/content.mjs';
+import { CATEGORIES, nextSlot } from '../lib/archive.mjs';
 
 export const MAX_REVISIONS = 3;
 export const SHORT = ['Originality', 'Accuracy', 'Evidence', 'Systems', 'Cross-disc.', 'Accessibility', 'Clarity', 'Practical', 'Question'];
@@ -144,6 +145,13 @@ export function parseBrief(text, slug) {
   if (fm.status && !['BRIEF_READY', 'NEEDS_INPUT', 'BLOCKED'].includes(fm.status)) errors.push(`status "${fm.status}" invalid`);
   if (fm.kind && !['essay', 'break-and-change'].includes(fm.kind)) errors.push(`kind "${fm.kind}" invalid`);
   if (fm.target_words && !/^\d+\s*-\s*\d+$/.test(String(fm.target_words))) errors.push('target_words must look like "700-1000"');
+  if (fm.kind === 'break-and-change') {
+    for (const k of ['book_title', 'book_author', 'book_year', 'category', 'book_access']) if (fm[k] === undefined || fm[k] === '') errors.push(`break-and-change brief needs frontmatter "${k}"`);
+    if (fm.category && !CATEGORIES.includes(fm.category)) errors.push(`category "${fm.category}" is not one of: ${CATEGORIES.join('; ')}`);
+    if (fm.book_access && !['full-text', 'excerpts', 'none'].includes(fm.book_access)) errors.push('book_access must be full-text | excerpts | none');
+    if (fm.book_access === 'none' && fm.status === 'BRIEF_READY') errors.push('book_access is "none": a Break & Change article cannot be based on the book, status must be NEEDS_INPUT');
+    if (fm.book_year !== undefined && !Number.isInteger(fm.book_year)) errors.push('book_year must be an integer');
+  }
   if (typeof fm.thesis === 'string' && fm.thesis.trim().split(/\s+/).length < 6) errors.push('thesis is too short to be an arguable sentence');
   const sec = sections(body);
   for (const n of BRIEF_SECTIONS) if (!(n in sec)) errors.push(`section "## ${n}" missing`);
@@ -199,7 +207,8 @@ export function checkBrief(root, slug) {
     saveState(p, s);
     stop(`editor returned ${fm.status}. Read editorial/${slug}/editorial-brief.md (Research Gaps / Experience) and ask the author.`);
   }
-  s.locks = { brief: sha(p.brief), thesis: fm.thesis, kind: fm.kind, target_words: String(fm.target_words) };
+  s.locks = { brief: sha(p.brief), thesis: fm.thesis, kind: fm.kind, target_words: String(fm.target_words),
+    ...(fm.kind === 'break-and-change' ? { book: { title: fm.book_title, author: fm.book_author, year: fm.book_year, category: fm.category }, bookAccess: fm.book_access } : {}) };
   s.stage = 'brief-approved';
   s.log.push({ at: now(), event: 'brief approved by gate' });
   saveState(p, s);
@@ -214,12 +223,20 @@ function checkDraftContent(p, s) {
   const { fm, body } = splitFrontmatter(text);
   if (!fm) return { errors: ['draft.md frontmatter missing or invalid'], warnings };
   if (fm.draft !== true) errors.push('draft.md must have draft: true (publication is a human decision)');
-  if (s.locks.kind === 'break-and-change' && fm.series !== 'break-and-change') errors.push('brief kind is break-and-change: draft needs series: break-and-change');
+  if (s.locks.kind === 'break-and-change') {
+    if (fm.series !== 'break-and-change') errors.push('brief kind is break-and-change: draft needs series: break-and-change');
+    const b = fm.book ?? {}, L = s.locks.book ?? {};
+    for (const k of ['title', 'author', 'year', 'category']) if (b[k] !== L[k]) errors.push(`book.${k} must match the brief ("${L[k]}"), found "${b[k]}"`);
+    if (fm.editorialDate !== undefined) errors.push('do not set editorialDate in the draft; finalize assigns the archive slot');
+  }
 
   // Repository validator, run as if published, on an isolated copy.
   const tmp = mkdtempSync(join(tmpdir(), 'editorial-'));
   try {
-    writeFileSync(join(tmp, `${p.slug}.md`), text.replace(/^draft:\s*true\s*$/m, 'draft: false'));
+    let probe = text.replace(/^draft:\s*true\s*$/m, 'draft: false');
+    // A Break & Change draft has no slot yet: validate it against the slot finalize would assign.
+    if (s.locks.kind === 'break-and-change' && fm.editorialDate === undefined) probe = probe.replace(/^date:.*$/m, (d) => `${d}\neditorialDate: ${nextSlot(takenSlots(p)) ?? '1900-01-01'}`);
+    writeFileSync(join(tmp, `${p.slug}.md`), probe);
     const r = validate(tmp, { catalogPath: p.catalog });
     errors.push(...r.errors.map((e) => `validator: ${e.replace(tmp + '/', '')}`));
     warnings.push(...r.warnings.map((w) => `validator: ${w.replace(tmp + '/', '')}`));
@@ -344,13 +361,32 @@ function checkNotes(p, s) {
   return errors;
 }
 
+/** Archive slots already used by posts (published or draft) and by other finalized workflows. */
+export function takenSlots(p) {
+  const out = new Set();
+  const add = (v) => { if (v) out.add(v instanceof Date ? v.toISOString().slice(0, 10) : String(v)); };
+  if (existsSync(p.posts)) for (const post of readPosts(p.posts)) add(post.fm?.editorialDate);
+  const ed = join(p.root, 'editorial');
+  if (existsSync(ed)) for (const d of readdirSync(ed)) {
+    const f = join(ed, d, 'final.md');
+    if (d !== p.slug && existsSync(f)) add(parsePost(f).fm?.editorialDate);
+  }
+  return out;
+}
+
 export function finalize(root, slug) {
   const p = paths(root, slug);
   const s = loadState(p);
   if (s.stage !== 'approved') fail(`cannot finalize: workflow is "${s.stage}", not "approved"`);
   const { errors, warnings, words } = checkDraftContent(p, s);
   if (errors.length) fail(`final checks failed:\n  - ${errors.join('\n  - ')}`);
-  copyFileSync(p.draft, p.final);
+  let finalText = read(p.draft), slot = null;
+  if (s.locks.kind === 'break-and-change') {
+    slot = nextSlot(takenSlots(p));
+    if (!slot) stop('the ~240-week archive horizon is exhausted; the owner must decide how to date this article');
+    finalText = finalText.replace(/^date:.*$/m, (d) => `${d}\neditorialDate: ${slot}   # archive slot assigned by pipeline finalize (policy §6)`);
+  }
+  writeFileSync(p.final, finalText);
   const { fm } = splitFrontmatter(read(p.final));
 
   const tmp = mkdtempSync(join(tmpdir(), 'editorial-links-'));
@@ -374,6 +410,8 @@ export function finalize(root, slug) {
 | Title | ${fm.title} |
 | Description | ${fm.description} |
 | Date (actual) | ${fm.date} |
+| Editorial date (archive slot) | ${slot ?? 'n/a (essay: dated by its actual date)'} |
+| Book | ${fm.book ? `${fm.book.title}, ${fm.book.author} (${fm.book.year}). Category: ${fm.book.category}. Access used: ${s.locks.bookAccess}` : 'n/a'} |
 | Topics | ${(fm.topics ?? []).join(', ')} |
 | Tags | ${(fm.tags ?? []).join(', ')} |
 | Words (body) | ${words} |
@@ -406,11 +444,12 @@ ${links}
 
 ## To publish (only with explicit approval)
 
-1. Copy \`final.md\` to \`src/content/posts/${slug}.md\` and set \`draft: false\`.
+1. Copy \`final.md\` to \`src/content/posts/${slug}.md\` and set \`draft: false\`.${fm.book ? `\n   Also record the category and article in \`docs/BOOK_CATALOG.md\` (row "${fm.book.title}").` : ''}
 2. \`npm run build && npm run check-links\`.
 3. Commit on a branch (include \`editorial/${slug}/\`), show the author, push or merge only when approved.
 `;
   writeFileSync(p.publication, md);
+  if (slot) s.editorialDate = slot;
   s.stage = 'awaiting-human-approval';
   s.log.push({ at: now(), event: 'finalized; awaiting human approval' });
   saveState(p, s);

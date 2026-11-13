@@ -150,7 +150,8 @@ Requirements specific to book articles:
 - The article must be based on the actual book. If the text is not accessible, keep the article a draft.
 - Book title and author must match an entry in [`BOOK_CATALOG.md`](BOOK_CATALOG.md). Do not invent books or
   silently substitute books or authors. Catalogue changes are made deliberately, in that file.
-- Frontmatter records the book (`book.title`, `book.author`, `book.year`) and `series: break-and-change`.
+- Frontmatter records the book (`book.title`, `book.author`, `book.year`, `book.category`) and
+  `series: break-and-change`. The category is one of the seven catalogue categories, chosen by the critical editor.
 
 ## 6. Historical archive and dating
 
@@ -172,6 +173,8 @@ Rules:
   If a catalogue sequence and these constraints conflict, the conflict is resolved by the owner, not by
   adjusting facts.
 - Do not generate filler to occupy unused weeks. An unused slot stays unused.
+- **Assignment (owner decision, 2026-11-13):** slots are given retrospectively as articles are created, one week
+  earlier each time, starting at Monday 2026-11-02. The pipeline assigns them at `finalize`; see `BOOK_CATALOG.md`.
 
 ## 7. Publication quality gate
 

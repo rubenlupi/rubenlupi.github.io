@@ -10,12 +10,13 @@ References section. It does **not** judge accuracy or reasoning.
 title: "<Article title: an idea or question, not just the book title>"
 description: "<One-sentence summary shown in lists.>"
 date: YYYY-MM-DD            # ACTUAL date written/published. Never backdate.
-editorialDate: YYYY-MM-DD   # Archive slot (see policy §6). Must be <= date and >= book.year. Omit until assigned.
+# editorialDate is NOT set by hand: `pipeline.mjs finalize` assigns the next backward weekly slot (policy §6).
 series: break-and-change
 book:
   title: "<Exact title as listed in docs/BOOK_CATALOG.md>"
   author: "<Author(s)>"
   year: 0000                # Original publication year of the book (verified)
+  category: "<one of the seven catalogue categories, as chosen in the editorial brief>"
 topics: ["Systems & Organizations"]   # one or more of the six areas in src/site.ts
 tags: []
 draft: true
@@ -65,6 +66,7 @@ draft: true
 - [ ] I opened every URL and confirmed it supports the specific claim; quotations and numbers are verbatim.
 - [ ] Counterarguments and limitations are addressed; no manufactured criticism.
 - [ ] No fabricated experiences, anecdotes, books or sources.
-- [ ] Dates are consistent: `date` actual, `editorialDate` valid, `book.year` verified.
+- [ ] Dates are consistent: `date` actual, `editorialDate` assigned by finalize, `book.year` verified.
+- [ ] `book.category` is the one the critical editor chose in the brief.
 - [ ] `npm run validate`, `npm test` and `npm run build` pass; `npm run check-links` reviewed.
 - [ ] Unresolved issues are disclosed. The owner has approved publication (`draft: false`).

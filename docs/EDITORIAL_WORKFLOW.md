@@ -88,6 +88,12 @@ experiences: if the author gave none, the section says `None supplied.`
 slug: <slug>
 status: BRIEF_READY            # or NEEDS_INPUT | BLOCKED
 kind: essay                    # or break-and-change (book article; uses docs/BOOK_REVIEW_TEMPLATE.md)
+# Only for kind: break-and-change:
+# book_title: "<exact catalogue title>"
+# book_author: "<author(s)>"
+# book_year: 2008
+# category: "<one of the seven catalogue categories>"   # the editor decides
+# book_access: full-text        # full-text | excerpts | none
 target_words: 700-1000
 working_title: "<title>"
 thesis: "<one arguable sentence>"
@@ -128,6 +134,9 @@ Machine-checked rules (`check-brief`):
   (or `self-contained` for a derivation) and is `Inspected: yes` or `Inspected: no`; uninspected sources may not
   support any claim.
 - No placeholder markers (TODO, TBD, FIXME, [VERIFY]).
+- `kind: break-and-change` requires `book_title`, `book_author`, `book_year`, `category` (one of the seven) and
+  `book_access`. With `book_access: none` the status must be `NEEDS_INPUT`: an article cannot be based on a book
+  nobody could read.
 
 What the gate cannot check: whether the sources really say what the brief claims. That is the editor's
 responsibility in BRIEF mode and is re-checked in REVIEW mode.
@@ -159,6 +168,7 @@ Machine-checked rules (`check-draft`, `check-revision`):
   topics, References section, inline citations, link syntax, no placeholders, and Break & Change structure when
   applicable.
 - Its slug and title do not collide with an existing post.
+- Break & Change: `book.title/author/year/category` match the brief exactly, and the draft sets **no** `editorialDate`.
 - Every external URL in the draft appears in the brief's Sources (no new, unvetted sources).
 - The brief is unchanged since `check-brief` (thesis lock).
 - Word count outside `target_words` (±15%) is reported as a warning; the editor judges it.
@@ -241,6 +251,9 @@ The coordinator stops and reports to the author, with the reason and the artifac
 - an agent fails to produce its artifact.
 
 ## Publishing (human-only step)
+
+`finalize` assigns the archive slot to Break & Change articles (the next Monday backwards from 2026-11-02; see
+`BOOK_CATALOG.md`). Essays keep their actual date and get no slot.
 
 `final.md` is still `draft: true`. Publishing is **not** part of the workflow. With the author's explicit approval:
 copy `final.md` to `src/content/posts/<slug>.md`, set `draft: false`, run `npm run build` and

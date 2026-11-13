@@ -2,6 +2,7 @@
 // It cannot establish factual accuracy, source relevance or quality of reasoning.
 import { readFileSync, existsSync } from 'node:fs';
 import { readPosts, extractLinks, isExternal, splitReferences, cleanBody } from './content.mjs';
+import { ANCHOR, EARLIEST, CATEGORIES, isMonday } from './archive.mjs';
 
 export const AREAS = [
   'Software Engineering', 'Learning & Education', 'Strength & Human Performance',
@@ -39,7 +40,7 @@ export function validate(dir, { catalogPath, today = new Date() } = {}) {
   const warn = (f, m) => warnings.push(`${f}: ${m}`);
   const posts = readPosts(dir);
   const catalog = loadCatalog(catalogPath);
-  const slugs = new Map(), titles = new Map();
+  const slugs = new Map(), titles = new Map(), slots = new Map();
 
   for (const p of posts) {
     const f = p.file;
@@ -77,17 +78,27 @@ export function validate(dir, { catalogPath, today = new Date() } = {}) {
     const edDate = fm.editorialDate !== undefined ? asDate(fm.editorialDate) : null;
     if (fm.editorialDate !== undefined && !edDate) err(f, '"editorialDate" must be a valid YYYY-MM-DD date');
     if (edDate && date && +edDate > +date) err(f, '"editorialDate" cannot be later than the actual "date"');
+    if (edDate) {
+      const e = String(fm.editorialDate instanceof Date ? fm.editorialDate.toISOString().slice(0, 10) : fm.editorialDate);
+      if (!isMonday(e)) err(f, `"editorialDate" ${e} must be a Monday (weekly archive slots)`);
+      if (e > ANCHOR) err(f, `"editorialDate" ${e} is after the archive anchor ${ANCHOR}`);
+      if (e < EARLIEST) err(f, `"editorialDate" ${e} is before the archive horizon (${EARLIEST})`);
+      if (slots.has(e)) err(f, `"editorialDate" ${e} is already used by ${slots.get(e)}`); else slots.set(e, f);
+    }
     if (fm.book !== undefined) {
       const b = fm.book;
       if (!b || typeof b.title !== 'string' || typeof b.author !== 'string' || !Number.isInteger(b.year)) {
         err(f, '"book" needs title (string), author (string) and year (integer)');
-      } else if (edDate && edDate.getUTCFullYear() < b.year) {
+      }
+      if (b && b.category !== undefined && !CATEGORIES.includes(b.category)) err(f, `book.category "${b.category}" is not one of: ${CATEGORIES.join('; ')}`);
+      if (b && Object.keys(b).some((k) => !['title', 'author', 'year', 'category'].includes(k))) err(f, 'book has unknown keys (allowed: title, author, year, category)'); else if (edDate && edDate.getUTCFullYear() < b.year) {
         err(f, `"editorialDate" (${fm.editorialDate}) precedes the book's original publication year (${b.year})`);
       }
     }
     if (isBC) {
       if (!fm.book) err(f, 'Break & Change articles need a "book" block');
       if (published && !edDate) err(f, 'published Break & Change articles need an "editorialDate" (see docs/BOOK_CATALOG.md)');
+      if (published && fm.book && !fm.book.category) err(f, 'published Break & Change articles need book.category (chosen by the critical editor)');
       if (fm.book && catalog) {
         const row = catalog.find((r) => norm(r.title).toLowerCase() === norm(String(fm.book.title)).toLowerCase());
         if (!row) err(f, `book "${fm.book.title}" is not in docs/BOOK_CATALOG.md (no silent substitutions)`);

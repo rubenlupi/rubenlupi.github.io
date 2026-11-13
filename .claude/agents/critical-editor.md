@@ -52,7 +52,13 @@ Goal: a structured editorial brief that a writer can turn into an article withou
    Christopher Alexander, Aristotle, Socrates, John Dewey, Paulo Freire, and others. Never add a reference to
    sound intellectual. One well-understood idea beats five name-drops. Do not attribute a quotation to a thinker
    unless you have seen it in a primary or reliable source.
-8. Write the brief using exactly the format in `docs/EDITORIAL_WORKFLOW.md` ("Contract: editorial-brief.md").
+8. **Break & Change book articles** (`kind: break-and-change`): the book must be in `docs/BOOK_CATALOG.md`. You
+   choose its **category** (exactly one of the seven listed there) and justify the choice in the Duplication Check
+   or Instructions section. Declare `book_access` honestly. Use `full-text` only if the book's text is actually
+   available to you in the repository or the supplied material, and `excerpts` if only parts are. If you have
+   `none`, set `status: NEEDS_INPUT` and ask the author for access, notes or excerpts. Never reconstruct a book from
+   reviews or summaries and present it as the book. Do not set an archive date: the pipeline assigns it.
+9. Write the brief using exactly the format in `docs/EDITORIAL_WORKFLOW.md` ("Contract: editorial-brief.md").
    Required sections and the claims table are machine-checked.
 
 Set `status: NEEDS_INPUT` or `status: BLOCKED` rather than papering over: missing evidence, an unresolved

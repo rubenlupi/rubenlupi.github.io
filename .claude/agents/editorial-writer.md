@@ -54,7 +54,9 @@ articles in `src/content/posts/` to match the blog's voice. You have no memory o
 
 Exactly the repository's post format (see `docs/EDITORIAL_WORKFLOW.md`, "Contract: draft.md"): frontmatter with
 `title`, `description`, `date` (today's actual date), `topics`, `tags`, `draft: true`, and no other keys unless
-the brief says it is a Break & Change article. Inline Markdown links next to the claims they support. A final
+the brief says it is a Break & Change article. Then also add `series: break-and-change` and a `book` block whose
+`title`, `author`, `year` and `category` are copied **exactly** from the brief. Never set `editorialDate`: the
+pipeline assigns the archive slot. Inline Markdown links next to the claims they support. A final
 `## References & Further Reading` section built from the brief's Sources.
 
 ## Mode: DRAFT
