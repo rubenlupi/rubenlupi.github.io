@@ -19,7 +19,7 @@ topics: ["Systems & Organizations", "Software Engineering", "Learning & Educatio
 tags: ["Systems Thinking", "DORA", "Metrics", "Leverage Points", "Assessment"]
 lang: es
 translationOf: systems-we-build-2-improving-the-parts
-draft: false
+draft: true
 ---
 
 Una métrica es una frontera trazada alrededor de aquello que hemos decidido que nos importa. Todo lo que queda fuera de la línea sale gratis, al menos a ojos de la cifra.

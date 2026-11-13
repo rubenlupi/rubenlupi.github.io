@@ -19,7 +19,7 @@ topics: ["Systems & Organizations", "Mathematics & Reasoning"]
 tags: ["Systems Thinking", "Models", "Causal Inference", "Critical Thinking"]
 lang: es
 translationOf: systems-we-build-4-limits
-draft: false
+draft: true
 ---
 
 El pensamiento sistémico también es un modelo, y todo modelo tiene una frontera. Donde más fuerte se muestra es al explicar dinámicas que se repiten; donde más flojea, al predecir, al atribuir causas y en todo lo que tiene que ver con el poder y el propósito.

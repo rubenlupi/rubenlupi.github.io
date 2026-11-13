@@ -17,7 +17,7 @@ book:
   category: "Systems, Execution & Organizational Design"
 topics: ["Systems & Organizations", "Software Engineering"]
 tags: ["Systems Thinking", "Feedback Loops", "Technical Debt", "SRE", "Capability Trap"]
-draft: false
+draft: true
 ---
 
 Some mistakes are not mistakes of intelligence. They are the sensible output of a structure in which costs arrive later than rewards. The structure then teaches its participants the wrong lesson, and clever people learn it faster.

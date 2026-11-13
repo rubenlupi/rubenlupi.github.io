@@ -17,7 +17,7 @@ book:
   category: "Systems, Execution & Organizational Design"
 topics: ["Systems & Organizations", "Mathematics & Reasoning"]
 tags: ["Systems Thinking", "Models", "Causal Inference", "Critical Thinking"]
-draft: false
+draft: true
 ---
 
 Systems thinking is itself a model, and a model has a boundary. It is strongest at explaining recurring dynamics. It is weakest at prediction, at attributing causes, and at anything involving power and purpose.

@@ -17,7 +17,7 @@ book:
   category: "Systems, Execution & Organizational Design"
 topics: ["Systems & Organizations", "Software Engineering", "Learning & Education"]
 tags: ["Systems Thinking", "DORA", "Metrics", "Leverage Points", "Assessment"]
-draft: false
+draft: true
 ---
 
 A metric is a boundary drawn around what you have decided to care about. Everything outside the line is, for purposes of the number, free.

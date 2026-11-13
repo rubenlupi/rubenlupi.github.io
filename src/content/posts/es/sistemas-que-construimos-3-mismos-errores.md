@@ -19,7 +19,7 @@ topics: ["Systems & Organizations", "Software Engineering"]
 tags: ["Systems Thinking", "Feedback Loops", "Technical Debt", "SRE", "Capability Trap"]
 lang: es
 translationOf: systems-we-build-3-same-mistakes
-draft: false
+draft: true
 ---
 
 Hay errores que no tienen nada que ver con la inteligencia. Son la respuesta sensata a una estructura en la que los costes llegan después que las recompensas. Esa estructura enseña después la lección equivocada a quienes forman parte de ella, y los más listos la aprenden antes.

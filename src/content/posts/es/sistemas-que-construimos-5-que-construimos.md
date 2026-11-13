@@ -19,7 +19,7 @@ topics: ["Systems & Organizations", "Software Engineering", "Learning & Educatio
 tags: ["Systems Thinking", "Organizational Learning", "Engineering Culture", "Education"]
 lang: es
 translationOf: systems-we-build-5-what-are-we-building
-draft: false
+draft: true
 ---
 
 En cualquier sistema, la decisión de más peso es su objetivo, y los objetivos son elecciones de valores en disputa que la medición puede reescribir sin hacer ruido. Hacia esa idea apuntaban las entregas anteriores: stocks que se llenan de lo que el sistema recompensa, fronteras que ocultan lo que la métrica ignora, bucles que enseñan la lección equivocada y modelos incapaces de ver sus propias vallas.

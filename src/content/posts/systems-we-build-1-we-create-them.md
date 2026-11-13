@@ -17,7 +17,7 @@ book:
   category: "Systems, Execution & Organizational Design"
 topics: ["Systems & Organizations", "History & Classical Thinking", "Learning & Education"]
 tags: ["Systems Thinking", "Stocks and Flows", "Conway's Law", "Ancient Greece", "Education"]
-draft: false
+draft: true
 ---
 
 Two assumptions sit under most of how we run teams, schools and training plans. The first: if every part gets better, the whole gets better. The second: if results are bad, someone isn't working hard enough.

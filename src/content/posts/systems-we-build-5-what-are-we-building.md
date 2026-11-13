@@ -17,7 +17,7 @@ book:
   category: "Systems, Execution & Organizational Design"
 topics: ["Systems & Organizations", "Software Engineering", "Learning & Education"]
 tags: ["Systems Thinking", "Organizational Learning", "Engineering Culture", "Education"]
-draft: false
+draft: true
 ---
 
 The most consequential decision in any system is its goal, and goals are contested value choices that measurement can quietly rewrite. The earlier parts of this series built toward that claim: stocks that fill with what the system rewards, boundaries that hide what the metric ignores, loops that teach the wrong lesson, and models that cannot see their own fences.

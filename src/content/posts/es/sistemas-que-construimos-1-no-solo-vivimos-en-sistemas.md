@@ -19,7 +19,7 @@ topics: ["Systems & Organizations", "History & Classical Thinking", "Learning & 
 tags: ["Systems Thinking", "Stocks and Flows", "Conway's Law", "Ancient Greece", "Education"]
 lang: es
 translationOf: systems-we-build-1-we-create-them
-draft: false
+draft: true
 ---
 
 Casi todo lo que hacemos al dirigir equipos, escuelas o planes de entrenamiento descansa en dos supuestos: que si cada parte mejora, mejora el conjunto, y que si los resultados son malos es porque alguien no se esfuerza lo suficiente.
