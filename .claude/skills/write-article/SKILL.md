@@ -54,6 +54,11 @@ Request: **$ARGUMENTS**
    > "Contract: draft.md". Write no other file. End with the RESULT line.
 
    If the writer returns `THESIS_CHANGE_REQUEST`, stop and report it. Gate: `pipeline.mjs check-draft <slug>`.
+4b. **Polish (mandatory before every review).** `pipeline.mjs begin <slug> polish`, then invoke **prose-editor**:
+   > Polish `editorial/<slug>/draft.md` (English). Read `docs/PROSE_STYLE.md`. Do not read the brief or reviews.
+   > Append "## Polish <N>" to `editorial/<slug>/polish-notes.md`. Write no other file. End with the RESULT line.
+
+   (N = completed polishes + 1, from `pipeline.mjs status <slug>`.) Gate: `pipeline.mjs check-polish <slug>`.
 5. **Review.** `pipeline.mjs begin <slug> review`, then invoke **critical-editor**:
    > Mode: REVIEW. Slug: `<slug>`. Read `AGENTS.md`, `docs/EDITORIAL_POLICY.md`, `docs/EDITORIAL_WORKFLOW.md`,
    > `editorial/<slug>/editorial-brief.md`, `editorial/<slug>/draft.md`, and, if present, `editorial/<slug>/review.md`
@@ -71,7 +76,7 @@ Request: **$ARGUMENTS**
    > `draft.md` for every I- and F-item, and append "## Round <N> response" to `editorial/<slug>/revision-notes.md`
    > per the contract. Do not change the thesis. Write no other file. End with the RESULT line.
 
-   Gate: `pipeline.mjs check-revision <slug>`, then back to step 5.
+   Gate: `pipeline.mjs check-revision <slug>`, then step 4b (polish), then back to step 5.
 7. **Finalize.** `pipeline.mjs finalize <slug>`. This writes `final.md` (still `draft: true`) and `publication.md`.
 7b. **Spanish edition.** Every article is published in English and Spanish together (policy §1). Run the
    `/translate-article` procedure (`.claude/skills/translate-article/SKILL.md`) with job `<slug>` and the approved

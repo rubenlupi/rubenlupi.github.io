@@ -29,6 +29,8 @@ engineering can learn from it.
 - Length: essays default to 700–1,000 words; Break & Change book articles generally run 1,500–2,000 words.
   Quality takes priority over length either way. Short paragraphs, clear arguments, concrete examples.
 - Each article should offer original synthesis, not a rearrangement of existing sources.
+- **Prose:** [`PROSE_STYLE.md`](PROSE_STYLE.md) is binding. Every draft, revision and translation passes a
+  prose-editor style pass, and blacklisted patterns block approval.
 
 ## 2. Evidence policy
 

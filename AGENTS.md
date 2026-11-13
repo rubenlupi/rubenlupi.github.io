@@ -13,7 +13,7 @@ creates, edits, researches, reviews or publishes content here, in every session.
 You MUST, in this order:
 
 1. Read this file.
-2. Read [`docs/EDITORIAL_POLICY.md`](docs/EDITORIAL_POLICY.md) in full.
+2. Read [`docs/EDITORIAL_POLICY.md`](docs/EDITORIAL_POLICY.md) and [`docs/PROSE_STYLE.md`](docs/PROSE_STYLE.md) in full.
 3. Read the relevant template: [`docs/BOOK_REVIEW_TEMPLATE.md`](docs/BOOK_REVIEW_TEMPLATE.md) for
    Break & Change book articles. Check [`docs/BOOK_CATALOG.md`](docs/BOOK_CATALOG.md) for the verified catalogue.
 4. Inspect `src/content/posts/` to avoid duplicating existing articles and to match conventions.

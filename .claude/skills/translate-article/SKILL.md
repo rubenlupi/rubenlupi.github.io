@@ -31,6 +31,12 @@ Request: **$ARGUMENTS**
    > file. End with the RESULT line.
 4. **Gate.** `node scripts/editorial/translation.mjs check <job>`. On `FAIL`, begin again and re-invoke the
    translator **once** with the gate's exact output; if it fails again, stop and report.
+4b. **Polish (mandatory).** `node scripts/editorial/translation.mjs begin-polish <job>`, then invoke **prose-editor**:
+   > Polish the Spanish files in `editorial/<job>/translation-es/` (all `*.md` except notes.md, polish-notes.md and
+   > publication.md). Read `docs/PROSE_STYLE.md` and `docs/TRANSLATION_STYLE_ES.md`. Do not read the English
+   > originals. Append "## Polish <N>" to `editorial/<job>/translation-es/polish-notes.md`. Write no other file.
+
+   Gate: `node scripts/editorial/translation.mjs check-polish <job>`.
 5. **Present and stop.** Report the Spanish titles and target paths, the gate warnings, and the translator's
    *Open questions*. Nothing is committed or published until the author explicitly approves. A translation may
    not be published before its original.

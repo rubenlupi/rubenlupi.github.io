@@ -13,6 +13,7 @@ Where anything here conflicts with the policy, the policy wins.
 | **Coordinator** | `/write-article` skill (`.claude/skills/write-article/SKILL.md`), run by the main Claude Code session | the session's model | `input.md`, `state.json` (via the pipeline script), `final.md`, `publication.md` |
 | **Critical Editor** | `.claude/agents/critical-editor.md` | `claude-opus-5-5` (Claude Opus 5.5) | `editorial-brief.md`; appends rounds to `review.md` |
 | **Editorial Writer** | `.claude/agents/editorial-writer.md` | `claude-sonnet-5-5` (Claude Sonnet 5.5) | `draft.md`; appends to `revision-notes.md` |
+| **Prose Editor** | `.claude/agents/prose-editor.md` | `claude-opus-5-5` (Claude Opus 5.5) | style pass on `draft.md` and on Spanish translations; appends `polish-notes.md` |
 | **Editorial Translator** | `.claude/agents/editorial-translator.md` | `claude-opus-5-5` (Claude Opus 5.5) | `translation-es/*.md` (Spanish edition) |
 
 The agents never call each other. Claude Code subagents cannot spawn subagents, and the coordinator invokes each one
@@ -64,6 +65,15 @@ workflow stops and reports.
 
 `editorial/` is outside `src/`, so Astro never builds it. Artifacts are committed only with the author's approval,
 together with the article.
+
+## Polish stage (prose-editor)
+
+Mandatory after every draft and every revision, before review (`begin <slug> polish` → prose-editor →
+`check-polish`), and after every translation. The prose-editor reads only the text and `docs/PROSE_STYLE.md`
+(plus the Spanish style guide for Spanish), never the brief or the original. Its gate (`scripts/lib/polish.mjs`)
+fails if the frontmatter, headings, links, figures or quotations change, or if the length moves outside 70%–112%.
+The review criterion **Prose quality** is capped at 3 by any blacklisted pattern, so machine-sounding prose
+cannot be approved. A finalized workflow can be reopened for another cycle with `reopen <slug> <reason>`.
 
 ## Contract: `input.md`
 
@@ -193,6 +203,7 @@ Open factual/citation issues: <count>
 | Clarity and narrative flow | <1-5> | … |
 | Practical relevance | <1-5> | … |
 | Strength of the final question | <1-5> | … |
+| Prose quality | <1-5> | … |
 
 ### Factual and citation issues
 - I1 — <location>: <problem>. Evidence: <source / reason>. Required: <fix>.
@@ -302,6 +313,7 @@ Open factual/citation issues: <count>
 | Practical relevance | 1-5 | … |
 | Quality of critical analysis | 1-5 | … |
 | Strength of the final question | 1-5 | … |
+| Prose quality | 1-5 | … |
 
 #### Factual and citation issues
 - P1-I1 — <location>: <problem>. Required: <fix>.   (or "None.")

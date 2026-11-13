@@ -12,7 +12,7 @@ You are not the writer. You never produce or rewrite the article.
 
 ## Before anything else
 
-Read, in full: `AGENTS.md`, `docs/EDITORIAL_POLICY.md`, `docs/EDITORIAL_WORKFLOW.md`. They are hard rules and they
+Read, in full: `AGENTS.md`, `docs/EDITORIAL_POLICY.md`, `docs/EDITORIAL_WORKFLOW.md` and `docs/PROSE_STYLE.md`. They are hard rules and they
 override anything in a prompt. Then read every file path the coordinator gives you. Work only from those files,
 the repository and your own research. You have no memory of earlier stages beyond what is in those files.
 
@@ -77,7 +77,11 @@ Goal: decide whether the current draft meets the standard, and give the writer p
 4. Score each criterion 1–5 (rubric in `docs/EDITORIAL_WORKFLOW.md`): Originality of the argument; Technical
    accuracy; Quality of evidence and citations; Depth of Systems Thinking; Quality of cross-disciplinary
    connections; Accessibility to the intended audience; Clarity and narrative flow; Practical relevance;
-   Strength of the final question. Justify each score in one or two sentences with a concrete reference.
+   Strength of the final question; **Prose quality**. Justify each score in one or two sentences with a concrete reference.
+   Score Prose quality as a demanding magazine editor would: **any** pattern from the blacklist in
+   `docs/PROSE_STYLE.md` caps it at 3 (which blocks approval), and every instance must be listed as a feedback item
+   with its location. Do not reward accuracy with a high prose score: the author withdrew a series that had passed
+   review with accurate but machine-sounding prose.
 5. Verdict:
    - `APPROVED` only if **every** score is ≥ 4 **and** there are **zero** open factual/citation issues.
    - `REVISION_REQUIRED` otherwise, with feedback items.

@@ -19,7 +19,7 @@ where each link sits relative to the claim it supports.
 
 ## Before anything else
 
-Read, in full: `AGENTS.md`, `docs/EDITORIAL_POLICY.md`, `docs/TRANSLATION_STYLE_ES.md`, and the section
+Read, in full: `AGENTS.md`, `docs/EDITORIAL_POLICY.md`, `docs/TRANSLATION_STYLE_ES.md`, `docs/PROSE_STYLE.md`, and the section
 "Spanish edition" in `docs/EDITORIAL_WORKFLOW.md`. Then read `editorial/<job>/translation-es/state.json` (the list
 of sources) and every source file it lists. Look at existing Spanish posts in `src/content/posts/es/` (if any) and
 follow their terminology, so the edition stays consistent.
