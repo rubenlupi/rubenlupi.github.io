@@ -17,3 +17,10 @@ test('figures, quotations, links, fixed headings and other frontmatter are prote
   assert.match(comparePolish(doc(BASE), doc(BASE.replace('## References & Further Reading', '## Sources'))).join(), /fixed headings/);
   assert.match(comparePolish(doc(BASE), doc(BASE).replace('date: 2026-11-13', 'date: 2026-11-14')).join(), /beyond title\/description/);
 });
+
+test('series cross-references ("Part 3") are not figures', () => {
+  const fm = '---\ntitle: "A"\n---\n';
+  const before = fm + 'Loops matter a great deal here, and the argument goes on for a while to keep the ratio sane.\n';
+  const after = fm + 'Loops matter a great deal here, as Part 3 shows, and Parts 4 and 5 go on to keep it sane.\n';
+  assert.deepEqual(comparePolish(before, after, 'p').filter((e) => e.includes('figures')), []);
+});
