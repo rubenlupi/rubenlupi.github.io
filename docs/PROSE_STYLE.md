@@ -145,6 +145,16 @@ ignore. Section headings should pull the reader forward too, not label the conte
 Never: false promises, manufactured outrage, "you won't believe", numbered-list bait, or a title the article
 does not deliver on. Keep titles short (ideally under ten words).
 
+## Get to the point (owner feedback, 2026-11-13)
+
+The author wants articles that go straight to the point. Shorter is better whenever nothing true is lost.
+
+- Say each thing once. No restating a point in other words, no paragraph that repeats the previous one's conclusion.
+- Cut warm-up sentences, throat-clearing and signposting. The first sentence of a paragraph carries its point.
+- One caveat per claim, in as few words as it needs; don't repeat the same caveat in several sections.
+- Prefer the short word and the short sentence when they say the same thing.
+- If a paragraph can go without the argument losing a step, it goes.
+
 ## What good looks like
 - **Start in the material**: a scene, a number, a quotation, a puzzle. Not a preview.
 - **One idea per paragraph**, joined by reasons (*because, so, but, which is why*).
