@@ -33,7 +33,7 @@ Checked on 2026-11-13. "Year" is the original publication year of the book and i
 
 | # | Title | Author(s) | Year | Status | Category | Notes |
 |---|---|---|---|---|---|---|
-| 1 | Thinking in Systems | Donella H. Meadows (ed. Diana Wright) | 2008 | V |  | [Chelsea Green page](https://chelseagreen.com/product/thinking-in-systems/) gives 3 Dec 2008. Posthumous; Meadows died in 2001. In progress as the five-part series *The Systems We Build, The Systems We Live In* (`editorial/systems-we-build/`). Owner decision 2026-11-13: based only on legally accessible material (publisher excerpt, Meadows' essays, scholarship), disclosed in each post. |
+| 1 | Thinking in Systems | Donella H. Meadows (ed. Diana Wright) | 2008 | V | Systems, Execution & Organizational Design | [Chelsea Green page](https://chelseagreen.com/product/thinking-in-systems/) gives 3 Dec 2008. Posthumous; Meadows died in 2001. Published 2026-11-13 as the five-part series *The Systems We Build, The Systems We Live In* (archive slot 2026-11-02; `editorial/systems-we-build/`). Owner decision 2026-11-13: based only on legally accessible material (publisher excerpt, Meadows' essays, scholarship), disclosed in each post. |
 | 2 | Escaping the Build Trap | Melissa Perri | 2018 | S |  | Open Library lists 2018 and 2019 for different records. Confirm publisher and first-edition year. |
 | 3 | Creative Confidence | Tom Kelley, David Kelley | 2013 | S |  | Subtitle and publisher to confirm. |
 | 4 | Team Topologies | Matthew Skelton, Manuel Pais | 2019 | S |  | A second edition exists (2025, per Open Library). Decide which edition the article uses. |
@@ -65,4 +65,4 @@ new table here (with the same columns and verification status) before writing ab
 
 ## Status of articles
 
-No Break & Change article has been written or published.
+- **Thinking in Systems** — five-part series *The Systems We Build, The Systems We Live In*, published 2026-11-13, archive slot 2026-11-02. Category chosen by the critical editor: Systems, Execution & Organizational Design. Built only on legally accessible material (owner decision), disclosed in each post.
