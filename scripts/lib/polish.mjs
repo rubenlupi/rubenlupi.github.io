@@ -8,7 +8,9 @@ const urls = (b) => [...extractLinks(b).map((l) => l.href), ...(b.match(/https?:
 // Ordered-list markers ("1. ") are layout, not figures: a list may become prose.
 // "Part 3" in a series is a cross-reference, not a figure: polish may add or move them.
 const numbers = (b) => (b.replace(/https?:\/\/\S+/g, '').replace(/^\s*\d+[.)]\s/gm, '').replace(/\bParts? \d+(?:(?:,| and| or|–|-) ?\d+)*/g, '').match(/\d+(?:[.,]\d+)*/g) ?? []).sort();
-const quotes = (b) => [...b.matchAll(/[“"«]([^”"»\n]{8,}?)[”"»]/g)].map((m) => m[1]).filter((q) => q.trim().split(/\s+/).length >= 3);
+// Pair quote marks first, then filter: a minimum length inside the regex made a short quotation ("Western")
+// shift the pairing and treat the prose between two quotations as a quotation.
+const quotes = (b) => [...b.matchAll(/[“"«]([^”"»\n]+?)[”"»]/g)].map((m) => m[1]).filter((q) => q.length >= 8 && q.trim().split(/\s+/).length >= 3);
 const words = (b) => b.replace(/^---[\s\S]*?---/, '').split(/\s+/).filter(Boolean).length;
 const multisetDiff = (a, b) => { const m = new Map(); a.forEach((x) => m.set(x, (m.get(x) ?? 0) + 1)); b.forEach((x) => m.set(x, (m.get(x) ?? 0) - 1)); return [...m].filter(([, n]) => n !== 0); };
 

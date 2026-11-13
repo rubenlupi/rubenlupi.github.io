@@ -24,3 +24,9 @@ test('series cross-references ("Part 3") are not figures', () => {
   const after = fm + 'Loops matter a great deal here, as Part 3 shows, and Parts 4 and 5 go on to keep it sane.\n';
   assert.deepEqual(comparePolish(before, after, 'p').filter((e) => e.includes('figures')), []);
 });
+
+test('short quotations do not shift quote pairing onto the prose between them', () => {
+  const before = doc('A manager blamed "Western" engineers, and I read the example as telling: deciding that "the system" is the cause also decides who acts.\n');
+  const after = doc('A manager blamed "Western" engineers, which I read as telling: deciding that "the system" is the cause also decides who acts.\n');
+  assert.deepEqual(comparePolish(before, after, 'p').filter((e) => e.includes('quotation')), []);
+});
