@@ -1,6 +1,6 @@
 ---
-title: "El pensamiento sistémico explica, pero no adivina"
-description: "Todos los modelos son erróneos, también el que usa esta serie: dónde explica el pensamiento sistémico, dónde no puede predecir y cuándo culpar «al sistema» borra a las personas que hay dentro."
+title: "Diseñamos para el día perfecto. Vivimos en el mundo real."
+description: "Por qué llevar la utilización al límite puede destruir la resiliencia: teoría de colas, buffers, redundancia, backpressure y capacidad de adaptación desde el pensamiento sistémico."
 date: 2026-11-13
 editorialDate: 2026-10-26
 series: break-and-change
@@ -15,77 +15,250 @@ book:
   author: "Donella H. Meadows"
   year: 2008
   category: "Systems, Execution & Organizational Design"
-topics: ["Systems & Organizations", "Mathematics & Reasoning"]
-tags: ["Systems Thinking", "Models", "Causal Inference", "Critical Thinking"]
+topics: ["Systems & Organizations", "Software Engineering"]
+tags: ["Systems Thinking", "Resilience", "Queueing Theory", "Buffers", "Platform Engineering"]
 lang: es
 translationOf: systems-we-build-4-limits
 draft: false
 ---
 
-La advertencia más tajante sobre los modelos de sistemas la hace uno de los que los construyen. John Sterman estudió con Meadows, escribe como científico de sistemas y tituló sus reflexiones sobre la disciplina con una frase que empieza por «Todos los modelos son erróneos». El pensamiento sistémico también es un modelo, y un modelo tiene frontera: es fuerte explicando dinámicas que se repiten y flojo prediciendo, atribuyendo causas y en todo lo que toca al poder y a los fines. Quien se ha pasado tres ensayos quejándose de las fronteras estrechas le debe al lector un vistazo a la suya.
+El sistema funciona al 98 % de su capacidad.
 
-Advierto de entrada que no he tenido acceso al libro completo.
+Infraestructura está satisfecha. Hemos eliminado servidores infrautilizados, consolidado servicios y reducido costes. Cada euro parece estar trabajando. El dashboard está verde.
 
-## El modelador que desconfía de todos los modelos
+Entonces llega un aumento de tráfico del 15 %.
 
-Quienes se dedican a la dinámica de sistemas, [dice Sterman](https://www.mit.edu/~jsterman/All_Models_Are_Wrong_%28SDR%29.pdf), rechazan la validación entendida como «establecer la veracidad», y los resultados de un modelo suelen depender más de los supuestos sobre la frontera, la agregación y las reglas de decisión que de los parámetros.
+La latencia se dispara. Las colas crecen. Los *timeouts* provocan reintentos y los reintentos generan más tráfico. El sistema que hace unos minutos parecía extraordinariamente eficiente empieza a fallar.
 
-Sostiene también que los mapas causales no bastan por sí solos, porque la gente es incapaz de simular mentalmente siquiera sistemas dinámicos sencillos. Eso vale también contra mis propios diagramas. Cualquier diagrama de la trampa de la capacidad toma prestada una estructura de una investigación publicada, y el dibujo es un modelo interpretativo, no un hallazgo. Arrastra el exceso de confianza que pretende curar, como una conferencia sobre la humildad dictada con aplomo absoluto.
+Alguien propone añadir capacidad.
 
-Sterman llega a llamar a la dinámica de sistemas «una visión del mundo, un paradigma en el sentido de Thomas Kuhn». Es honesto, e incómodo: una visión del mundo tiene prioridades, así que la lente no es neutral.
+Pero esa es precisamente la capacidad que acabamos de eliminar.
 
-## Meadows ya puso reparos a su propia lista
+**Diseñamos para el día perfecto. Vivimos en el mundo real.** Y en el mundo real hay variabilidad, errores, dependencias que se ralentizan, personas que enferman, proveedores que se retrasan y usuarios que no se comportan como nuestros promedios.
 
-Los ensayos de Meadows también son cautos. En [Dancing With Systems](https://donellameadows.org/archives/dancing-with-systems/) escribe que «todo lo que sabes, y todo lo que sabe todo el mundo, es solo un modelo», y que «los sistemas no se pueden controlar, pero sí diseñar y rediseñar».
+La pregunta no es si debemos ser eficientes. Es qué estamos sacrificando cuando confundimos eficiencia con ocupación permanente.
 
-Su [lista de puntos de apalancamiento](https://donellameadows.org/archives/leverage-points-places-to-intervene-in-a-system/) es, en sus palabras, «provisional», y «su orden es escurridizo». Mi interpretación es que la jerarquía es una lente heurística, no una clasificación predictiva validada. Quien presente «el paradigma gana a las reglas, y las reglas a los parámetros» como una ley ha ido más lejos que Meadows y más lejos que cualquiera de las pruebas que he manejado. Estar más seguro que una autora cuidadosa es una manera curiosa de rendirle homenaje.
+## Estar ocupado no significa producir valor
 
-Queda además sin resolver una diferencia de énfasis. El ensayo de Meadows coloca los paradigmas cerca de lo alto de la lista, mientras que Sterman dice que, para los modeladores, el punto de mayor apalancamiento está en cambiar los modelos mentales de los clientes haciéndoles participar en la búsqueda de los fallos del modelo. Las dos posturas son compatibles sin ser idénticas, y dejan abierta una pregunta de verdad: ¿un paradigma se cambia con argumentos, con participación o con experiencia?
+Imaginemos un servicio que puede procesar 100 peticiones por segundo. Si recibe 50, su utilización es del 50 %. Si recibe 90, alcanza el 90 %. Parece lógico pensar que el segundo escenario aprovecha mejor la infraestructura.
 
-## Bueno para el porqué, malo para el cuándo
+Pero ¿qué sucede con el tiempo de respuesta?
 
-La trampa de la capacidad es el mecanismo mejor documentado de esta serie, y sus pruebas tienen una forma concreta. La teoría de Repenning y Sterman [«surgió inicialmente del estudio de dos iniciativas de mejora en un gran fabricante de automóviles»](https://web.mit.edu/nelsonr/www/Repenning=Sterman_CMR_su01_.pdf) y se apoya en «más de una docena de estudios de caso en profundidad» y en modelos de simulación. Son pruebas reales, pero no un ensayo aleatorizado, y las cifras de DuPont y BP son resultados que comunican profesionales del sector, no evaluaciones independientes.
+Un modelo elemental de teoría de colas, [**M/M/1**](https://en.wikipedia.org/wiki/M/M/1_queue), permite estudiar la relación. Supone llegadas de tipo Poisson, tiempos de servicio exponenciales y un único servidor. No es una descripción fiel de una plataforma distribuida moderna, pero muestra un mecanismo importante.
 
-Un modelo puede explicar por qué se repite un patrón sin predecir cuándo ocurrirá en tu organización ni demostrar qué causó un resultado concreto; para eso hacen falta datos.
+Si la tasa de llegada es λ y la capacidad de servicio es μ, la utilización es:
 
-Tomemos un equipo de plataforma inventado, cuyos incidentes y retrabajo aumentan tras un trimestre de presión. El diagrama dice que se ha agotado la capacidad. Una explicación rival encaja igual de bien: creció la demanda, o llegó una dependencia nueva, y los incidentes habrían subido de todos modos. Un diagrama causal no puede descartarlo, porque un diagrama, a diferencia de un conjunto de datos, nunca se lleva una sorpresa. Los datos sí podrían ayudar a separar ambas explicaciones: tasas de incidentes por unidad de tráfico en lugar de recuentos brutos, si los componentes que fallan son justo aquellos cuyos tests, runbooks o actualizaciones se aplazaron, y si a un equipo comparable, con la misma demanda pero sin la presión, le fue de otra manera. El razonamiento es mío.
+ρ = λ / μ
 
-La comparación de DuPont, 23 plantas comparables frente a las que aplicaron el programa, pide la misma cautela. No es aleatorizada, así que la selección podría explicar parte de la diferencia: las plantas que eligieron el programa pueden diferir en aspectos que también afectan a sus bombas.
+Y, mientras λ < μ, el tiempo medio de permanencia en el sistema, incluida la espera, es:
 
-Hay dos tipos de pruebas que irían contra mi tesis. Si una organización saliera de una trampa de la capacidad solo a base de mejorar componentes, se debilitaría la idea de que los componentes no pueden arreglarla. Si cambiar la medición o los objetivos no produjera, de forma sistemática, ningún cambio o solo nuevas formas de manipulación, se debilitaría la idea de que la estructura a veces ayuda. Ninguna de las fuentes que he usado contiene pruebas de lo uno ni de lo otro.
+W = 1 / (μ − λ)
 
-## Cuando «es el sistema» se convierte en coartada
+Con una capacidad de 100 peticiones por segundo:
 
-Repenning y Sterman critican el error fundamental de atribución: culpar a las personas cuando la causa es la estructura. Su imagen invertida, culpar a la estructura de todo, borra la responsabilidad individual y tapa lo que un diagrama de retroalimentación rara vez enseña: quién diseñó la estructura y a quién beneficia. «El sistema» es el único culpable al que nunca se puede despedir.
+| Tráfico | Utilización | Tiempo medio en el sistema |
+|---|---:|---:|
+| 50 peticiones/s | 50 % | 20 ms |
+| 80 peticiones/s | 80 % | 50 ms |
+| 90 peticiones/s | 90 % | 100 ms |
+| 95 peticiones/s | 95 % | 200 ms |
+| 99 peticiones/s | 99 % | 1.000 ms |
 
-Aristóteles da verdadero peso al lado individual. En la [*Ética a Nicómaco*](https://classics.mit.edu/Aristotle/nicomachaen.2.ii.html) dice que «la virtud moral es fruto del hábito», y también que «los legisladores hacen buenos a los ciudadanos inculcándoles hábitos». Los individuos practican los hábitos y los legisladores los moldean; mi interpretación es que una explicación sistémica que deje fuera a cualquiera de los dos se queda incompleta.
+Pasar del 90 % al 99 % de utilización multiplica por diez el tiempo medio de respuesta **en este modelo**. No hemos multiplicado por diez el tráfico: hemos consumido nueve puntos más de capacidad.
 
-Los errores de atribución también se agrian hasta volverse estereotipos. Repenning y Sterman citan a un directivo que culpaba a los ingenieros «occidentales», y yo lo leo como un problema estructural convertido en rasgo de un grupo. Un enfoque sistémico puede corregir eso. También puede ser un acto político, porque decidir que la causa es «el sistema» es decidir a la vez quién es responsable de cambiarlo. Meadows no lo pasa por alto: su ensayo sobre los puntos de apalancamiento dice que «el poder sobre las reglas es poder de verdad» y aconseja prestar atención «a las reglas y a quién tiene poder sobre ellas». La crítica, por tanto, tiene que afinar más que un «el pensamiento sistémico se olvida del poder». Lo que no aportan los textos que he podido leer es un método para disputar ese poder, y nombrarlo no es lo mismo que mostrar cómo discuten un objetivo grupos enfrentados. Los diagramas causales, los míos incluidos, siguen dejándolo fuera.
+La relación es no lineal. Cuando un recurso se acerca a su límite, pequeñas variaciones pueden producir consecuencias desproporcionadas.
 
-## El autoescalador nunca protesta
+Los sistemas reales tienen varios servidores, diferentes distribuciones de carga, prioridades y mecanismos de escalado. No podemos usar esa tabla para predecir directamente la latencia de Kubernetes. Sí podemos utilizarla para desmontar una intuición peligrosa: **la capacidad libre no es necesariamente capacidad desperdiciada**.
 
-Usé un autoescalador de pods para hacer visible el retraso. La [documentación de Kubernetes](https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale/) describe un bucle de control literal, con periodo, tolerancia y ventana de estabilización definidos; puedes leer su fórmula y ponerla a prueba.
+## La cola es donde escondemos el problema
 
-El sistema de evaluación de una escuela no es un controlador. En los trabajos sobre Chicago, profesores y alumnos se adaptaron, hicieron trampas y se resistieron: [Jacob y Levitt](https://www.nber.org/papers/w9413) encontraron trampas que respondían con fuerza a cambios relativamente menores en los incentivos. Un controlador que cambiara de idea sobre lo que optimiza porque no le gusta el número sería un controlador rarísimo. Así que el autoescalador ilustra un mecanismo, pero no prueba que las aulas o los equipos de ingeniería se comporten igual, y el uso honesto de la analogía consiste en hacer palpable el retraso y detenerse ahí.
+En *Thinking in Systems*, Donella Meadows distingue los *stocks* —acumulaciones— de los *flows* —flujos que las aumentan o reducen—.
 
-## Mi propia valla
+Una cola es un stock. El trabajo entra a un ritmo y sale a otro.
 
-Todo lo que he usado aquí de Meadows sale de un único fragmento de un borrador del libro y de dos de sus ensayos, más investigación independiente, y he evitado especular sobre los capítulos que faltan. El argumento de Sterman también va por mí: lo que un modelo deja fuera es invisible desde dentro. La forma más habitual de tener una valla es no haber elegido dónde ponerla.
+Variación de la cola = tasa de entrada − tasa efectiva de salida
 
-## Lo que sobrevive a la crítica
+Si entran 1.200 mensajes por segundo y solo podemos procesar 1.000, acumulamos 200 cada segundo. En diez minutos, si las tasas se mantienen, habrá 120.000 mensajes adicionales pendientes.
 
-Del pensamiento sistémico sobrevive bastante, porque se gana la confianza gracias a la humildad con que lo tratan sus mejores practicantes. Su peor abogado es el que está seguro de todo.
+Ampliar la cola puede ser útil. Permite absorber picos temporales y desacoplar componentes que trabajan a ritmos distintos. Pero no corrige una diferencia persistente entre entrada y salida.
 
-Si todo modelo tiene una frontera que quien lo construye no alcanza a ver del todo, ¿cómo descubrirían quienes dependen de él dónde termina, antes de que se lo enseñe el mundo?
+Podemos aumentar la retención, comprar más almacenamiento y construir un dashboard excelente sobre el tamaño de la cola. Mientras sigan entrando más mensajes de los que salen, la acumulación crecerá.
+
+A veces un buffer hace que el sistema parezca estable precisamente porque está guardando el problema para más tarde.
+
+La pregunta que deberíamos hacer no es solo «¿cuánto trabajo pendiente tenemos?», sino «¿qué mecanismo hará que deje de crecer?».
+
+## El espacio vacío también trabaja
+
+Meadows identifica el tamaño de los amortiguadores respecto a sus flujos como uno de los [lugares donde intervenir](https://donellameadows.org/archives/leverage-points-places-to-intervene-in-a-system/) en un sistema. Un depósito almacena agua para compensar diferencias entre suministro y consumo. Un inventario permite seguir vendiendo cuando una entrega se retrasa. Una reserva de capacidad permite absorber una variación de demanda.
+
+Ese margen tiene un precio. Los servidores cuestan dinero. El inventario inmoviliza capital. Los buffers grandes pueden ocultar problemas y retrasar las señales que necesitamos para corregirlos.
+
+Por eso la conclusión no puede ser «cuanto más buffer, mejor».
+
+La decisión depende de la variabilidad que esperamos, del coste del fallo, del tiempo necesario para recuperar capacidad y de las alternativas disponibles para reducir la demanda.
+
+Una plataforma que puede aprovisionar recursos en segundos necesita reservas distintas de una fábrica que tarda seis meses en instalar una máquina. Un servicio interno que tolera interrupciones puede asumir riesgos que una plataforma de pagos no debería aceptar.
+
+La resiliencia no tiene un porcentaje universal. **Es una decisión de diseño basada en consecuencias**.
+
+## Diez ingenieros, ninguna hora disponible
+
+Ahora traslademos el problema a una organización.
+
+Un equipo de diez ingenieros tiene tareas asignadas para toda la semana. Todas las agendas están llenas. La dirección celebra que la capacidad esté perfectamente aprovechada.
+
+El martes aparece un incidente. Dos personas interrumpen sus tareas. Una dependencia prevista para el miércoles queda bloqueada. Otro equipo, que esperaba esa entrega, reorganiza sus prioridades. Un problema que requería cuatro horas de trabajo acaba generando días de espera distribuidos.
+
+Nadie ha trabajado poco. De hecho, todo el mundo está ocupado.
+
+Pero la ocupación individual y el flujo de valor son cosas diferentes.
+
+Una tarea puede necesitar dos horas de ejecución y permanecer ocho días esperando a que alguien esté disponible. Si solo medimos las horas trabajadas, esa espera resulta casi invisible.
+
+La variabilidad y las dependencias convierten la utilización extrema en un problema de coordinación. Un sistema sin margen para absorber interrupciones puede parecer productivo hasta que aparece la primera.
+
+Esto tampoco significa que un equipo deba reservar arbitrariamente la mitad de su tiempo. Significa que debemos observar simultáneamente utilización, tiempo de ciclo, trabajo en curso, bloqueos y capacidad de respuesta.
+
+**Un calendario lleno puede ser una señal de eficiencia local y de fragilidad global.**
+
+## También podemos gastar la reserva sin tocar infraestructura
+
+La capacidad de adaptación de un equipo se erosiona de otra forma: posponiendo sistemáticamente el trabajo que evita problemas futuros.
+
+Primero aplazamos una refactorización. Después una actualización de dependencias. Más adelante aceptamos pruebas inestables. Cada decisión libera tiempo para la entrega inmediata.
+
+Con el paso de los meses, los tests tardan más, los cambios requieren comprobaciones manuales y los despliegues generan incertidumbre. El equipo sigue trabajando, pero necesita más esfuerzo para conseguir resultados similares.
+
+Ward Cunningham [utilizó la metáfora](https://c2.com/doc/oopsla92.html) de la deuda técnica para explicar cómo determinadas decisiones de implementación pueden generar intereses futuros. Aquí importa otra consecuencia: la deuda puede reducir la capacidad de reaccionar ante lo inesperado.
+
+Si cada cambio es arriesgado, corregir un incidente cuesta más. Si los tests no son fiables, validar una reparación tarda más. Si solo una persona conoce una dependencia crítica, su ausencia puede convertirse en un cuello de botella.
+
+La resiliencia también depende de cuánto podemos cambiar el sistema cuando las condiciones cambian.
+
+Y esa capacidad puede desaparecer silenciosamente mientras los indicadores de entrega permanecen en verde.
+
+## Tres réplicas no son tres oportunidades de sobrevivir
+
+En sistemas distribuidos utilizamos redundancia para tolerar fallos: múltiples instancias, réplicas de datos, zonas de disponibilidad y rutas alternativas.
+
+La redundancia parece un desperdicio si suponemos que nada fallará. ¿Para qué pagar recursos que quizá nunca necesitemos?
+
+Porque el objetivo puede ser mantener el servicio cuando una parte deja de funcionar, no minimizar el coste en ausencia de incidentes.
+
+Pero añadir copias tampoco garantiza resiliencia.
+
+Tres instancias que dependen de la misma base de datos pueden fallar juntas. Dos centros de datos que comparten una dependencia crítica pueden sufrir un fallo común. Replicar información corrupta puede propagar el problema en lugar de resolverlo.
+
+La pregunta no es cuántas copias tenemos. Es **qué fallos pueden ocurrir de manera independiente y cuáles comparten una causa común**.
+
+Aquí regresamos a las interconexiones de Meadows. Podemos duplicar componentes y conservar intacta la fragilidad del conjunto. O podemos reducir dependencias compartidas, introducir aislamiento y permitir que una parte falle sin arrastrar al resto.
+
+La diferencia no reside únicamente en la cantidad de recursos. Reside en la estructura.
+
+## Un sistema resiliente sabe rechazar trabajo
+
+Hay una idea que incomoda a muchos equipos de producto: en determinadas condiciones, aceptar más trabajo empeora el resultado para todos.
+
+Cuando un servicio saturado acepta todas las peticiones, las colas crecen. La latencia aumenta. Algunas operaciones superan sus tiempos de espera y los clientes reintentan. La carga se amplifica. Es el mecanismo que exploramos en el segundo artículo.
+
+Podemos intervenir mediante (como describe Google en su [capítulo sobre sobrecarga](https://sre.google/sre-book/handling-overload/) y en el de [fallos en cascada](https://sre.google/sre-book/addressing-cascading-failures/)) *rate limiting*, *load shedding*, *backpressure* y *circuit breakers*.
+
+No son sinónimos. El *rate limiting* restringe la tasa admitida; el *load shedding* descarta trabajo para proteger el sistema; el *backpressure* transmite presión hacia los productores; y un *circuit breaker* puede suspender temporalmente llamadas a una dependencia degradada.
+
+Todos tienen costes. Rechazar peticiones perjudica a usuarios concretos y una política mal diseñada puede descartar precisamente las operaciones más importantes.
+
+Pero reconocen una realidad: la capacidad es finita.
+
+Una tienda online podría priorizar completar compras frente a generar recomendaciones personalizadas. Una plataforma de contenidos podría servir una versión almacenada en caché mientras una dependencia secundaria se recupera.
+
+La degradación controlada puede ser preferible a una caída total.
+
+Y esa decisión no es solo técnica. Alguien debe decidir qué preservar cuando no podemos preservarlo todo. **La arquitectura termina expresando prioridades de producto**.
+
+## La eficiencia puede trasladar el riesgo a otra parte
+
+Pensemos en una cadena de suministro que reduce inventario para disminuir costes. La decisión mejora un indicador financiero, pero incrementa la dependencia de entregas frecuentes y puntuales.
+
+Si un proveedor se retrasa, la producción puede detenerse. La empresa exige entonces entregas más rápidas; el proveedor reduce sus propias reservas para mantener precios competitivos. Cada participante optimiza sus costes y el conjunto puede volverse más vulnerable.
+
+No es una crítica universal a las estrategias de inventario ajustado. Pueden funcionar bien cuando se diseñan considerando variabilidad, fiabilidad y capacidad de respuesta.
+
+El problema aparece cuando celebramos la eliminación de una reserva sin preguntarnos qué riesgo absorbía.
+
+En software ocurre algo parecido. Consolidamos servicios para ahorrar, pero creamos dependencias compartidas. Centralizamos capacidades para simplificar operaciones, pero concentramos el impacto de los fallos. Reducimos instancias porque su utilización media es baja, aunque quizá esa capacidad libre absorbía picos importantes.
+
+El ahorro es visible inmediatamente. El riesgo desplazado puede tardar meses en manifestarse.
+
+Una mejora local puede ser una transferencia de coste hacia una parte del sistema que nuestro dashboard no observa.
+
+## Sobrevivir también significa poder cambiar
+
+Meadows concede especial importancia a la capacidad de autoorganización: la posibilidad de que un sistema genere nuevas estructuras y cambie sus propias formas de funcionamiento.
+
+En ingeniería, una analogía útil es la capacidad de adaptación.
+
+¿Podemos desplegar una corrección sin coordinar diez equipos? ¿Podemos revertir un cambio? ¿Conocemos nuestras dependencias críticas? ¿Podemos experimentar sin poner en riesgo toda la plataforma? ¿Los ingenieros tienen información suficiente para tomar decisiones cuando aparece algo inesperado?
+
+Una arquitectura puede resistir fallos conocidos y seguir siendo extraordinariamente rígida ante condiciones nuevas.
+
+Lo mismo sucede en una organización. Si eliminamos todo el tiempo para aprender, experimentar, documentar y mejorar, quizá aumentemos la entrega inmediata. También podemos estar reduciendo nuestra capacidad de responder al próximo problema.
+
+No todo espacio sin tareas asignadas es desperdicio. Parte de ese margen permite aprender y reorganizarse.
+
+La resiliencia no consiste únicamente en soportar golpes. Consiste también en **conservar opciones cuando el entorno cambia**.
+
+## ¿Cuánto cuesta realmente ser eficiente?
+
+Imaginemos dos plataformas hipotéticas.
+
+La primera cuesta 100 unidades al mes. Opera cerca de su capacidad máxima y tiene pocas reservas.
+
+La segunda cuesta 120. Mantiene margen adicional, aislamiento entre dependencias y mecanismos de degradación controlada.
+
+Durante seis meses no ocurre ningún incidente importante. La primera parece superior: ofrece un servicio similar por menos dinero.
+
+El séptimo mes falla una dependencia compartida. La primera tarda horas en recuperarse. La segunda conserva sus operaciones esenciales.
+
+¿Cuál era más eficiente?
+
+No podemos responder sin conocer la probabilidad de los incidentes, su impacto, el coste de las reservas y las alternativas disponibles. Y eso es precisamente lo que falta cuando evaluamos la eficiencia únicamente en condiciones normales.
+
+El coste esperado puede ayudarnos a razonar, pero no elimina la incertidumbre. Los eventos raros son difíciles de estimar y los fallos correlacionados pueden invalidar supuestos cómodos.
+
+El pensamiento sistémico tampoco proporciona un porcentaje mágico de utilización ni demuestra que más redundancia sea siempre mejor. Nos obliga a ampliar la frontera del análisis.
+
+¿Estamos optimizando el coste por petición durante un martes tranquilo? ¿O el coste de sostener el servicio a lo largo del tiempo, incluyendo fallos, recuperación, mantenimiento y capacidad de adaptación?
+
+Son problemas diferentes.
+
+## La pregunta que deberíamos hacernos antes de optimizar
+
+La próxima vez que alguien proponga eliminar una reserva, aumentar la utilización o reducir un equipo hasta el mínimo necesario, no hace falta rechazar la propuesta.
+
+Hace falta preguntar qué función cumplía ese margen.
+
+¿Qué variabilidad absorbía? ¿Qué dependencias protegía? ¿Cuánto tardaríamos en recuperarlo? ¿Qué fallaría primero si la demanda creciera? ¿Qué trabajo podríamos aplazar? ¿Qué capacidad de aprendizaje perderíamos?
+
+Si las respuestas muestran que el margen no aporta suficiente valor, eliminarlo puede ser una buena decisión.
+
+Pero si nadie sabe responder, quizá estemos a punto de vender una póliza de seguro cuyo riesgo ni siquiera hemos calculado.
+
+La eficiencia importa. Sin ella desperdiciamos recursos que podríamos dedicar a otras necesidades. Pero perseguirla sin comprender los mecanismos del sistema puede destruir precisamente aquello que queríamos proteger.
+
+No diseñamos software para que un dashboard luzca bien durante el día perfecto.
+
+Lo diseñamos para que las personas puedan seguir haciendo lo que necesitan cuando las condiciones cambian.
+
+**Y el mundo real siempre acaba cambiando las condiciones.**
 
 ## Referencias y lecturas recomendadas
 
-- **All models are wrong: reflections on becoming a systems scientist**, John D. Sterman, System Dynamics Review 18(4), 2002. <https://www.mit.edu/~jsterman/All_Models_Are_Wrong_%28SDR%29.pdf>. Fuente sobre los límites de los modelos, la validación, los supuestos de frontera, los mapas causales y la descripción como «paradigma». Lo escribe alguien de dentro que simpatiza con la disciplina.
-- **Dancing With Systems**, Donella Meadows, Donella Meadows Project, sin fecha. <https://donellameadows.org/archives/dancing-with-systems/>. Fuente de lo que dice Meadows sobre los modelos y el control. Es un ensayo suyo, no el libro.
-- **Leverage Points: Places to Intervene in a System**, Donella Meadows, Donella Meadows Project, sin fecha. <https://donellameadows.org/archives/leverage-points-places-to-intervene-in-a-system/>. Fuente de las salvedades «provisional» y «escurridizo». Es un ensayo suyo, no el libro.
-- **Nobody Ever Gets Credit for Fixing Problems that Never Happened**, Nelson P. Repenning y John D. Sterman, California Management Review 43(4), 2001. <https://web.mit.edu/nelsonr/www/Repenning=Sterman_CMR_su01_.pdf>. Fuente sobre la base empírica de la trampa de la capacidad y sobre los errores de atribución.
-- **Nicomachean Ethics, Book II**, Aristotle, trad. W. D. Ross, MIT Internet Classics Archive. <https://classics.mit.edu/Aristotle/nicomachaen.2.ii.html>. El hábito y el papel de los legisladores en la formación de la virtud.
-- **Horizontal Pod Autoscaling**, documentación de Kubernetes (versión actual). <https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale/>. Un bucle de control literal, usado como contraste con los sistemas sociales.
-- **Rotten Apples: An Investigation of the Prevalence and Predictors of Teacher Cheating**, Brian A. Jacob y Steven D. Levitt, NBER Working Paper 9413, 2003. <https://www.nber.org/papers/w9413>. Datos de Chicago de que las personas se adaptan a los incentivos (a nivel de resumen).
+- **Thinking in Systems: A Primer**, Donella H. Meadows, Chelsea Green Publishing, 2008. Marco conceptual sobre acumulaciones, flujos, reservas, interconexiones y autoorganización. No se ha comprobado una lectura íntegra del libro; las ideas de buffers y autoorganización se apoyan en el ensayo siguiente.
+- **Leverage Points: Places to Intervene in a System**, Donella H. Meadows, Donella Meadows Project. <https://donellameadows.org/archives/leverage-points-places-to-intervene-in-a-system/>. El tamaño de los buffers respecto a sus flujos y la autoorganización como puntos de intervención.
+- **M/M/1 queue**, Wikipedia. <https://en.wikipedia.org/wiki/M/M/1_queue>. Supuestos del modelo, utilización y tiempo medio en el sistema (fuente secundaria).
+- **The WyCash Portfolio Management System (OOPSLA '92 Experience Report)**, Ward Cunningham, 1992. <https://c2.com/doc/oopsla92.html>. Origen de la metáfora de la deuda técnica.
+- **Handling Overload**, Site Reliability Engineering, Google. <https://sre.google/sre-book/handling-overload/>. Descarte de carga por prioridad, respuestas degradadas, límites del lado del cliente y reintentos acotados. Es la práctica de una empresa.
+- **Addressing Cascading Failures**, Site Reliability Engineering, Google. <https://sre.google/sre-book/addressing-cascading-failures/>. La sobrecarga como causa más común de fallos en cascada, el descarte de carga y los reintentos con presupuesto. Es la práctica de una empresa.
 
-Las citas de textos en inglés son traducción propia.
+Los ejemplos numéricos de teoría de colas son ilustrativos y dependen de los supuestos del modelo M/M/1. Los escenarios de plataformas y equipos son hipotéticos, no incidentes documentados.
