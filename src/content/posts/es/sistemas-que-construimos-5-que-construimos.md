@@ -1,6 +1,6 @@
 ---
-title: "Tus métricas reescriben tus objetivos sin avisar"
-description: "El objetivo de un sistema es su decisión de más peso, y la medición puede reescribirlo sin que nadie lo anuncie. Aristóteles, Platón, DORA y un experimento que una organización de ingeniería podría poner en marcha, con sus criterios de fracaso escritos de antemano."
+title: "Somos expertos en mejorar cosas que nunca deberíamos haber construido."
+description: "El cierre de la serie sobre Thinking in Systems: por qué optimizar componentes y parámetros no basta cuando las reglas, los objetivos y los modelos mentales mantienen vivo el problema equivocado."
 date: 2026-11-13
 editorialDate: 2026-10-26
 series: break-and-change
@@ -16,92 +16,304 @@ book:
   year: 2008
   category: "Systems, Execution & Organizational Design"
 topics: ["Systems & Organizations", "Software Engineering", "Learning & Education"]
-tags: ["Systems Thinking", "Organizational Learning", "Engineering Culture", "Education"]
+tags: ["Systems Thinking", "Leverage Points", "Organizational Design", "Platform Engineering", "Mental Models"]
 lang: es
 translationOf: systems-we-build-5-what-are-we-building
 draft: false
 ---
 
-Aristóteles, en la [*Política*](https://classics.mit.edu/Aristotle/politics.8.eight.html), cree que la educación debe ser pública e igual para todos los ciudadanos, y reconoce algo que inquieta a su propio proyecto: «los hombres no están en absoluto de acuerdo sobre lo que debe enseñarse». Hace falta valor para admitirlo mientras se diseña un plan de estudios. La frase, además, señala la decisión más importante de cualquier sistema, su objetivo, y el hecho incómodo de que la gente no se pone de acuerdo sobre él. Los objetivos son elecciones de valores en disputa, y la medición puede reescribirlos sin hacer ruido.
+A las nueve de la mañana, el equipo de plataforma se reúne para resolver un problema que lleva meses persiguiéndolo.
 
-No he tenido acceso al libro completo, así que lo que sigue se apoya en un fragmento de un borrador de *Thinking in Systems* que publica el Donella Meadows Project, en los ensayos de Meadows y en investigación independiente sobre sistemas.
+Los despliegues son demasiado lentos.
 
-## Nadie se pone de acuerdo en para qué sirve la escuela
+La primera propuesta consiste en aumentar los recursos del *pipeline*. La segunda, ejecutar más pruebas en paralelo. La tercera, reducir las comprobaciones obligatorias. La cuarta, incorporar una nueva herramienta de automatización.
 
-Entre mis fuentes, donde la pregunta se discutió más abiertamente es en la educación. El Sócrates de Platón tira en sentido contrario a Aristóteles en la [*República*](https://classics.mit.edu/Plato/republic.8.vii.html): «el conocimiento adquirido por obligación no arraiga en la mente». Aquí el contexto es la educación de los guardianes de una ciudad ideal, no una teoría general de la escuela.
+Todas podrían funcionar.
 
-La formación cívica tira hacia un lado y la autonomía hacia el otro. No creo que ninguno de los dos textos resuelva la tensión. Lo que saco de la pareja es más modesto: la respuesta a «¿para qué sirve?» determina la estructura, y quienes dan esa respuesta no están de acuerdo. Y la escuela se construye de todos modos.
+Pero nadie ha preguntado por qué un cambio de diez líneas necesita atravesar doce sistemas, tres equipos y cinco aprobaciones para llegar a producción.
 
-## ¿Y para qué sirve, exactamente, un equipo de ingeniería?
+Estamos dedicando una cantidad extraordinaria de talento a perfeccionar un proceso cuya existencia hemos dejado de cuestionar.
 
-Las organizaciones de software se topan con una prima de esa pregunta, no con su gemela. La [guía](https://dora.dev/guides/dora-metrics-four-keys/) de DORA define cinco métricas de entrega en lugar de una, y advierte de que las metas aumentan «la probabilidad de que los equipos intenten manipular las métricas». La postura de Martin Fowler, más antigua y expuesta en un ensayo de opinión, es que [«cualquier medida real de la productividad en el desarrollo de software debe basarse en el valor de negocio entregado»](https://martinfowler.com/bliki/CannotMeasureProductivity.html). Un panel puede ser exacto hasta el último decimal y aun así hablar de lo que no toca.
+Y quizá esa sea una de nuestras mayores habilidades como industria: **somos expertos en mejorar cosas que nunca deberíamos haber construido**.
 
-Meadows tiene una frase para esto en [Dancing With Systems](https://donellameadows.org/archives/dancing-with-systems/): «Presta atención a lo importante, no solo a lo cuantificable». Sterman le añade el aguijón en [sus reflexiones](https://www.mit.edu/~jsterman/All_Models_Are_Wrong_%28SDR%29.pdf): «medimos lo que nos importa, y esas mediciones alteran lo que creemos que es importante».
+No significa que todo sistema complejo sea innecesario ni que podamos borrar años de decisiones con una pregunta ingeniosa. Significa que, cuando algo funciona mal, solemos buscar primero cómo hacerlo funcionar mejor. Mucho después nos preguntamos por qué funciona de esa manera, quién decidió que debía hacerlo así y qué objetivo está sirviendo realmente.
 
-Medir, por tanto, revela el propósito y a la vez lo reescribe, y en ninguna de las pruebas que he manejado aparece una medida que deje el propósito en paz. Devolveríamos a la tienda un termómetro que cambiara el tiempo. Las métricas que cambian el objetivo, en cambio, las colgamos en la pared.
+Este es el último artículo de una serie sobre *Thinking in Systems*, de Donella Meadows. Los cuatro anteriores exploraron interconexiones, retroalimentación, métricas y resiliencia. Nos queda la pregunta más incómoda: **¿dónde intervenir para cambiar el comportamiento de un sistema y no simplemente sus síntomas?**
 
-## ¿Holgura o capacidad? Depende de quién mire
+## La trampa de buscar siempre un parámetro
 
-Si el objetivo declarado de una organización de ingeniería es entregar valor al cliente de forma fiable, la lente de la eficiencia pregunta cuánto trabajo pasa por el sistema, y la de la autonomía, si quienes hacen el trabajo tienen margen para ver lo que falla y arreglarlo. Chocan cuando el stock de capacidad se vacía porque el tiempo de mejora es lo primero que se sacrifica a cambio de producción. El tiempo protegido parece holgura a la primera lente y capacidad a la segunda. La frase de Platón sobre la obligación apunta en la misma dirección para las escuelas, con la salvedad ya dicha: el trabajo hecho por obligación puede dar producción sin dar comprensión.
+Una API responde lentamente. Añadimos memoria.
 
-Ninguna de las dos lentes, a mi modo de ver, es un hecho por descubrir. Son valores, y un panel de métricas es uno de los sitios donde se elige entre ellos sin que nadie lo anuncie.
+Un equipo entrega tarde. Ajustamos el tamaño de los sprints.
 
-## Un experimento que confiesa de antemano cómo podría fracasar
+Un *pipeline* tarda veinte minutos. Duplicamos los ejecutores.
 
-Lo que sigue es una hipótesis sobre una organización de ingeniería, no un resultado.
+Una organización tiene problemas de coordinación. Creamos una reunión.
 
-**Problema.** Vivir apagando fuegos de forma crónica, con incidentes y retrabajo que desplazan el trabajo que los habría evitado: la trampa de la capacidad que describen [Repenning y Sterman](https://web.mit.edu/nelsonr/www/Repenning=Sterman_CMR_su01_.pdf).
+Son intervenciones sobre parámetros: cantidades, umbrales, frecuencias, capacidades. Muchas son útiles. Algunas resuelven el problema por completo.
 
-**Objetivo declarado.** Entregar valor al cliente de forma fiable.
+Donella Meadows no sostenía que cambiar parámetros fuera inútil. En su ensayo [*Leverage Points: Places to Intervene in a System*](https://donellameadows.org/archives/leverage-points-places-to-intervene-in-a-system/) propone doce lugares donde intervenir, ordenados de forma aproximada por su potencial de transformación. Los números aparecen entre los puntos de menor influencia relativa; las reglas, los objetivos y los paradigmas, entre los más profundos.
 
-**Incentivos reales.** Se premian el rendimiento visible y las recuperaciones heroicas; el trabajo preventivo sigue sin verse.
+La lista es una **heurística**, no una ley predictiva. Meadows advierte que su orden es provisional. No podemos deducir que modificar una regla siempre sea mejor que ampliar un servidor. Si la CPU está saturada por una carga legítima, añadir capacidad puede ser exactamente lo correcto.
 
-**Bucles de retroalimentación.** B1 Esforzarse más, B2 Trabajar mejor, B3 Atajos y R1 Reinversión, a partir de [Repenning y Sterman](https://web.mit.edu/nelsonr/www/Repenning=Sterman_CMR_su01_.pdf), y además, según ellos, un segundo bucle de refuerzo a través de incentivos que ascienden a los «héroes». La regla pretende debilitar B3 y dejar que B2 y R1 giren en sentido virtuoso. Contra el bucle de los héroes no hace nada, salvo que cambie también lo que se premia.
+La distinción es otra: **un parámetro cambia cuánto hacemos de algo; una intervención estructural puede cambiar qué necesitamos hacer**.
 
-**Retrasos importantes.** Según Repenning y Sterman, el cambio en la capacidad llega meses después del esfuerzo de mejora en procesos sencillos, y años después en desarrollo de producto. A mi juicio, eso significa que las métricas de entrega quizá ni se muevan en un plazo de dos trimestres. Hay que leer primero los indicadores tempranos, la proporción de *toil* (el trabajo operativo repetitivo) y la de trabajo no planificado, y una métrica de entrega plana en la fecha de evaluación es una prueba débil en cualquier sentido.
+Volvamos al *pipeline*. Quizá tarda veinte minutos porque cada servicio ejecuta todas las pruebas de integración. Quizá las ejecuta porque nadie conoce con precisión las dependencias. Quizá nadie conoce esas dependencias porque los equipos se organizaron alrededor de funciones técnicas y las decisiones de arquitectura se distribuyeron sin responsabilidades claras.
 
-**Intervención.** Durante dos trimestres, un grupo de equipos voluntarios reserva una parte fija y protegida de su tiempo para trabajo que refuerza la capacidad: fiabilidad de los tests, automatización del *toil*, runbooks, deuda de actualizaciones pendientes. Lo protegen las reglas de planificación, no la buena voluntad, y eso lo convierte en un cambio de las reglas del sistema y no en el retoque de un parámetro. La buena voluntad es lo primero que se come una fecha de entrega. La organización de SRE de Google tiene [un objetivo declarado](https://sre.google/sre-book/eliminating-toil/) de mantener el *toil* por debajo del 50 % del tiempo de cada SRE, un precedente documentado de regla protectora. La proporción es un parámetro que la organización tiene que elegir y justificar; no afirmo que exista un óptimo. Espero un bache a corto plazo seguido de mejoras en las métricas de retrabajo y de recuperación. Cambiar lo que mide un sistema, lo pronto que se ven las consecuencias y para qué sirve puede ayudar, pero no tengo pruebas de que lo haga de forma fiable.
+Duplicar ejecutores puede reducir el tiempo de veinte a doce minutos. Es una mejora real.
 
-**Registro previo.** Antes de empezar, se deja por escrito el bache esperado a corto plazo (el rendimiento puede caer) y la fecha en que se juzgará el experimento. Los casos que recogen Repenning y Sterman describen baches previstos de antemano, como la subida del 30 % en los costes de mantenimiento de BP Lima durante los seis primeros meses. Escribir el bache por adelantado sirve para que la dirección no abandone el experimento a la primera mala cifra. Un bache predicho es un resultado; uno que nadie predijo es un motivo para el pánico.
+Pero identificar qué cambios afectan a qué contratos, reducir el acoplamiento y rediseñar el flujo de validación podría hacer innecesaria buena parte del trabajo.
 
-**Qué vigilar.** Las cinco métricas de DORA: tiempo de entrega de los cambios, frecuencia de despliegue, tiempo de recuperación tras un despliegue fallido, tasa de fallos de los cambios y tasa de retrabajo de los despliegues. A eso se suman la proporción de *toil*, la de trabajo no planificado y una comprobación cualitativa en cada equipo de que el trabajo no se ha convertido en una actuación de cara a la galería. Hay que comparar con los equipos que no participan y decir claramente que la comparación no es aleatorizada.
+Hemos dejado de acelerar la cola. Hemos empezado a preguntar por qué existe.
 
-**Criterios de fracaso.** Basta con que se cumpla uno de estos:
+## La arquitectura también es una estructura de decisiones
 
-- En la fecha registrada de antemano, la tasa de retrabajo y el tiempo de recuperación siguen igual o peor, y la proporción de *toil* no ha bajado.
-- El tiempo protegido se asaltó de forma habitual. Eso es un fracaso de la regla, y se anota como tal.
-- Las métricas mejoraron, pero la revisión cualitativa revela manipulación.
+En ingeniería solemos dibujar cajas y flechas para representar sistemas.
 
-**Consecuencias no deseadas que vigilar.** El trabajo de capacidad se convierte en un ritual de informes. Los equipos ajenos al experimento absorben la carga desplazada, un efecto de frontera. Las métricas se vuelven metas. Y el «peor antes que mejor» se convierte en excusa para intervenciones que sencillamente no funcionan; el registro previo existe para distinguir ese caso del verdadero, y si lo consigue es una pregunta abierta.
+Las cajas son servicios, bases de datos, colas y aplicaciones. Las flechas son llamadas, eventos y dependencias.
 
-## Qué me quedo de Meadows y qué pondría en duda
+Pero una arquitectura también contiene decisiones: quién puede cambiar algo, qué debe coordinarse, qué información está disponible y qué errores se propagan.
 
-Lo que me parece más duradero es la costumbre de preguntar dónde se está acumulando un stock mientras todo el mundo mira el flujo. La imagen de la bañera es lo bastante simple para enseñarla y, como mostraron los resultados de Sterman en el aula que vimos en la primera entrega, lo bastante difícil para que gente bien formada siga equivocándose.
+Imaginemos una operación de compra que depende de ocho llamadas síncronas. Cada servicio tiene sus propios indicadores, sus despliegues y su equipo. Podemos optimizarlos individualmente. Podemos mejorar la latencia de cada llamada.
 
-Lo que adoptaría es su humildad. Una autora que dice que «todo lo que sabes, y todo lo que sabe todo el mundo, es solo un modelo» es mejor guía que quien asegura haber encontrado la palanca.
+Aun así, la operación seguirá dependiendo de que todas las piezas críticas respondan en el tiempo previsto.
 
-Lo que pondría en duda es hasta dónde llega el vocabulario. Los puntos de apalancamiento, tal como los plantea la propia Meadows, son una heurística y no una clasificación predictiva, y las pruebas que he podido usar sobre cómo funcionan estos mecanismos en la práctica vienen sobre todo de estudios de caso, de modelos y de escuelas de Chicago.
+Si ocho dependencias fueran independientes y cada una tuviera una disponibilidad de 99,9 %, la probabilidad aproximada de que todas estuvieran disponibles sería:
 
-Sobre el poder, los textos accesibles sí lo nombran. En [Leverage Points](https://donellameadows.org/archives/leverage-points-places-to-intervene-in-a-system/), Meadows escribe que «el poder sobre las reglas es poder de verdad» y que «un solo actor puede tener el poder de cambiar el objetivo del sistema». Lo que no ofrecen, hasta donde llegan estas fuentes, es una explicación de cómo se disputan un objetivo grupos enfrentados, ni de cómo detectar desde dentro el objetivo real de un sistema. Me parece la laguna más grande, porque el objetivo es la decisión que más importa.
+0,999⁸ ≈ 99,2 %
 
-Quienes más partido le sacarán a Meadows son los ingenieros y directivos que reconozcan estos síntomas y quieran palabras para nombrarlos. Quien busque una fórmula hará bien en buscarla en otra parte, y probablemente la encontrará, que es más o menos el problema.
+Es un cálculo ilustrativo, no una estimación de disponibilidad real: los fallos pueden estar correlacionados, las dependencias pueden tener rutas alternativas y la definición de disponibilidad de la operación importa. Pero muestra algo relevante: **la fiabilidad de cada componente no equivale automáticamente a la fiabilidad de la experiencia completa**.
 
-## ¿Quién decide para qué sirve un sistema?
+Podemos seguir elevando la disponibilidad individual de los ocho servicios. O podemos preguntarnos si la operación necesita realmente ocho dependencias críticas.
 
-Por debajo queda una pregunta que ninguno de estos marcos responde: quién decide para qué sirve un sistema, y cómo sabríamos, desde dentro, que su objetivo declarado y su objetivo real se han separado.
+Esa pregunta altera la estructura del sistema.
 
-Si nadie sabe responder a eso, ¿y si la habilidad más importante de la ingeniería no fuera aprender a construir sistemas mejores, sino darse cuenta de cuándo estamos resolviendo el problema equivocado?
+Lo mismo sucede con la organización. Contratar más personas puede aumentar la capacidad de ejecución, pero no necesariamente la velocidad de un proceso que exige aprobaciones secuenciales. Si cada equipo espera al siguiente, quizá estemos añadiendo trabajo al mismo cuello de botella.
+
+El organigrama y la arquitectura no son idénticos, pero las interacciones entre equipos condicionan lo que podemos construir. La observación original de [Melvin Conway](https://www.melconway.com/Home/Committees_Paper.html) sigue siendo útil precisamente porque nos obliga a mirar las comunicaciones, no solo los componentes.
+
+## Cambiar la información cambia las decisiones
+
+Entre los puntos de intervención de Meadows está la estructura de los flujos de información.
+
+Suena menos espectacular que una nueva arquitectura, pero puede transformar un sistema.
+
+Imaginemos un equipo que mantiene una API. Sus dashboards muestran latencia, errores y consumo de recursos. Todo está razonablemente bien.
+
+Lo que no ve es que los usuarios abandonan la compra porque la API devuelve un estado técnicamente correcto que la interfaz interpreta de forma confusa.
+
+El equipo puede dedicar semanas a reducir diez milisegundos de latencia sin mejorar la experiencia del cliente.
+
+No le faltan datos. Le falta **la conexión entre sus decisiones y sus consecuencias**.
+
+Ahora imaginemos que el equipo puede observar, junto con sus métricas técnicas, la tasa de finalización de la operación y los principales motivos de abandono. No hemos cambiado su capacidad ni contratado a nadie. Hemos cambiado lo que puede saber antes de decidir.
+
+La intervención no garantiza una buena decisión. Pero permite formular preguntas que antes ni siquiera aparecían.
+
+Hay un riesgo: convertir esa nueva información en otro KPI rígido y reproducir el problema del tercer artículo. Los indicadores también influyen sobre el comportamiento. Por eso importa quién los interpreta, qué contexto acompaña a los números y qué consecuencias tienen las decisiones que provocan.
+
+Un dashboard debería ayudar a descubrir cuándo nuestro modelo del mundo es incorrecto. No limitarse a certificar que estamos cumpliendo el plan.
+
+## Las reglas tienen más poder del que aparentan
+
+Pensemos en una organización que afirma valorar la calidad y la sostenibilidad.
+
+Cada trimestre, sin embargo, los equipos deben comprometer toda su capacidad a funcionalidades. El mantenimiento preventivo, la mejora de tests y la reducción de trabajo manual compiten con entregas visibles.
+
+Cuando aparece presión, esas tareas desaparecen del plan.
+
+Podemos organizar talleres sobre calidad. Podemos crear un comité. Podemos pedir a los ingenieros que sean más responsables.
+
+Pero si la regla de planificación sigue premiando exclusivamente las entregas inmediatas, la organización tenderá a repetir el comportamiento.
+
+Nelson Repenning y John Sterman estudiaron este tipo de dinámicas en [*Nobody Ever Gets Credit for Fixing Problems that Never Happened*](https://web.mit.edu/nelsonr/www/Repenning=Sterman_CMR_su01_.pdf). Su trabajo describe cómo la presión por producir puede desplazar el esfuerzo de mejora, erosionar la capacidad y provocar nuevas presiones. No es una demostración universal sobre cualquier equipo: se apoya en estudios de caso y modelos de dinámica de sistemas.
+
+Una intervención posible consiste en proteger capacidad de mejora mediante una regla explícita, en lugar de confiar en que sobreviva a las prioridades del trimestre.
+
+Pero una regla solo es real si puede resistir el primer conflicto.
+
+Si decimos que existe tiempo protegido y lo cancelamos cada vez que hay una fecha de entrega, no hemos cambiado el sistema. Hemos cambiado su presentación.
+
+La diferencia entre un principio y una regla aparece cuando seguirla cuesta algo.
+
+## Y entonces llegamos al objetivo
+
+Las reglas son importantes, pero alguien decide para qué existen.
+
+Una plataforma puede tener como objetivo reducir el coste por transacción.
+
+Otra puede priorizar la disponibilidad ante fallos.
+
+Una organización puede perseguir la máxima frecuencia de entrega.
+
+Otra, la capacidad de aprender rápidamente qué necesitan sus usuarios.
+
+No son objetivos necesariamente incompatibles. Pero cuando entran en conflicto, las decisiones revelan cuál domina.
+
+Meadows coloca el propósito del sistema entre los puntos de intervención de mayor influencia. Si cambia aquello que el sistema intenta conseguir, muchas decisiones pueden cambiar sin que alguien las ordene una por una.
+
+Pensemos en un equipo de plataforma cuyo éxito se mide por la adopción de su producto interno.
+
+Puede dedicar recursos a convencer a otros equipos de migrar, añadir funcionalidades para ampliar su cobertura y establecer estándares que aumenten su uso.
+
+Pero ¿qué sucede si el producto no reduce realmente el esfuerzo de los desarrolladores?
+
+La adopción puede crecer mientras el trabajo total de la organización también crece.
+
+Ahora cambiemos la pregunta: ¿qué queremos conseguir con la plataforma?
+
+Quizá sea reducir el tiempo necesario para llevar un cambio seguro a producción. Quizá disminuir el trabajo cognitivo que cada equipo necesita para operar su software. Quizá permitir que los equipos resuelvan problemas de negocio sin reconstruir las mismas capacidades.
+
+Esos propósitos no eliminan la necesidad de métricas. Exigen elegir métricas que permitan cuestionar el producto, incluida su propia existencia.
+
+Si una plataforma no cumple su propósito, la respuesta no tiene por qué ser una nueva versión.
+
+Puede ser simplificarla, cambiar sus límites o dejar de construirla.
+
+## El paradigma es la parte que casi nunca discutimos
+
+Meadows sitúa los paradigmas —los modelos mentales desde los que interpretamos la realidad— cerca de la parte superior de su lista.
+
+Un paradigma no es una configuración de Kubernetes. Es una idea que damos por evidente.
+
+Por ejemplo:
+
+- Si un recurso no está ocupado, está desperdiciado.
+- Si un equipo produce más código, es más productivo.
+- Si algo es complejo, necesitamos otra capa de abstracción.
+- Si un problema se repite, necesitamos más control.
+- Si una plataforma tiene poca adopción, necesitamos impulsar su adopción.
+
+No son siempre afirmaciones falsas. El peligro aparece cuando dejamos de tratarlas como hipótesis y empezamos a utilizarlas como verdades incuestionables.
+
+El cuarto artículo mostró por qué la utilización extrema puede aumentar los tiempos de espera y reducir el margen para absorber variabilidad. El tercero exploró cómo las métricas pueden convertirse en objetivos que deforman el comportamiento. El segundo mostró cómo las intervenciones bienintencionadas pueden amplificar una degradación. El primero recordó que las propiedades de un sistema emergen de sus interconexiones, no solo de la calidad de sus piezas.
+
+Todas esas ideas cuestionan una misma costumbre: **suponer que mejorar cada parte equivale a mejorar el conjunto**.
+
+Pero tampoco debemos convertir el pensamiento sistémico en un paradigma inmune a la crítica. John Sterman recuerda en [*All Models Are Wrong*](https://www.mit.edu/~jsterman/All_Models_Are_Wrong_%28SDR%29.pdf) que los modelos dependen de sus supuestos y de las fronteras que elegimos. Un diagrama causal puede sugerir un mecanismo; no demuestra por sí solo qué causó un incidente ni predice cuándo se repetirá.
+
+La humildad no es un adorno filosófico. Es una condición para aprender.
+
+## No todo problema necesita una revolución
+
+Existe una tentación después de leer a Meadows: considerar que los cambios profundos son siempre superiores a las mejoras incrementales.
+
+Sería un error.
+
+Si una base de datos está mal indexada, quizá necesitemos un índice.
+
+Si un *timeout* está configurado incorrectamente, quizá debamos corregirlo.
+
+Si una dependencia falla por un defecto concreto, quizá baste con arreglar ese defecto.
+
+No hay mérito en rediseñar una organización para evitar una corrección sencilla.
+
+La cuestión es distinguir entre un fallo puntual y un comportamiento recurrente producido por la estructura.
+
+Podemos investigar esa diferencia con preguntas verificables:
+
+**¿Qué esperamos que cambie?** No solo la métrica inmediata, sino el comportamiento a lo largo del tiempo.
+
+**¿Qué mecanismo explica el problema?** ¿Tenemos datos que lo respalden o solo una historia convincente?
+
+**¿Qué consecuencias secundarias esperamos?** ¿Dónde puede desplazarse el coste?
+
+**¿Qué observación refutaría nuestra hipótesis?** Si ninguna evidencia puede hacerlo, quizá no estemos investigando.
+
+**¿Quién puede cambiar realmente las reglas?** Y ¿quién asumirá los costes de hacerlo?
+
+Son preguntas menos vistosas que anunciar una transformación.
+
+También son más difíciles de responder con una presentación.
+
+## Un experimento mejor que otra reorganización
+
+Imaginemos una plataforma interna que acumula retrasos porque todas las modificaciones necesitan revisión de un equipo central.
+
+La explicación habitual es que ese equipo tiene poca capacidad.
+
+La solución habitual consiste en contratar más revisores.
+
+Antes de hacerlo, podríamos probar una hipótesis distinta: el cuello de botella existe porque el sistema concentra decisiones que podrían tomarse de forma segura en otros lugares.
+
+Durante un periodo acotado, seleccionamos un conjunto de cambios de bajo riesgo y definimos criterios claros para que los equipos puedan aprobarlos y desplegarlos sin revisión central. Mantenemos controles automáticos, trazabilidad y mecanismos de reversión. Reservamos la revisión especializada para cambios que realmente la necesitan.
+
+No estamos eliminando la responsabilidad. Estamos cambiando dónde se ejerce.
+
+Antes de empezar, registraríamos qué esperamos observar: menor tiempo de espera, menos interrupciones al equipo central y ninguna degradación inaceptable de la seguridad o la fiabilidad.
+
+También registraríamos qué nos haría detener el experimento: incidentes atribuibles a la nueva regla, aumento del retrabajo o desplazamiento de carga hacia otros equipos.
+
+Si funciona, habremos cambiado una regla del sistema.
+
+Si no funciona, tendremos información para revisar nuestro modelo.
+
+Y si descubrimos que la revisión central existe para compensar una arquitectura difícil de comprender, quizá debamos intervenir todavía más abajo en las causas: contratos, dependencias, límites de responsabilidad y diseño del producto.
+
+La idea no es encontrar siempre la intervención más profunda. Es **dejar de confundir la intervención más disponible con la más adecuada**.
+
+## ¿Quién puede cambiar las reglas del juego?
+
+Aquí el pensamiento sistémico se encuentra con una pregunta política, aunque estemos hablando de software.
+
+Las reglas no aparecen solas.
+
+Alguien decide quién puede desplegar, qué métricas cuentan, qué riesgos son aceptables, cómo se asigna el presupuesto y qué problemas merecen atención.
+
+Y esas decisiones distribuyen poder.
+
+Meadows señala que [el poder sobre las reglas es poder real](https://donellameadows.org/archives/leverage-points-places-to-intervene-in-a-system/). Pero reconocerlo no resuelve cómo negociar entre objetivos legítimos y enfrentados.
+
+El equipo de seguridad puede querer más controles. El de producto puede necesitar velocidad. Operaciones puede priorizar estabilidad. Finanzas puede exigir reducir costes.
+
+Ninguna perspectiva debería imponerse simplemente porque su representante tenga el dashboard más convincente.
+
+Necesitamos hacer visibles los compromisos, las dependencias y las consecuencias. Y necesitamos responsables capaces de decidir, explicar sus decisiones y revisarlas cuando la evidencia las contradiga.
+
+Decir «el sistema nos llevó a hacerlo» no elimina la responsabilidad de quienes diseñan, mantienen o pueden cambiar ese sistema.
+
+Una explicación sistémica debería ampliar nuestra capacidad de actuar, no servir como coartada.
+
+## Lo que nos queda después de cinco artículos
+
+Empezamos esta serie con una provocación: tu código puede ser excelente y el sistema un desastre.
+
+Después vimos que intentar salvar un servicio puede contribuir a derribarlo, que medirlo todo no garantiza medir lo importante y que diseñar para el día perfecto nos deja vulnerables ante el mundo real.
+
+Ahora aparece una conclusión menos cómoda que cualquier lista de buenas prácticas.
+
+Podemos ser muy buenos resolviendo los problemas que tenemos delante y, aun así, estar dedicando nuestros mejores esfuerzos a preservar estructuras que deberíamos cuestionar.
+
+Podemos acelerar un *pipeline* que no debería necesitar tantas comprobaciones.
+
+Podemos perfeccionar un proceso de aprobación que no debería intervenir en cada cambio.
+
+Podemos optimizar una plataforma que añade más complejidad de la que elimina.
+
+Podemos construir dashboards impecables para objetivos que han dejado de importar.
+
+Nada de eso significa que el trabajo realizado sea inútil. Las restricciones son reales, las decisiones anteriores tenían contextos y no siempre existe una alternativa sencilla.
+
+Pero precisamente porque construir y mantener sistemas cuesta tanto, deberíamos reservar parte de nuestra capacidad para cuestionar sus fundamentos.
+
+Meadows no nos entrega una fórmula para identificar la solución correcta. Nos ofrece un vocabulario para observar acumulaciones, flujos, retrasos, bucles, reglas y objetivos. Y nos recuerda que nuestras representaciones de la realidad son siempre incompletas.
+
+Quizá el gesto más valioso de un ingeniero no sea añadir una nueva pieza, acelerar otra operación o automatizar una tarea más.
+
+Quizá sea hacer una pregunta que interrumpa una reunión llena de soluciones técnicamente brillantes:
+
+**«Antes de mejorarlo otra vez, ¿estamos seguros de que esto debería existir así?»**
+
+Porque hay problemas que se resuelven optimizando.
+
+Y hay otros que solo empezamos a resolver cuando dejamos de defender lo que construimos.
 
 ## Referencias y lecturas recomendadas
 
-- **Politics, Book VIII**, Aristotle, trad. Benjamin Jowett, MIT Internet Classics Archive. <https://classics.mit.edu/Aristotle/politics.8.eight.html>. La educación y la forma de gobierno, y la admisión de Aristóteles de que no hay acuerdo sobre qué enseñar.
-- **The Republic, Book VII**, Plato, trad. Benjamin Jowett, MIT Internet Classics Archive. <https://classics.mit.edu/Plato/republic.8.vii.html>. Educación y obligación, en el contexto de una ciudad ideal.
-- **DORA's software delivery metrics: the four keys**, DORA, actualizado el 5 de enero de 2026. <https://dora.dev/guides/dora-metrics-four-keys/>. Las cinco métricas y la advertencia sobre la manipulación.
-- **CannotMeasureProductivity**, Martin Fowler, 2003. <https://martinfowler.com/bliki/CannotMeasureProductivity.html>. La opinión de un profesional sobre el valor de negocio entregado.
-- **Dancing With Systems**, Donella Meadows, Donella Meadows Project, sin fecha. <https://donellameadows.org/archives/dancing-with-systems/>. Fuente de la pauta sobre lo importante frente a lo cuantificable y de las citas sobre la humildad. Es un ensayo suyo, no el libro.
-- **All models are wrong: reflections on becoming a systems scientist**, John D. Sterman, System Dynamics Review 18(4), 2002. <https://www.mit.edu/~jsterman/All_Models_Are_Wrong_%28SDR%29.pdf>. Fuente de la cita sobre la medición.
-- **Nobody Ever Gets Credit for Fixing Problems that Never Happened**, Nelson P. Repenning y John D. Sterman, California Management Review 43(4), 2001. <https://web.mit.edu/nelsonr/www/Repenning=Sterman_CMR_su01_.pdf>. La trampa de la capacidad y el bache de BP Lima. Estudios de caso y modelos; las cifras proceden de fuentes del sector.
-- **Eliminating Toil (Site Reliability Engineering, ch. 5)**, Vivek Rau, ed. Betsy Beyer, Google, 2016. <https://sre.google/sre-book/eliminating-toil/>. El objetivo declarado de Google SRE de mantener el *toil* por debajo del 50 % del tiempo de cada SRE; práctica de una empresa, no un óptimo validado.
-- **Leverage Points: Places to Intervene in a System**, Donella Meadows, Donella Meadows Project, sin fecha. <https://donellameadows.org/archives/leverage-points-places-to-intervene-in-a-system/>. Fuente de las citas sobre el poder sobre las reglas y sobre el objetivo de un sistema. Es un ensayo suyo, no el libro.
+- **Thinking in Systems: A Primer**, Donella H. Meadows, Chelsea Green Publishing, 2008. Marco conceptual de la serie. Este artículo se apoya en los ensayos públicos de Meadows y en investigación complementaria; no afirma verificar una lectura íntegra del libro.
+- **Leverage Points: Places to Intervene in a System**, Donella H. Meadows, Donella Meadows Project. <https://donellameadows.org/archives/leverage-points-places-to-intervene-in-a-system/>. La lista de doce puntos de intervención, que la autora llama provisional, y la frase sobre el poder sobre las reglas.
+- **All Models Are Wrong: Reflections on Becoming a Systems Scientist**, John D. Sterman, System Dynamics Review, 2002. <https://www.mit.edu/~jsterman/All_Models_Are_Wrong_%28SDR%29.pdf>. Los límites de los modelos y de sus supuestos.
+- **Nobody Ever Gets Credit for Fixing Problems that Never Happened**, Nelson P. Repenning y John D. Sterman, California Management Review 43(4), 2001. <https://web.mit.edu/nelsonr/www/Repenning=Sterman_CMR_su01_.pdf>. Presión, mejora de procesos y trampa de la capacidad; estudios de caso y modelos, no una demostración universal.
+- **How Do Committees Invent?**, Melvin E. Conway, Datamation, abril de 1968. <https://www.melconway.com/Home/Committees_Paper.html>. La influencia de las estructuras de comunicación sobre los sistemas diseñados.
 
-Las citas de textos en inglés son traducción propia.
+Los escenarios de equipos, plataformas y el cálculo de disponibilidad son ilustrativos, no casos documentados.

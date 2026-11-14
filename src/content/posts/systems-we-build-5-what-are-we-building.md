@@ -1,6 +1,6 @@
 ---
-title: "Your Metrics Are Quietly Rewriting Your Goals"
-description: "A system's goal is its most consequential decision, and measurement can rewrite it without anyone announcing it. Aristotle, Plato, DORA, and an experiment an engineering organization could run, with its failure criteria written in advance."
+title: "We Are Experts at Improving Things We Should Never Have Built."
+description: "The closing article of the series on Thinking in Systems: why optimizing components and parameters isn't enough when rules, goals and mental models keep the wrong problem alive."
 date: 2026-11-13
 editorialDate: 2026-10-26   # ONE shared archive slot for the whole series, assigned by pipeline finalize (policy §6)
 series: break-and-change
@@ -16,88 +16,302 @@ book:
   year: 2008
   category: "Systems, Execution & Organizational Design"
 topics: ["Systems & Organizations", "Software Engineering", "Learning & Education"]
-tags: ["Systems Thinking", "Organizational Learning", "Engineering Culture", "Education"]
+tags: ["Systems Thinking", "Leverage Points", "Organizational Design", "Platform Engineering", "Mental Models"]
 draft: false
 ---
 
-Aristotle, in the [*Politics*](https://classics.mit.edu/Aristotle/politics.8.eight.html), thinks education should be public and the same for all citizens, and he admits something that unsettles his own project: "mankind are by no means agreed about the things to be taught". It is a brave thing to concede while designing a curriculum. It also names the decision that matters most in any system, its goal, and the uncomfortable fact that people disagree about it. Goals are contested value choices, and measurement can quietly rewrite them.
+At nine in the morning, the platform team meets to solve a problem that has been chasing it for months.
 
-I haven't had access to the full book, so what follows draws on a draft excerpt of *Thinking in Systems* published by the Donella Meadows Project, her essays and independent systems research.
+Deployments are too slow.
 
-## Nobody agrees what school is for
+The first proposal is to increase the *pipeline*'s resources. The second, to run more tests in parallel. The third, to reduce the mandatory checks. The fourth, to bring in a new automation tool.
 
-Among my sources, education is where the question was argued most openly. Plato's Socrates pulls against Aristotle in the [*Republic*](https://classics.mit.edu/Plato/republic.8.vii.html): "knowledge which is acquired under compulsion obtains no hold on the mind". Here the context is the education of guardians in an ideal city, not a general theory of schooling.
+Any of them might work.
 
-Civic formation pulls one way, autonomy the other. I don't think either text resolves the tension. What I take from the pair is narrower: the answer to "what is it for?" determines the structure, and the people giving that answer do not agree. The school gets built anyway.
+But nobody has asked why a ten-line change needs to go through twelve systems, three teams and five approvals to reach production.
 
-## What is an engineering team for, exactly?
+We're devoting an extraordinary amount of talent to perfecting a process whose existence we've stopped questioning.
 
-Software organizations face a cousin of that question, not a twin. DORA's [guide](https://dora.dev/guides/dora-metrics-four-keys/) defines five delivery metrics instead of one, and warns that targets raise "the likelihood that teams will try to game the metrics". Martin Fowler's older position, in an opinion essay, is that ["any true measure of software development productivity must be based on delivered business value"](https://martinfowler.com/bliki/CannotMeasureProductivity.html). A dashboard can be accurate to the last decimal and still be about the wrong thing.
+And maybe that is one of our greatest skills as an industry: **we are experts at improving things we should never have built**.
 
-Meadows has a sentence for this in [Dancing With Systems](https://donellameadows.org/archives/dancing-with-systems/): "Pay attention to what is important, not just what is quantifiable". Sterman adds the sting in [his reflections](https://www.mit.edu/~jsterman/All_Models_Are_Wrong_%28SDR%29.pdf): "we measure what we care about, and those measurements alter what we believe is important".
+That doesn't mean every complex system is unnecessary, or that we can erase years of decisions with a clever question. It means that when something works badly, we usually look first for how to make it work better. Much later we ask why it works that way, who decided it should, and what goal it is really serving.
 
-So measurement reveals purpose and rewrites it at the same time, and none of the evidence I have drawn on turns up a measure that leaves its purpose alone. We would send back a thermometer that changed the weather. Metrics that change the goal, we put on the wall.
+This is the last article in a series on Donella Meadows' *Thinking in Systems*. The previous four explored interconnections, feedback, metrics and resilience. We're left with the most uncomfortable question: **where do we intervene to change a system's behavior and not just its symptoms?**
 
-## Slack or capability? It depends who is looking
+## The trap of always looking for a parameter
 
-If an engineering organization's stated goal is reliable delivery of customer value, an efficiency lens asks how much work flows through; an autonomy lens asks whether the people doing the work have room to notice and fix what is wrong. The two conflict when the capability stock drains because time for improvement is the first thing taken for output. Protected time looks like slack to the first lens and like capability to the second. Plato's line about compulsion points the same way for schools, with the caveat above: work done under compulsion may produce output without producing understanding.
+An API responds slowly. We add memory.
 
-Neither lens, in my reading, is a fact to be discovered. They are values, and a metrics dashboard is one place where the choice gets made without anyone announcing it.
+A team delivers late. We adjust the sprint size.
 
-## An experiment that admits in advance how it could fail
+A *pipeline* takes twenty minutes. We double the runners.
 
-This is a hypothesis about an engineering organization, not a result.
+An organization has coordination problems. We create a meeting.
 
-**Problem.** Chronic firefighting, in which incidents and rework crowd out the work that would have prevented them: the capability trap that [Repenning and Sterman](https://web.mit.edu/nelsonr/www/Repenning=Sterman_CMR_su01_.pdf) describe.
+These are interventions on parameters: quantities, thresholds, frequencies, capacities. Many are useful. Some solve the problem completely.
 
-**Stated goal.** Reliable delivery of customer value.
+Donella Meadows didn't claim that changing parameters was useless. In her essay [*Leverage Points: Places to Intervene in a System*](https://donellameadows.org/archives/leverage-points-places-to-intervene-in-a-system/) she proposes twelve places to intervene, ordered roughly by their potential for transformation. Numbers appear among the points of least relative influence; rules, goals and paradigms, among the deepest.
 
-**Actual incentives.** Visible throughput and heroic recovery get rewarded; preventive work stays invisible.
+The list is a **heuristic**, not a predictive law. Meadows warns that its order is tentative. We can't deduce that changing a rule is always better than enlarging a server. If the CPU is saturated by a legitimate load, adding capacity can be exactly the right thing.
 
-**Feedback loops.** B1 Work Harder, B2 Work Smarter, B3 Shortcuts and R1 Reinvestment, after [Repenning and Sterman](https://web.mit.edu/nelsonr/www/Repenning=Sterman_CMR_su01_.pdf), plus, in their account, a second reinforcing loop through incentives that promote "heroes". The rule is meant to weaken B3 and let B2 and R1 run in the virtuous direction. It does nothing about the hero loop unless what is rewarded changes as well.
+The distinction is a different one: **a parameter changes how much we do of something; a structural intervention can change what we need to do**.
 
-**Important delays.** Improvement effort leads capability change by months for simple processes and by years for product development, according to Repenning and Sterman. My reading is that the delivery metrics may therefore not move inside a two-quarter window at all. The early indicators, the share of toil and the share of unplanned work, have to be read first, and a flat delivery metric at the judging date is weak evidence either way.
+Back to the *pipeline*. Maybe it takes twenty minutes because every service runs all the integration tests. Maybe it runs them because nobody knows the dependencies precisely. Maybe nobody knows those dependencies because teams were organized around technical functions and architecture decisions were distributed without clear responsibilities.
 
-**Intervention.** For two quarters, a set of volunteer teams reserves a fixed, protected share of capacity for capability work: test reliability, toil automation, runbooks, upgrade debt. Planning rules protect it, not goodwill, which makes this a change to the rules of the system and not a tweak to a parameter. Goodwill is the first thing a deadline spends. Google's SRE organization has [an advertised goal](https://sre.google/sre-book/eliminating-toil/) of keeping toil below 50% of each SRE's time, one documented precedent for a protective rule. The share is a parameter the organization must choose and justify; I claim no optimum. I expect a short-term dip followed by improved rework and recovery metrics. Changing what a system measures, how soon consequences become visible and what it is for can help, but I have no evidence that it reliably does.
+Doubling the runners can cut the time from twenty to twelve minutes. It's a real improvement.
 
-**Pre-registration.** Before starting, write down the expected short-term dip (throughput may fall) and the date on which the experiment will be judged. The accounts Repenning and Sterman report describe a dip that was planned for, including BP Lima's maintenance costs rising 30% in the first six months. Writing the dip down in advance is meant to stop leadership abandoning the experiment at the first bad number. A dip that was predicted is a result; a dip that wasn't is a reason to panic.
+But identifying which changes affect which contracts, reducing coupling and redesigning the validation flow could make a good part of the work unnecessary.
 
-**What to watch.** DORA's five metrics: change lead time, deployment frequency, failed deployment recovery time, change fail rate and deployment rework rate. Add the share of toil, the share of unplanned work, and a team-level qualitative check that the work did not become performative. Compare with non-participating teams, and say plainly that the comparison is not randomized.
+We've stopped speeding up the queue. We've started asking why it exists.
 
-**Failure criteria.** Any one of these counts as failure:
+## Architecture is also a structure of decisions
 
-- At the pre-registered date, rework rate and recovery time are unchanged or worse and the share of toil has not fallen.
-- The protected time was routinely raided. That is a failure of the rule, and it is recorded as one.
-- The metrics improved, but the qualitative review shows gaming.
+In engineering we usually draw boxes and arrows to represent systems.
 
-**Unintended consequences to watch.** Capability work becomes a reporting ritual. Teams outside the experiment absorb displaced load, a boundary effect. Metrics turn into targets. And "worse-before-better" becomes an excuse for interventions that simply do not work; the pre-registration exists to tell that case from the real thing, and whether it succeeds is an open question.
+The boxes are services, databases, queues and applications. The arrows are calls, events and dependencies.
 
-## What I'd keep from Meadows, and what I'd question
+But an architecture also contains decisions: who can change what, what must be coordinated, what information is available and which errors propagate.
 
-What I find most enduring is the habit of asking where a stock is accumulating while everyone watches the flow. The bathtub framing is simple enough to teach and, as Sterman's classroom results in Part 1 showed, hard enough that well-trained people still get it wrong.
+Imagine a purchase operation that depends on eight synchronous calls. Each service has its own indicators, its deployments and its team. We can optimize them individually. We can improve the latency of each call.
 
-What I would adopt is her humility. A writer who says that "everything you know, and everything everyone knows, is only a model" is a better guide than one who claims to have found the lever.
+Even so, the operation will still depend on all the critical pieces responding within the expected time.
 
-What I would question is how far the vocabulary carries. Leverage points, as Meadows herself frames them, are a heuristic and not a predictive ranking, and the evidence I could draw on for the mechanisms in practice comes mostly from case studies, models and Chicago schools.
+If eight dependencies were independent and each had 99.9% availability, the approximate probability that all of them were available would be:
 
-On power, the accessible texts do name it. In [Leverage Points](https://donellameadows.org/archives/leverage-points-places-to-intervene-in-a-system/), Meadows writes "Power over the rules is real power", and says "a single player can have the power to change the system's goal". What they do not offer, as far as these sources go, is an account of how competing groups contest a goal, or of how a system's actual goal can be detected from inside it. That seems to me the largest gap, since the goal is the decision that matters most.
+0.999⁸ ≈ 99.2%
 
-The readers who will get most from Meadows are engineers and managers who recognize these symptoms and want a vocabulary for them. Anyone who wants a formula should look elsewhere, and will probably find one, which is rather the problem.
+It's an illustrative calculation, not an estimate of real availability: failures can be correlated, dependencies can have alternative routes and the definition of the operation's availability matters. But it shows something relevant: **the reliability of each component doesn't automatically equal the reliability of the whole experience**.
 
-## Who decides what a system is for?
+We can keep raising the individual availability of the eight services. Or we can ask whether the operation really needs eight critical dependencies.
 
-Underneath sits a question none of the frameworks answers: who gets to decide what a system is for, and how would we know, from inside it, that its declared goal and its actual goal have diverged?
+That question alters the structure of the system.
 
-If nobody can answer that, what if the most important skill in engineering isn't learning how to build better systems, but recognizing when we're solving the wrong problem?
+The same goes for the organization. Hiring more people can increase execution capacity, but not necessarily the speed of a process that demands sequential approvals. If each team waits for the next, we may be adding work to the same bottleneck.
+
+The org chart and the architecture aren't identical, but the interactions between teams shape what we can build. [Melvin Conway's](https://www.melconway.com/Home/Committees_Paper.html) original observation remains useful precisely because it forces us to look at communications, not just components.
+
+## Changing the information changes the decisions
+
+Among Meadows' points of intervention is the structure of information flows.
+
+It sounds less spectacular than a new architecture, but it can transform a system.
+
+Imagine a team that maintains an API. Its dashboards show latency, errors and resource consumption. Everything is reasonably fine.
+
+What it doesn't see is that users abandon their purchase because the API returns a technically correct status that the interface interprets confusingly.
+
+The team can spend weeks shaving ten milliseconds off latency without improving the customer's experience.
+
+It doesn't lack data. It lacks **the connection between its decisions and their consequences**.
+
+Now imagine the team can observe, alongside its technical metrics, the completion rate of the operation and the main reasons for abandonment. We haven't changed its capacity or hired anyone. We've changed what it can know before deciding.
+
+The intervention doesn't guarantee a good decision. But it makes it possible to ask questions that didn't even appear before.
+
+There's a risk: turning that new information into another rigid KPI and reproducing the problem from the third article. Indicators also influence behavior. That's why it matters who interprets them, what context accompanies the numbers and what consequences the decisions they provoke have.
+
+A dashboard should help us discover when our model of the world is wrong. Not merely certify that we're following the plan.
+
+## Rules have more power than they seem
+
+Think of an organization that claims to value quality and sustainability.
+
+Every quarter, however, teams must commit all their capacity to features. Preventive maintenance, test improvement and reducing manual work compete with visible deliveries.
+
+When pressure appears, those tasks vanish from the plan.
+
+We can organize workshops on quality. We can create a committee. We can ask engineers to be more responsible.
+
+But if the planning rule keeps rewarding only immediate deliveries, the organization will tend to repeat the behavior.
+
+Nelson Repenning and John Sterman studied this kind of dynamic in [*Nobody Ever Gets Credit for Fixing Problems that Never Happened*](https://web.mit.edu/nelsonr/www/Repenning=Sterman_CMR_su01_.pdf). Their work describes how pressure to produce can displace improvement effort, erode capability and provoke new pressures. It isn't a universal proof about any team: it rests on case studies and system dynamics models.
+
+One possible intervention is to protect improvement capacity through an explicit rule, rather than trusting it to survive the quarter's priorities.
+
+But a rule is only real if it can survive the first conflict.
+
+If we say protected time exists and cancel it every time there's a delivery date, we haven't changed the system. We've changed its presentation.
+
+The difference between a principle and a rule appears when following it costs something.
+
+## And then we get to the goal
+
+Rules matter, but someone decides what they exist for.
+
+A platform can have reducing cost per transaction as its goal.
+
+Another can prioritize availability under failure.
+
+An organization can pursue maximum delivery frequency.
+
+Another, the ability to learn quickly what its users need.
+
+These aren't necessarily incompatible goals. But when they conflict, the decisions reveal which one dominates.
+
+Meadows places a system's purpose among the points of greatest influence. If what the system is trying to achieve changes, many decisions can change without anyone ordering them one by one.
+
+Think of a platform team whose success is measured by the adoption of its internal product.
+
+It can spend resources convincing other teams to migrate, add features to widen its coverage and set standards that increase its use.
+
+But what happens if the product doesn't really reduce developers' effort?
+
+Adoption can grow while the organization's total work grows too.
+
+Now let's change the question: what do we want to achieve with the platform?
+
+Perhaps it's reducing the time needed to take a safe change to production. Perhaps lowering the cognitive load each team needs to operate its software. Perhaps letting teams solve business problems without rebuilding the same capabilities.
+
+Those purposes don't remove the need for metrics. They require choosing metrics that let us question the product, including its very existence.
+
+If a platform doesn't fulfill its purpose, the answer doesn't have to be a new version.
+
+It can be simplifying it, changing its boundaries or ceasing to build it.
+
+## The paradigm is the part we almost never discuss
+
+Meadows places paradigms, the mental models from which we interpret reality, near the top of her list.
+
+A paradigm isn't a Kubernetes configuration. It's an idea we take for granted.
+
+For example:
+
+- If a resource isn't busy, it's wasted.
+- If a team produces more code, it's more productive.
+- If something is complex, we need another layer of abstraction.
+- If a problem repeats, we need more control.
+- If a platform has low adoption, we need to push its adoption.
+
+They aren't always false statements. The danger appears when we stop treating them as hypotheses and start using them as unquestionable truths.
+
+The fourth article showed why extreme utilization can increase waiting times and reduce the margin to absorb variability. The third explored how metrics can become goals that distort behavior. The second showed how well-intentioned interventions can amplify a degradation. The first reminded us that a system's properties emerge from its interconnections, not just from the quality of its parts.
+
+All those ideas challenge the same habit: **assuming that improving each part equals improving the whole**.
+
+But we shouldn't turn systems thinking into a paradigm immune to criticism either. John Sterman reminds us in [*All Models Are Wrong*](https://www.mit.edu/~jsterman/All_Models_Are_Wrong_%28SDR%29.pdf) that models depend on their assumptions and on the boundaries we choose. A causal diagram can suggest a mechanism; it doesn't prove by itself what caused an incident, nor predict when it will recur.
+
+Humility isn't a philosophical ornament. It's a condition for learning.
+
+## Not every problem needs a revolution
+
+There's a temptation after reading Meadows: to consider deep changes always superior to incremental improvements.
+
+That would be a mistake.
+
+If a database is badly indexed, maybe we need an index.
+
+If a *timeout* is configured wrongly, maybe we should fix it.
+
+If a dependency fails because of a specific defect, maybe fixing that defect is enough.
+
+There's no merit in redesigning an organization to avoid a simple fix.
+
+The point is to tell apart a one-off failure from a recurring behavior produced by the structure.
+
+We can investigate that difference with verifiable questions:
+
+**What do we expect to change?** Not just the immediate metric, but the behavior over time.
+
+**What mechanism explains the problem?** Do we have data to back it up, or just a convincing story?
+
+**What secondary consequences do we expect?** Where can the cost shift?
+
+**What observation would refute our hypothesis?** If no evidence can, perhaps we aren't investigating.
+
+**Who can really change the rules?** And who will bear the costs of doing so?
+
+These are less showy questions than announcing a transformation.
+
+They're also harder to answer with a presentation.
+
+## An experiment beats another reorganization
+
+Imagine an internal platform that accumulates delays because all changes need review from a central team.
+
+The usual explanation is that the team has little capacity.
+
+The usual solution is to hire more reviewers.
+
+Before doing so, we could test a different hypothesis: the bottleneck exists because the system concentrates decisions that could be made safely elsewhere.
+
+For a limited period, we select a set of low-risk changes and define clear criteria so teams can approve and deploy them without central review. We keep automated controls, traceability and rollback mechanisms. We reserve specialist review for changes that really need it.
+
+We aren't removing responsibility. We're changing where it is exercised.
+
+Before starting, we would record what we expect to observe: shorter waiting time, fewer interruptions for the central team and no unacceptable degradation of security or reliability.
+
+We would also record what would make us stop the experiment: incidents attributable to the new rule, increased rework or load shifting to other teams.
+
+If it works, we'll have changed a rule of the system.
+
+If it doesn't, we'll have information to revise our model.
+
+And if we discover that central review exists to compensate for an architecture that is hard to understand, we may need to intervene even further down, at the causes: contracts, dependencies, boundaries of responsibility and product design.
+
+The idea isn't to always find the deepest intervention. It's to **stop confusing the most available intervention with the most appropriate one**.
+
+## Who can change the rules of the game?
+
+Here systems thinking meets a political question, even though we're talking about software.
+
+Rules don't appear on their own.
+
+Someone decides who can deploy, which metrics count, which risks are acceptable, how the budget is allocated and which problems deserve attention.
+
+And those decisions distribute power.
+
+Meadows points out that [power over the rules is real power](https://donellameadows.org/archives/leverage-points-places-to-intervene-in-a-system/). But recognizing it doesn't resolve how to negotiate between legitimate, conflicting goals.
+
+The security team may want more controls. Product may need speed. Operations may prioritize stability. Finance may demand cost reductions.
+
+No perspective should prevail simply because its representative has the most convincing dashboard.
+
+We need to make the trade-offs, dependencies and consequences visible. And we need people accountable who can decide, explain their decisions and revise them when the evidence contradicts them.
+
+Saying "the system made us do it" doesn't remove the responsibility of those who design, maintain or can change that system.
+
+A systemic explanation should widen our capacity to act, not serve as an alibi.
+
+## What we're left with after five articles
+
+We began this series with a provocation: your code can be excellent and the system a mess.
+
+Then we saw that trying to save a service can help bring it down, that measuring everything doesn't guarantee measuring what matters, and that designing for the perfect day leaves us vulnerable to the real world.
+
+Now a conclusion appears that is less comfortable than any list of best practices.
+
+We can be very good at solving the problems in front of us and still be devoting our best efforts to preserving structures we should question.
+
+We can speed up a *pipeline* that shouldn't need so many checks.
+
+We can perfect an approval process that shouldn't intervene in every change.
+
+We can optimize a platform that adds more complexity than it removes.
+
+We can build impeccable dashboards for goals that have stopped mattering.
+
+None of that means the work done is useless. The constraints are real, earlier decisions had their contexts and there isn't always a simple alternative.
+
+But precisely because building and maintaining systems costs so much, we should reserve part of our capacity to question their foundations.
+
+Meadows doesn't hand us a formula for identifying the right solution. She offers us a vocabulary for observing accumulations, flows, delays, loops, rules and goals. And she reminds us that our representations of reality are always incomplete.
+
+Perhaps an engineer's most valuable gesture isn't to add a new piece, speed up another operation or automate one more task.
+
+Perhaps it's to ask a question that interrupts a meeting full of technically brilliant solutions:
+
+**"Before we improve it again, are we sure this should exist like this?"**
+
+Because there are problems that get solved by optimizing.
+
+And there are others we only begin to solve when we stop defending what we built.
 
 ## References & Further Reading
 
-- **Politics, Book VIII**, Aristotle, trans. Benjamin Jowett, MIT Internet Classics Archive. <https://classics.mit.edu/Aristotle/politics.8.eight.html>. Education and the form of government, and Aristotle's admission of disagreement about what to teach.
-- **The Republic, Book VII**, Plato, trans. Benjamin Jowett, MIT Internet Classics Archive. <https://classics.mit.edu/Plato/republic.8.vii.html>. Education and compulsion, in the context of an ideal city.
-- **DORA's software delivery metrics: the four keys**, DORA, updated 5 January 2026. <https://dora.dev/guides/dora-metrics-four-keys/>. The five metrics and the caution about gaming.
-- **CannotMeasureProductivity**, Martin Fowler, 2003. <https://martinfowler.com/bliki/CannotMeasureProductivity.html>. A practitioner's opinion on delivered business value.
-- **Dancing With Systems**, Donella Meadows, Donella Meadows Project, undated. <https://donellameadows.org/archives/dancing-with-systems/>. Source of the guideline on what is important versus quantifiable, and of the humility quotes. Her essay, not the book.
-- **All models are wrong: reflections on becoming a systems scientist**, John D. Sterman, System Dynamics Review 18(4), 2002. <https://www.mit.edu/~jsterman/All_Models_Are_Wrong_%28SDR%29.pdf>. Source of the measurement quotation.
-- **Nobody Ever Gets Credit for Fixing Problems that Never Happened**, Nelson P. Repenning and John D. Sterman, California Management Review 43(4), 2001. <https://web.mit.edu/nelsonr/www/Repenning=Sterman_CMR_su01_.pdf>. The capability trap and the BP Lima dip. Case studies and models; figures reported from practitioner sources.
-- **Eliminating Toil (Site Reliability Engineering, ch. 5)**, Vivek Rau, ed. Betsy Beyer, Google, 2016. <https://sre.google/sre-book/eliminating-toil/>. Google SRE's advertised goal of keeping toil below 50% of each SRE's time; a company practice, not a validated optimum.
-- **Leverage Points: Places to Intervene in a System**, Donella Meadows, Donella Meadows Project, undated. <https://donellameadows.org/archives/leverage-points-places-to-intervene-in-a-system/>. Source of the quotations on power over rules and over a system's goal. Her essay, not the book.
+- **Thinking in Systems: A Primer**, Donella H. Meadows, Chelsea Green Publishing, 2008. Conceptual framework for the series. This article rests on Meadows' public essays and complementary research; it does not claim to verify a full reading of the book.
+- **Leverage Points: Places to Intervene in a System**, Donella H. Meadows, Donella Meadows Project. <https://donellameadows.org/archives/leverage-points-places-to-intervene-in-a-system/>. The list of twelve points of intervention, which the author calls tentative, and the sentence on power over the rules.
+- **All Models Are Wrong: Reflections on Becoming a Systems Scientist**, John D. Sterman, System Dynamics Review, 2002. <https://www.mit.edu/~jsterman/All_Models_Are_Wrong_%28SDR%29.pdf>. The limits of models and of their assumptions.
+- **Nobody Ever Gets Credit for Fixing Problems that Never Happened**, Nelson P. Repenning and John D. Sterman, California Management Review 43(4), 2001. <https://web.mit.edu/nelsonr/www/Repenning=Sterman_CMR_su01_.pdf>. Pressure, process improvement and the capability trap; case studies and models, not a universal proof.
+- **How Do Committees Invent?**, Melvin E. Conway, Datamation, April 1968. <https://www.melconway.com/Home/Committees_Paper.html>. The influence of communication structures on the systems designed.
+
+The team and platform scenarios and the availability calculation are illustrative, not documented cases.
