@@ -1,6 +1,6 @@
 ---
-title: "Lo que la métrica no ve sale gratis"
-description: "Una métrica es una valla alrededor de lo que decidiste que te importa. Las notas de los exámenes de Chicago y los paneles de ingeniería muestran qué pasa al otro lado, y por qué cambiar una regla puede servir más que perseguir un número mejor."
+title: "El sistema no se cayó. Lo tiramos intentando salvarlo."
+description: "Cómo los reintentos, los retrasos y las soluciones locales pueden convertir una degradación recuperable en un fallo sistémico."
 date: 2026-11-13
 editorialDate: 2026-10-26
 series: break-and-change
@@ -15,71 +15,380 @@ book:
   author: "Donella H. Meadows"
   year: 2008
   category: "Systems, Execution & Organizational Design"
-topics: ["Systems & Organizations", "Software Engineering", "Learning & Education"]
-tags: ["Systems Thinking", "DORA", "Metrics", "Leverage Points", "Assessment"]
+topics: ["Systems & Organizations", "Software Engineering"]
+tags: ["Systems Thinking", "Feedback Loops", "Distributed Systems", "Resilience", "Delays"]
 lang: es
 translationOf: systems-we-build-2-improving-the-parts
 draft: false
 ---
 
-Cuelga suficientes premios y castigos de la nota de un examen y puede que algunos adultos del colegio empiecen a hacer trampas. En los colegios de primaria de Chicago no fue un experimento mental: dos investigadores estimaron que cada año había trampas graves de profesores o directivos en una pequeña parte de las aulas, y que respondían con fuerza a cambios bastante modestos en los incentivos. Nadie se propuso montar un sistema que fabricara trampas. Simplemente, alguien trazó una línea alrededor de la nota.
+A las 10:17, el servicio de pagos empieza a responder lentamente.
 
-Una métrica es una frontera alrededor de lo que has decidido que te importa, y todo lo que queda fuera de la línea sale gratis, al menos a ojos del número. Optimizar cifras locales dentro de una frontera estrecha puede estropear el resultado que queda fuera, y por eso lo útil suele ser cambiar una regla o un objetivo, no conseguir un número mejor.
+No está caído. Todavía procesa operaciones, aunque algunas peticiones que antes tardaban 200 milisegundos ahora necesitan varios segundos.
 
-No he tenido acceso al libro completo; lo que aquí procede de Meadows sale de dos de sus ensayos, leídos junto a investigación independiente sobre sistemas.
+Los clientes tienen reintentos automáticos. Cuando una petición supera el tiempo de espera, vuelven a enviarla.
 
-## Las vallas que nadie pone por escrito
+El equipo de plataforma detecta la saturación y añade réplicas. El equipo de pagos aumenta los *timeouts* para evitar errores innecesarios. Otro equipo incrementa el número de conexiones disponibles.
 
-En su ensayo [Dancing With Systems](https://donellameadows.org/archives/dancing-with-systems/), Meadows reúne pautas para convivir con los sistemas. Una es tajante: «No maximices partes de sistemas o subsistemas ignorando el conjunto». Otra dice: «Presta atención a lo importante, no solo a lo cuantificable».
+Todas son decisiones técnicamente defendibles.
 
-John Sterman, que estudió con Meadows, explica el mecanismo en [sus reflexiones](https://www.mit.edu/~jsterman/All_Models_Are_Wrong_%28SDR%29.pdf): los resultados de un modelo suelen depender más de los supuestos sobre la frontera, la agregación y las reglas de decisión que de los parámetros. Para la frontera usa la imagen de las «vallas invisibles», supuestos sobre qué queda dentro y qué fuera de un modelo que nadie escribe en ninguna parte. Una métrica funciona igual. Dice qué vamos a mirar y, con su silencio, qué no, y la gente aprende a leer ese silencio a una velocidad asombrosa.
+A las 10:24, el servicio deja de responder.
 
-## Cuando un parámetro hace de objetivo
+Lo hemos arreglado hasta romperlo.
 
-El ensayo [Leverage Points](https://donellameadows.org/archives/leverage-points-places-to-intervene-in-a-system/) de Meadows ordena los lugares donde intervenir en un sistema, los llamados puntos de apalancamiento. Aquí me sirve para una sola distinción: entre cambiar un parámetro (un número), una regla (qué se permite o se premia) o un objetivo (para qué sirve el sistema). Por encima de todo ello está lo que ella llama paradigma: «Los paradigmas son la fuente de los sistemas».
+Este incidente es ficticio, aunque los mecanismos que describe son reales. Y sirve para explorar una de las ideas más incómodas de Donella Meadows: una intervención puede empeorar un sistema porque modifica su comportamiento de una manera que no habíamos previsto.
 
-Meadows es prudente con su propia lista. La llama «un trabajo en curso», dice que «es provisional y su orden es escurridizo» y añade: «No es una receta para encontrar puntos de apalancamiento». Si la autora de una clasificación avisa de que su orden es escurridizo, lo mínimo que puede hacer el lector es creerla. Yo la trato como una lente heurística, no como una clasificación validada empíricamente.
+El problema es que normalmente analizamos las soluciones como si el sistema fuera a quedarse quieto mientras las aplicamos.
 
-Una meta numérica suele ser un parámetro: sube este número tanto. Mi interpretación, que no es una proporción medida, es que muchos problemas con las métricas nacen de pedirle a un parámetro que haga el trabajo de un objetivo.
+No lo hace.
 
-## Las notas de Chicago hicieron lo que se les pidió
+## El problema no era el timeout
 
-Brian Jacob y Steven Levitt [estudiaron](https://www.nber.org/papers/w9413) los sistemas de incentivos «con umbrales nítidos» y las trampas en los exámenes estandarizados de las escuelas públicas de Chicago, y estimaron que al menos en el 4-5 % de las aulas de primaria había cada año trampas graves de profesores o directivos. Las trampas, señalan, responden con fuerza a «cambios relativamente menores en los incentivos»: cuando la frontera es la nota, se optimiza la nota, también por caminos que a los diseñadores nunca se les pasaron por la cabeza.
+Volvamos al servicio de pagos.
 
-Un segundo estudio sobre Chicago, de Derek Neal y Diane Whitmore Schanzenbach, concluye que [rendir cuentas según el número de alumnos que alcanzan el nivel exigido](https://www.nber.org/papers/w13293) subió las notas de los alumnos del centro de la distribución, pero no las de los más desfavorecidos. Las mejoras fueron reales, y la forma de la medida decidió quién se las llevaba. Solo he leído el resumen, que no explica el porqué. Mi conjetura, sugerida por el título («Left Behind By Design», algo así como «abandonados por diseño»), es que contar cuántos alumnos superan el nivel premia hacerles cruzar una línea, de modo que a los que están muy por debajo puede salir más barato ignorarlos. Si es así, nadie tuvo que decidir nunca desatender a esos alumnos. Lo hizo la aritmética, y la aritmética nunca tiene que firmar nada.
+Recibe habitualmente 800 peticiones por segundo. En condiciones normales puede procesar unas 1.000.
 
-En los dos casos, tal como yo los leo, la brecha medida se cerró mientras el propósito, presumiblemente que los niños aprendan, se iba desviando. No es una ley, sino dos conjuntos de datos de Chicago vistos con la lente de la frontera.
+De pronto, una dependencia comienza a responder lentamente. Las operaciones permanecen abiertas más tiempo y aumenta la concurrencia.
 
-## Los paneles de ingeniería también tienen vallas
+Los clientes empiezan a experimentar *timeouts*.
 
-La [guía de métricas de entrega](https://dora.dev/guides/dora-metrics-four-keys/) de DORA define ahora cinco: tiempo de entrega de los cambios, frecuencia de despliegue, tiempo de recuperación tras un despliegue fallido, tasa de fallos de los cambios y tasa de retrabajo de los despliegues. Cubrir a la vez el rendimiento (*throughput*) y la estabilidad ya es una decisión de frontera. La investigación que recoge la guía concluye que «la velocidad y la estabilidad no son una disyuntiva», y advierte de que fijar metas aumenta «la probabilidad de que los equipos intenten manipular las métricas».
+Alguien propone aumentar el tiempo de espera de dos a cinco segundos.
 
-Las dos afirmaciones no se contradicen. La primera habla de lo que suele ir junto cuando se comparan muchos equipos; la segunda, de presionar a un equipo concreto con un número concreto. Y los directivos, al fin y al cabo, rara vez dirigen al equipo medio.
+Tiene sentido. Si el servicio necesita tres segundos para responder, abandonar a los dos genera errores que podrían evitarse.
 
-Martin Fowler dijo algo parecido en 2003, en un ensayo de opinión y no en una investigación empírica: las líneas de código no miden la producción, y [«cualquier medida real de la productividad en el desarrollo de software debe basarse en el valor de negocio entregado»](https://martinfowler.com/bliki/CannotMeasureProductivity.html). El valor de negocio es difícil de medir, y justo por eso se cuelan los recuentos de actividad. Su principal mérito para el puesto es que son fáciles de contar.
+Pero esperar también tiene un coste.
 
-## Un aula no es un pipeline
+Mientras una operación permanece abierta, puede consumir conexiones, memoria, capacidad de ejecución y otros recursos.
 
-Tal como lo veo, el sistema de evaluación de una escuela y un panel de ingeniería comparten estructura: una frontera estrecha, un número visible y un resto invisible. Pero profesores y alumnos se adaptan, hacen trampas y se resisten como no lo hace ningún pipeline; ningún pipeline ha discrepado jamás de su meta. Es una analogía sobre fronteras, no una afirmación de que las aulas sean sistemas de despliegue.
+[Little's Law](https://pubsonline.informs.org/doi/10.1287/opre.9.3.383) describe una relación fundamental entre el número medio de operaciones presentes en un sistema, su tasa efectiva y el tiempo medio que permanecen en él:
 
-## Cambia la regla, no el número
+L = λ · W (operaciones concurrentes = tasa efectiva × tiempo medio en el sistema)
 
-Piensa en un equipo con una meta individual de actividad, por ejemplo tickets cerrados por persona. Cambiar el parámetro es bajar la meta. Cambiar la regla es sustituirla por una medida de resultados del equipo y una revisión periódica de la manipulación, en la que alguien tiene que contestar, con fecha fija, qué esconde ahora el número. Eso ya es un cambio de estructura. También puede manipularse, pero probarlo cuesta poco y deshacerlo es fácil. La quinta entrega dedica un experimento completo a una versión más ambiciosa del mismo movimiento: reservar tiempo protegido para el trabajo que refuerza la capacidad del equipo.
+Si un sistema estable completa 800 operaciones por segundo y cada una permanece en él una media de 200 milisegundos, hay aproximadamente 160 operaciones concurrentes.
 
-## Antes de buscar un número mejor
+Si ese tiempo medio aumenta a dos segundos, con la misma tasa efectiva, la concurrencia media pasa a 1.600.
 
-Para cada métrica en la que te apoyes, apunta qué queda fuera de ella y cuándo va a mirar alguien allí. Luego pregúntate si el cambio que planeas toca un parámetro, una regla o un objetivo. Si es un parámetro, la valla sigue exactamente donde estaba; solo ha cambiado el número pintado en ella.
+Diez veces más.
 
-Una vez que una métrica ha trazado su frontera, ¿cómo notaría un equipo que el resultado ha empezado a moverse al otro lado?
+Esto no significa que aumentar un *timeout* multiplique necesariamente la concurrencia. Depende de cómo se comporten las operaciones y de qué recursos retengan mientras esperan.
+
+Lo importante es que el tiempo forma parte del consumo de capacidad.
+
+Una intervención diseñada para reducir errores puede aumentar la presión sobre los recursos que provocan esos errores.
+
+Y entonces aparece una pregunta distinta.
+
+¿Estamos corrigiendo el problema o modificando las condiciones que lo alimentan?
+
+## El sistema también responde a nuestras respuestas
+
+En *Thinking in Systems*, Meadows explica que buena parte del comportamiento dinámico de los sistemas surge de sus mecanismos de retroalimentación.
+
+Un *feedback loop* existe cuando una variable influye, directa o indirectamente, sobre sí misma a través de otras variables.
+
+Hay dos grandes familias.
+
+Los **bucles de refuerzo** amplifican cambios. Pueden impulsar crecimiento o acelerar un deterioro.
+
+Los **bucles de equilibrio** contrarrestan desviaciones y tienden a estabilizar alguna variable alrededor de un objetivo.
+
+No son categorías morales. Un bucle de refuerzo puede ser deseable y uno de equilibrio puede impedir un cambio necesario.
+
+En nuestro servicio de pagos aparece un bucle de refuerzo:
+
+**Más latencia → más timeouts → más reintentos → más carga → más latencia.**
+
+Cada cliente intenta proteger su propia operación.
+
+Ninguno necesita tener un error de programación.
+
+Pero el comportamiento colectivo puede destruir la disponibilidad que todos intentan preservar.
+
+Podemos representar la amplificación mediante un modelo simplificado.
+
+Supongamos que llegan λ operaciones originales por segundo y que cada intento tiene una probabilidad constante p de generar otro intento.
+
+Con reintentos ilimitados, el número esperado de intentos por operación es:
+
+1 + p + p² + … = 1 / (1 − p)
+
+Por tanto:
+
+Intentos totales = operaciones originales / (1 − p)
+
+Si p = 0,5, el volumen esperado de intentos se duplica.
+
+Si p = 0,8, se multiplica por cinco.
+
+En producción, esa probabilidad no suele ser constante. Puede aumentar precisamente cuando el servicio se satura. También existen límites de reintentos y distribuciones temporales que este modelo no contempla.
+
+No estamos prediciendo una caída con una ecuación sencilla.
+
+Estamos identificando un mecanismo que puede amplificarla.
+
+Y eso cambia la investigación.
+
+En lugar de preguntar únicamente por qué está lento el servicio, empezamos a preguntar qué está haciendo el propio sistema para volverse todavía más lento.
+
+## El autoscaler no sabe que está llegando tarde
+
+El equipo de plataforma decide añadir capacidad.
+
+La utilización ha aumentado y el autoscaler solicita nuevas réplicas.
+
+En principio, estamos introduciendo un bucle de equilibrio:
+
+**Más utilización → más réplicas → más capacidad → menos utilización.**
+
+Pero las réplicas no aparecen instantáneamente.
+
+Hay que programarlas, arrancar los contenedores, inicializar dependencias, superar comprobaciones de salud y comenzar a recibir tráfico.
+
+Mientras tanto, el controlador sigue observando un sistema saturado.
+
+Si la configuración no tiene suficientemente en cuenta ese retraso, puede solicitar más capacidad de la necesaria.
+
+Cuando finalmente llegan todas las réplicas, quizá la carga ya ha disminuido.
+
+El controlador empieza a reducirlas.
+
+Poco después, la demanda vuelve a subir.
+
+Y repetimos el ciclo.
+
+Los [mecanismos de estabilización](https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale/), los periodos de enfriamiento, los límites de escalado y la selección de métricas existen precisamente para evitar estas situaciones.
+
+Un controlador bien configurado no tiene por qué oscilar.
+
+Pero el ejemplo muestra por qué Meadows considera los retrasos una propiedad fundamental de los sistemas (en [Leverage Points](https://donellameadows.org/archives/leverage-points-places-to-intervene-in-a-system/) los asocia con el exceso de corrección y la oscilación).
+
+Un *delay* separa una acción de sus consecuencias.
+
+Si reaccionamos repetidamente antes de que una intervención haya producido su efecto, podemos corregir demasiado.
+
+Si esperamos demasiado, el problema puede crecer hasta superar nuestra capacidad de respuesta.
+
+El comportamiento depende de la relación entre la velocidad de nuestras decisiones y la velocidad con la que el sistema puede cambiar.
+
+No basta con tener una buena solución.
+
+También necesitamos aplicarla en el momento adecuado y observar sus efectos durante el tiempo suficiente.
+
+## Cuando todos tienen razón y el sistema pierde
+
+Imaginemos ahora que intervienen tres equipos.
+
+El primero es responsable de los clientes. Su objetivo es reducir errores visibles para los usuarios.
+
+Configura más reintentos.
+
+El segundo gestiona la plataforma. Su objetivo es mantener una utilización eficiente de la infraestructura.
+
+Ajusta los umbrales de escalado.
+
+El tercero mantiene el servicio de pagos. Su objetivo es completar el mayor número posible de operaciones.
+
+Amplía los *timeouts* y el número de conexiones.
+
+Cada equipo dispone de una explicación razonable de sus decisiones.
+
+Pero ninguno controla por sí solo el comportamiento completo.
+
+El primero aumenta la demanda durante los fallos.
+
+El segundo responde con capacidad que tarda en estar disponible.
+
+El tercero permite que las operaciones permanezcan abiertas durante más tiempo.
+
+El resultado depende de cómo interactúan esas decisiones.
+
+Aquí aparece una idea esencial del pensamiento sistémico: **la racionalidad local no garantiza un resultado global deseable**.
+
+No significa que las personas carezcan de responsabilidad.
+
+Significa que evaluar una decisión únicamente desde la perspectiva de quien la toma puede ser insuficiente.
+
+El equipo que configura reintentos debería conocer el impacto que puede generar sobre sus dependencias.
+
+El responsable de la plataforma debería comprender los tiempos de reacción de sus mecanismos de escalado.
+
+El equipo de pagos debería conocer los recursos que retiene una operación mientras espera.
+
+Y todos necesitan información sobre el comportamiento conjunto.
+
+Porque una decisión puede ser correcta respecto a un objetivo local y perjudicial respecto al objetivo del sistema.
+
+## La trampa de aliviar el síntoma
+
+Meadows describe varias trampas recurrentes en los sistemas.
+
+Una de ellas es *shifting the burden*, que podemos traducir como desplazar la carga o trasladar la responsabilidad de resolver un problema hacia una solución sintomática.
+
+El mecanismo aparece cuando una intervención reduce temporalmente los síntomas, pero deja intacta la causa fundamental.
+
+Con el tiempo, esa intervención puede convertirse en la respuesta habitual.
+
+Imaginemos una plataforma donde los servicios se saturan periódicamente.
+
+Cada vez que ocurre, añadimos capacidad.
+
+La intervención funciona. La latencia baja y las alarmas desaparecen.
+
+Pero quizá el problema de fondo sea que cada operación de negocio genera demasiadas llamadas internas, que las consultas son ineficientes o que existe una dependencia compartida incapaz de escalar.
+
+Añadir réplicas puede ser una decisión perfectamente válida. A veces es la solución adecuada.
+
+La trampa aparece cuando el alivio inmediato reduce el incentivo para investigar el mecanismo que produce la saturación.
+
+El sistema sigue funcionando gracias a intervenciones cada vez más costosas.
+
+Y la causa original permanece.
+
+No es difícil reconocer un patrón parecido en organizaciones.
+
+Un equipo acumula trabajo pendiente.
+
+La respuesta consiste en pedir horas extraordinarias.
+
+La cola disminuye temporalmente.
+
+Pero si el ritmo de entrada continúa superando la capacidad sostenible, el trabajo vuelve a acumularse.
+
+Repetimos la intervención.
+
+Con el tiempo, las horas extraordinarias dejan de ser excepcionales.
+
+Se convierten en parte del funcionamiento esperado.
+
+La solución temporal ha modificado las condiciones del sistema.
+
+Ahora dependemos de ella.
+
+Lo inquietante de esta trampa es que la intervención puede funcionar de verdad.
+
+Precisamente por eso resulta tan fácil repetirla.
+
+## La resistencia no siempre viene de las personas
+
+Otra trampa descrita por Meadows es la *policy resistance*: la resistencia que surge cuando diferentes actores intentan llevar un sistema hacia objetivos incompatibles.
+
+Pensemos en una plataforma compartida.
+
+El equipo de infraestructura quiere reducir costes.
+
+Los equipos de producto quieren minimizar latencia.
+
+Seguridad quiere limitar permisos y conexiones.
+
+Operaciones quiere aumentar la estabilidad.
+
+Cada objetivo puede ser legítimo.
+
+Pero las intervenciones pueden contrarrestarse.
+
+Infraestructura reduce capacidad para controlar el gasto.
+
+Los equipos de producto introducen cachés y mecanismos de recuperación para compensar la pérdida de rendimiento.
+
+Seguridad restringe determinadas conexiones, lo que modifica las rutas de comunicación.
+
+Operaciones incorpora nuevas comprobaciones y procedimientos para controlar el riesgo.
+
+El resultado puede ser un sistema más complejo, caro y difícil de operar que el original.
+
+No porque uno de los objetivos sea incorrecto.
+
+Sino porque los actores están intentando regular variables diferentes mediante mecanismos que interactúan.
+
+Meadows propone una idea contraintuitiva: en determinadas situaciones, aumentar la presión para alcanzar un objetivo puede intensificar la resistencia del sistema.
+
+La alternativa exige comprender qué intenta conseguir cada participante y buscar estructuras que reduzcan los conflictos entre objetivos.
+
+Eso no elimina las decisiones difíciles.
+
+Al contrario.
+
+Obliga a hacer explícitos los compromisos que antes permanecían escondidos entre equipos.
+
+## Más control puede producir menos control
+
+Hay una paradoja que aparece con frecuencia en ingeniería.
+
+Cuando un sistema se vuelve impredecible, añadimos mecanismos de control.
+
+Más comprobaciones. Más reintentos. Más alarmas. Más automatizaciones. Más políticas. Más controladores.
+
+Cada mecanismo puede ser útil individualmente.
+
+Pero también introduce estados, dependencias, condiciones y posibles interacciones.
+
+Un controlador puede modificar una variable que otro controlador está intentando estabilizar.
+
+Una política de recuperación puede activar un mecanismo de protección que provoca nuevos errores.
+
+Una alerta puede desencadenar una intervención automática que modifica las condiciones sobre las que se calculó la alerta.
+
+El problema no es la automatización.
+
+Es que estamos construyendo sistemas que reaccionan a sí mismos.
+
+Y cuanto mayor es el número de mecanismos que interactúan, más importante resulta comprender su dinámica conjunta.
+
+En algunos casos, la solución puede consistir en añadir un mecanismo nuevo.
+
+En otros, en eliminar uno.
+
+Un buen diseño no es necesariamente el que contiene más controles.
+
+Es el que consigue el comportamiento deseado con mecanismos que podemos comprender, observar y mantener.
+
+## Lo que deberíamos haber hecho a las 10:17
+
+Volvamos al incidente inicial.
+
+El servicio de pagos comienza a responder lentamente.
+
+¿Qué habría sido diferente si hubiéramos analizado el sistema como un conjunto de bucles y acumulaciones?
+
+Primero, habríamos distinguido la demanda original del tráfico amplificado por reintentos. Sin esa distinción, una gráfica de peticiones por segundo puede engañarnos: muestra más carga, pero no explica cuánto tráfico ha generado el propio mecanismo de recuperación.
+
+Después, habríamos observado la concurrencia, el tiempo que las operaciones permanecen abiertas, el tamaño de las colas y la saturación de las dependencias. La CPU por sí sola no basta para explicar un servicio que espera conexiones o respuestas remotas.
+
+También habríamos comprobado qué intervenciones ya estaban en marcha. ¿Cuántas réplicas estaban solicitadas pero todavía no listas? ¿Había cambios de configuración propagándose? ¿Estaban los clientes sincronizando sus reintentos? Una métrica tomada durante la transición puede describir un sistema que ya no existe cuando decidimos actuar.
+
+Las medidas posibles son conocidas: límites de reintentos, *exponential backoff* con [*jitter*](https://aws.amazon.com/blogs/architecture/exponential-backoff-and-jitter/), presupuestos de reintento, *circuit breakers*, *load shedding*, *backpressure* y límites explícitos de concurrencia. Ninguna es una receta universal. Por ejemplo, un *circuit breaker* mal ajustado también puede oscilar, y rechazar carga requiere decidir qué operaciones son prescindibles.
+
+La diferencia no estaría en disponer de más herramientas. Estaría en seleccionar cada intervención por el bucle que pretende modificar, anticipar sus efectos secundarios y observar si realmente cambia la dinámica.
+
+## El sistema no se salva a base de buenas intenciones
+
+Hay un riesgo al hablar de sistemas: que la responsabilidad se disuelva en una nube de flechas y diagramas. Como todo está conectado, nadie parece haber tomado una decisión concreta.
+
+Sería una lectura cómoda y equivocada.
+
+Las personas eligen los límites de reintento. Diseñan las dependencias. Establecen objetivos locales. Deciden cuándo desplegar, cuándo revertir y cuándo detener una intervención.
+
+El pensamiento sistémico no elimina esas responsabilidades. Las hace más exigentes.
+
+Nos pide que expliquemos no solo qué problema resuelve una decisión, sino también qué comportamiento puede desencadenar en otros lugares del sistema.
+
+Una solución puede funcionar localmente y fallar globalmente. Puede funcionar hoy y generar dependencia mañana. Puede estabilizar una variable y desestabilizar otra.
+
+La pregunta decisiva, entonces, deja de ser «¿hemos aplicado correctamente la solución?».
+
+Pasa a ser: **¿qué está haciendo el sistema ahora que hemos intervenido?**
+
+A las 10:17 teníamos un servicio degradado. A las 10:24, un servicio caído.
+
+Entre ambas horas no faltó actividad. Sobraron respuestas que nadie había analizado juntas.
+
+**El sistema no se cayó. Lo tiramos intentando salvarlo.**
 
 ## Referencias y lecturas recomendadas
 
-- **Dancing With Systems**, Donella Meadows, Donella Meadows Project, sin fecha. <https://donellameadows.org/archives/dancing-with-systems/>. Fuente de las pautas citadas. Es un ensayo de Meadows, no el libro.
-- **Leverage Points: Places to Intervene in a System**, Donella Meadows, Donella Meadows Project, sin fecha. <https://donellameadows.org/archives/leverage-points-places-to-intervene-in-a-system/>. Fuente de las salvedades citadas y de la distinción entre parámetro, regla, objetivo y paradigma. Es un ensayo de Meadows, no el libro.
-- **All models are wrong: reflections on becoming a systems scientist**, John D. Sterman, System Dynamics Review 18(4), 2002. <https://www.mit.edu/~jsterman/All_Models_Are_Wrong_%28SDR%29.pdf>. Fuente del argumento sobre la frontera y las «vallas invisibles».
-- **Rotten Apples: An Investigation of the Prevalence and Predictors of Teacher Cheating**, Brian A. Jacob y Steven D. Levitt, NBER Working Paper 9413, 2003. <https://www.nber.org/papers/w9413>. Estimaciones de las trampas de profesores en Chicago (leído a nivel de resumen).
-- **Left Behind By Design: Proficiency Counts and Test-Based Accountability**, Derek Neal y Diane Whitmore Schanzenbach, NBER Working Paper 13293, 2007. <https://www.nber.org/papers/w13293>. Datos de Chicago sobre quién mejoró con una rendición de cuentas basada en el número de alumnos que alcanzan el nivel (leído a nivel de resumen).
-- **DORA's software delivery metrics: the four keys**, DORA, actualizado el 5 de enero de 2026. <https://dora.dev/guides/dora-metrics-four-keys/>. Las cinco métricas, la advertencia sobre la manipulación y el hallazgo sobre velocidad y estabilidad.
-- **CannotMeasureProductivity**, Martin Fowler, 2003. <https://martinfowler.com/bliki/CannotMeasureProductivity.html>. La opinión de un profesional sobre por qué la producción es difícil de medir.
-
-Las citas de textos en inglés son traducción propia.
+- **Thinking in Systems: A Primer**, Donella H. Meadows, Chelsea Green Publishing, 2008. Marco conceptual de retroalimentación, retrasos y trampas sistémicas. No se ha comprobado una lectura íntegra del libro: los nombres de las trampas «policy resistance» y «shifting the burden» proceden de su capítulo sobre trampas, que no se ha podido consultar directamente.
+- **Leverage Points: Places to Intervene in a System**, Donella H. Meadows, Donella Meadows Project. <https://donellameadows.org/archives/leverage-points-places-to-intervene-in-a-system/>. Los retrasos y su relación con el exceso de corrección y la oscilación.
+- **Dancing With Systems**, Donella H. Meadows, Donella Meadows Project. <https://donellameadows.org/archives/dancing-with-systems/>. Un caso de termostato central en el que las correcciones tardías aumentaron las oscilaciones.
+- **A Proof for the Queuing Formula: L = λW**, John D. C. Little, Operations Research 9(3), 1961. <https://pubsonline.informs.org/doi/10.1287/opre.9.3.383>. Enunciado y demostración de la ley de Little, con sus condiciones (medias finitas y procesos estacionarios).
+- **Exponential Backoff and Jitter**, Marc Brooker, AWS Architecture Blog, 2015. <https://aws.amazon.com/blogs/architecture/exponential-backoff-and-jitter/>. Análisis técnico de estrategias de reintento y del efecto del jitter.
+- **Horizontal Pod Autoscaling**, Kubernetes Documentation. <https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale/>. Mecanismos de escalado y de estabilidad del número de réplicas.

@@ -1,6 +1,6 @@
 ---
-title: "Pressure Works Today. The Bill Comes Later."
-description: "In the authors' worked example, six hours of extra output come from two hours of real effort, and a manager convinced that pressure works: why the shortcut looks like success, why the bill arrives months later, and what firefighting heroes, impatient autoscalers and technical debt have in common."
+title: "We've Learned to Measure Everything. Except What Matters."
+description: "Flawless metrics, incentives that change behavior, and teams that hit their targets while the product loses value: what Meadows, DORA and the education studies teach us."
 date: 2026-11-13
 editorialDate: 2026-10-26   # ONE shared archive slot for the whole series, assigned by pipeline finalize (policy §6)
 series: break-and-change
@@ -16,111 +16,326 @@ book:
   year: 2008
   category: "Systems, Execution & Organizational Design"
 topics: ["Systems & Organizations", "Software Engineering"]
-tags: ["Systems Thinking", "Feedback Loops", "Technical Debt", "SRE", "Capability Trap"]
+tags: ["Systems Thinking", "Metrics", "Incentives", "DORA", "Organizational Design"]
 draft: false
 ---
 
-"The new process is a good one. Someday I'd like to work on a project that actually uses it." An engineer in product development said that, and Nelson Repenning and John Sterman quote it in [their study of process improvement](https://web.mit.edu/nelsonr/www/Repenning=Sterman_CMR_su01_.pdf). The new process has plenty of admirers and no users.
+The dashboard is green.
 
-Behind the sentence sits a mechanism about what managers learn from their own data. Pressure raises output, the people applying it see the rise and conclude that pressure works, and months later the bill arrives as rework, at which point the same people, reading the same kind of evidence, ask why the team has got worse. Nobody here needs to be lazy or stupid. When costs arrive later than rewards, the structure teaches the people inside it the wrong lesson, and clever people simply learn it faster.
+Deployment frequency is up. Lead time for changes is down. Teams are meeting their commitments and productivity seems to improve quarter after quarter.
 
-I haven't had access to the full book, so I draw on the draft excerpt of *Thinking in Systems* that the Donella Meadows Project publishes, her essays and independent systems research. The trap at the center of what follows belongs to Repenning and Sterman, not to Meadows.
+At the results meeting, it's all good news.
 
-## The improvement nobody had time for
+Three floors down, customer support is swamped. Users abandon processes halfway through. The product team has spent months trying to solve the same problems, and the engineers are starting to wonder why they work so hard to achieve so little.
 
-In ["Nobody Ever Gets Credit for Fixing Problems that Never Happened"](https://web.mit.edu/nelsonr/www/Repenning=Sterman_CMR_su01_.pdf), Repenning and Sterman describe organizations whose improvement programs decay. Their theory "initially emerged from the study of two improvement initiatives in a major automaker", and it rests on "over a dozen in-depth case studies" along with simulation models: a lot of evidence, though case studies and models rather than controlled trials.
+Nobody has faked the numbers.
 
-The engineer has company in the paper. A supervisor at an electronics plant says "Supervisors never had time to make improvements…". Together the two remarks cover the whole life of an improvement program: first nobody has time to build it, then nobody has a project to use it in, and neither speaker objects to it.
+The dashboard works.
 
-## Four loops, and the one that pays back too late
+That is precisely the problem.
 
-The authors model process capability as a stock that erodes all the time and is refilled, after a delay, by improvement effort. Around it they draw four loops.
+We've built a system capable of meeting its targets without achieving what it supposedly exists for.
 
-```
-B1 Work Harder:
-  gap ─(+)─► pressure to do more work ─(+)─► time on the work itself ─(+)─► output ─(−)─► gap
+And if we think the solution is to find the person who chose the wrong metrics, we probably haven't understood the problem yet.
 
-B2 Work Smarter:
-  gap ─(+)─► pressure to improve ─(+)─► time on improvement ─(+, delayed)─► capability
-      ─(+)─► output ─(−)─► gap
+## The system learns what we reward
 
-B3 Shortcuts:
-  gap ─(+)─► pressure to do more work ─(+)─► time taken from improvement ─(+)─► output ─(−)─► gap
-  (the same time taken lowers time on improvement, so capability erodes, later)
+In *Thinking in Systems*, Donella Meadows distinguishes a system's elements, its interconnections and its function or purpose.
 
-R1 Reinvestment:
-  capability ─(+)─► output ─(−)─► gap ─(+)─► pressure to do more work
-      ─(−)─► time on improvement ─(+, delayed)─► capability
-  (reinforcing: with a high capability it runs in the virtuous direction, with a falling one the vicious)
-```
+The distinction seems simple, but it has an uncomfortable consequence: a system's real purpose doesn't always match its stated purpose.
 
-This is my adaptation of Repenning & Sterman, 2001, a schematic in words and not a validated model. I set the signs from my reading of the loop logic rather than by checking each link against the authors' figures; for the exact diagrams, go to the paper.
+An organization can say it wants to create value for its customers. It can write it in its strategy, repeat it in its meetings and put it on the first slide of every presentation.
 
-Everything turns on timing. Working harder (B1) is what the authors call "better-before-worse": output improves now and capability pays later. Working smarter (B2) is "worse-before-better": output dips while time goes to improvement, and capability repays it only after a delay. Shortcuts (B3) make the same trade as working harder, by raiding improvement time. And the delays are long, on the order of months for simple processes and years for product development, according to the authors. Judge by this quarter's numbers and the scoreboard favors working harder and cutting corners; it has made up its mind long before the slow loop's results come in.
+But if its decision mechanisms, its budgets and its rewards exclusively favor the number of features delivered, that behavior will end up shaping what the organization does.
 
-## Six hours of output, two hours of effort
+Not because all its members are opportunists. Nor because there's a conspiracy to ignore the customer.
 
-The authors make the consequence concrete with a numerical example of their own, built to show the logic rather than drawn from data. A manager sees a gap of six hours per person per week between the output wanted and the output delivered, and applies pressure. Two of those six hours come from people genuinely working harder. The other four come from cutting improvement time: skipped maintenance, documentation or training, say (those examples are mine, not the authors').
+People adapt their decisions to the environment they work in. And that environment includes what is measured, what is rewarded, what is punished and what is visible.
 
-The manager sees six extra hours of output and nothing of where they came from, so concludes that pressure works and, the authors say, overestimates its effect "by as much as a factor of three". Six over two is three. Two hours of real effort, four hours borrowed from the future, and one manager convinced of a miracle. It is the only kind of loan where the bank thanks you for taking it.
+Meadows places a system's goals among the most influential [points of intervention](https://donellameadows.org/archives/leverage-points-places-to-intervene-in-a-system/). Changing the goal can alter the behavior of many elements without directly modifying each one.
 
-They call this the Self-Confirming Attribution Error. Shortcuts are invisible when they are taken, so the evidence keeps agreeing with what the manager already believes: ask the data for a second opinion and you get the first one back, with numbers attached. When the borrowed hours later come due as rework, many people given the same data would blame the team. You might too; the data are very persuasive, which is the whole problem.
+But there is a difficulty: the goals we declare and the ones that actually govern our decisions can be different.
 
-## Nobody gets promoted for the fire that never started
+To discover that difference, it helps to look at what happens when two goals come into conflict.
 
-Rewards make it worse. An engineer at an auto company gave the paper its title: "Nobody ever gets credit for fixing problems that never happened". The authors describe cultures that prize heroic firefighting over prevention, which in their account creates a second reinforcing loop, through incentives that promote "heroes". The person who stays late putting out the fire is visible; the person whose system never caught fire has produced, as far as any report can show, nothing at all.
+What happens when improving quality means delaying a delivery? When solving a customer's problem doesn't move any of the team's metrics? When a technically correct decision hurts the indicator by which the person who must make it is evaluated?
 
-What prevention can buy, and what it costs first, shows in the maintenance programs they report at DuPont and BP Lima. In DuPont plants that implemented the program, pump mean time between failures improved about 12% per doubling of operating experience, against 5% in 23 comparable plants, and direct maintenance costs fell about 20%, against a rise of about 7% in the comparison plants. At BP Lima, maintenance costs rose 30% in the first six months. The authors take these figures from practitioner sources, not independent evaluations. The Lima number interests me more, because that dip was planned: someone agreed in advance to let things look worse. That takes more nerve than any night of firefighting, and there is no medal for it.
+That's where statements of principle start competing with the real structure.
 
-## A machine that would make the same mistake
+## Metrics are not transparent windows
 
-The same arithmetic of delay turns up, far more literally, in Kubernetes. Its documentation describes the [Horizontal Pod Autoscaler](https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale/) as an intermittent control loop that runs every 15 seconds by default, built around one core rule:
+A metric is a partial representation of reality. We choose a variable, decide how to measure it and use it to interpret a broader phenomenon.
 
-```
-desiredReplicas = ceil[ currentReplicas × ( currentMetricValue / desiredMetricValue ) ]
-```
+That's indispensable in engineering. We can't operate a complex platform on intuition alone.
 
-By default the controller skips changes while the ratio stays within a 0.1 tolerance. The documentation describes "flapping", where the replica count fluctuates, and sets a default 300-second stabilization window for scale-down.
+The problem appears when we confuse the representation with what it's meant to represent.
 
-How these pieces fit together is my interpretation. Load rises, the metric climbs above its target, and the controller adds replicas. New pods take time to become ready and their metrics lag, so for a while the metric still reads high. A controller that took that stale reading at face value would add replicas again, and again, ordering capacity already on its way. Once the pods came online there would be more than the load needs, the metric would fall, the controller would scale down, and the cycle would restart. That is overshoot: the correction outlives the problem because the evidence of the solution arrives late. It is the manager's mistake in miniature. The machine, at least, has the excuse of being a machine.
+Think about the productivity of a software team. We can measure commits, pull requests, completed tickets, deployments or cycle time.
 
-The documentation deals with that lag. It describes an initial readiness delay (30 seconds by default) and a CPU initialization period (5 minutes by default) during which pods' metrics are treated with suspicion, and adds that "the controller conservatively assumes that the not-yet-ready pods are consuming 0% of the desired metric, further dampening the magnitude of a scale up". In other words, the controller counts the capacity already on its way before asking for more, which is more patience than the manager with the six hours showed. The scale-down stabilization window does the same job in the other direction. Read this way, overshoot is what the loop would do without those safeguards, and the safeguards buy stability at the price of responsiveness. Meadows' [Leverage Points](https://donellameadows.org/archives/leverage-points-places-to-intervene-in-a-system/) states the general version in one line: "Delays in feedback loops are critical determinants of system behavior." The autoscaler, of course, is a literal loop with a defined period, and a team is not.
+All of those measures contain information. None of them, on its own, proves we're creating value.
 
-## When the system fights the fix
+A team can close more tickets because it has split tasks into smaller units. It can deploy more often because it has reduced the size of its changes. It can generate more code because it uses AI assistants.
 
-Sterman [defines](https://www.mit.edu/~jsterman/All_Models_Are_Wrong_%28SDR%29.pdf) policy resistance as "the tendency for interventions to be defeated by the response of the system to the intervention itself." Pressure fits uncomfortably well, because it calls up the very responses, shortcuts and hidden workarounds, that defeat it. The medicine produces the symptoms it was prescribed for.
+Each of those changes can be positive. But we can also increase activity without improving the outcome.
 
-Calling this a symptomatic fix is my label; Meadows doesn't name the pattern in the texts I've drawn on.
+The difference matters because, when a metric becomes a target, people start making decisions to influence it.
 
-## Technical debt: interest nobody books
+This is usually linked to Goodhart's law, popularized in the formulation that a measure ceases to be a good measure when it becomes a target.
 
-Software already has a name for those four borrowed hours. Cunningham's [original line](https://c2.com/doc/oopsla92.html) is "Every minute spent on not-quite-right code counts as interest on that debt." Repenning and Sterman reach for a similar example, a software engineer who skips documentation. Google's SRE book makes the same drift plausible for operations work, warning that ["toil tends to expand if left unchecked"](https://sre.google/sre-book/eliminating-toil/).
+The phrase is useful, though we shouldn't turn it into a universal law. A metric can remain valuable even when we use it to set targets. What changes is the behavior of the people and organizations that interact with it.
 
-What drains, as I read it, is the capacity to do the work sustainably, through automation, documentation and clean code. Skipped work leaves no trace on the day it is skipped; no pager has ever gone off because a runbook went quietly out of date this afternoon. It surfaces later as interest in Cunningham's sense, more manual effort and more rework per change. It is a debt that charges its interest in the only currency that could have cleared it.
+And that behavior can change the relationship between the indicator and the phenomenon we wanted to observe.
 
-## A made-up team you may recognize
+In other words: measuring isn't always a passive activity. Sometimes it changes the system we're measuring.
 
-Take an invented but ordinary case: a team that owns a CI/CD platform. If you recognize it, it is still made up.
+## Chicago: when a better score doesn't mean better education
 
-The feature backlog grows, so management raises delivery targets (B1), and the team defers flaky-test fixes, runbook updates and dependency upgrades (B3). Throughput rises for a quarter, and management takes that as proof the targets worked, which, on the only numbers available that quarter, it is. Meanwhile the capability stock (test reliability, documentation, how current the dependencies are) drains where nobody is looking.
+In 2003, the economists Brian Jacob and Steven Levitt published [a study](https://www.nber.org/papers/w9413) on cheating on standardized tests in Chicago's public schools.
 
-Then incidents and rework eat into improvement time, and R1 turns vicious: the team has less and less capacity to fix the problems consuming its capacity. The manager sees a team that has got worse and reaches for more pressure. As far as the manager can tell, the pressure works fine; it is the team that has stopped working.
+They analyzed statistical patterns consistent with altered answers and used additional information to study the phenomenon.
 
-## When trying harder digs the hole deeper
+They estimated that serious cheating by teachers or administrators occurred every year in at least 4–5% of elementary classrooms. They also found that this behavior responded to relatively modest changes in incentives.
 
-If this reading is right, urging managers to stop pushing will not work, because the evidence they see keeps endorsing the push. Something has to change the rules: when consequences become visible, how well improvement time is protected, and what gets rewarded. Whether a particular team in your organization is caught in such a trap is an empirical question no diagram can settle.
+The study doesn't show that all teachers acted this way, or that standardized assessment is useless. It reveals something more specific.
 
-Repenning and Sterman carry the pattern into personal life, citing learning new software and committing to a new exercise program. That extension is theirs, and I take it only as an analogy, with no claim about physiology. Still, you will know the structure, and so would the engineer still hoping, someday, for a project that actually uses the new process.
+When professional consequences depend heavily on an indicator, some people can find ways to improve that indicator without improving what it's meant to measure.
 
-If a reward structure makes the wrong lesson look like the right one, what kind of evidence would the people inside it actually accept?
+The test score becomes an operational target. And behaviors appear that the assessment system wasn't meant to produce.
+
+[Another study](https://www.nber.org/papers/w13293), by Derek Neal and Diane Whitmore Schanzenbach, examined the effects of an accountability system based on how many students reached a minimum level of proficiency.
+
+They found improvements concentrated among students near the relevant threshold, while the lowest-scoring students didn't see the same gains.
+
+The economic mechanism is understandable. If institutional success depends on the number of students who clear a line, investing resources in those close to crossing it can produce a more immediate improvement in the indicator.
+
+Helping a student who is far from the threshold can be educationally important, but contribute less to the short-term measured result.
+
+Nobody needs to declare that some students matter less. The incentive structure can favor an unequal distribution of attention.
+
+The parallel with engineering isn't about equating teachers with developers. It's about recognizing a shared mechanism: **when we define a narrow boundary for measuring success, we can shift resources toward what counts and away from what also matters.**
+
+And there's an even more interesting question. What happens when the people who design the assessment system also start to believe their indicator fully represents the goal?
+
+Then the problem stops being only about incentives. It becomes a problem of mental models.
+
+## DORA is not the problem
+
+In software engineering we have an especially interesting example: the [DORA metrics](https://dora.dev/guides/dora-metrics-four-keys/).
+
+Their purpose is to help understand software delivery performance through indicators related to speed and stability.
+
+Among them are deployment frequency, change lead time, change fail rate and recovery times. The current formulation of DORA also includes the rework associated with deployments.
+
+DORA's research has helped challenge the idea that delivering faster necessarily means sacrificing stability. That is valuable.
+
+But DORA itself warns that turning the metrics into targets makes it more likely that teams will game them, and that comparing them across very different applications can be misleading.
+
+Imagine an organization decides to increase deployment frequency by 30%.
+
+One team starts splitting its changes into smaller units. It improves continuous integration, automates tests and reduces dependencies. Frequency goes up. Excellent.
+
+Another team gets the same result by changing how deployments are counted, or by making low-value changes just to improve the figure. Frequency goes up too.
+
+The dashboard shows two apparently equivalent successes. But the system has produced very different behaviors.
+
+The metric doesn't necessarily tell them apart.
+
+This doesn't invalidate DORA. It shows why we need to understand the context and purpose of each indicator.
+
+The matter is especially relevant when we bring AI agents into development.
+
+If an agent generates code faster, we may see more commits, more pull requests and more proposed changes. But the value of software also depends on the quality of decisions, on integration, on maintenance and on the results it produces.
+
+We can speed up one part of the flow without improving the whole. We can even saturate review and integration.
+
+The problem isn't that agents produce too much code. It's that we still need to tell producing artifacts from achieving outcomes.
+
+## Everyone makes decisions with an incomplete map
+
+Bounded rationality, a concept developed by Herbert Simon and also discussed in the systems-thinking tradition, describes a fundamental feature of our decisions.
+
+We don't have perfect information. Nor can we evaluate every possible alternative. We make decisions using simplified models of reality, under constraints of time, knowledge and processing capacity.
+
+In an engineering organization, those limitations are unavoidable.
+
+A developer can understand their service deeply without knowing all the business dependencies. A Product Owner can know the users' needs without mastering the platform's technical constraints. An infrastructure lead can optimize resources without enough information about the impact of certain decisions on the customer experience. An Engineering Manager can observe delivery indicators without knowing all the technical compromises that are piling up.
+
+None of those perspectives is necessarily wrong. All of them are incomplete.
+
+The problem arises when we turn a partial perspective into a sufficient representation of the whole.
+
+Here information flows take on enormous importance.
+
+Meadows considers the structure of information flows one of the places where we can intervene to change a system.
+
+It isn't simply about building another dashboard. It's about changing who can observe which consequences, with what delay, and when they can act.
+
+Imagine engineers know the latency of their services, but never receive information about the business processes that fail. They can technically optimize an API for months without discovering that the user's main problem lies in a product decision.
+
+And the opposite happens too. A product team can design a seemingly simple feature without knowing the operational cost of maintaining it.
+
+The solution isn't to demand that everyone know everything. It's to build mechanisms that connect decisions with their consequences.
+
+## Conway was right, but he didn't give us a solution
+
+In 1968, Melvin Conway [observed](https://www.melconway.com/Home/Committees_Paper.html) that organizations that design systems tend to produce structures that mirror their communication patterns.
+
+It's one of the most cited ideas in software engineering. It's also one of the easiest to oversimplify.
+
+It's often read as a direct recommendation: if we want a different architecture, we must reorganize the teams.
+
+Sometimes that can work. But changing an org chart doesn't automatically change the real information flows, the dependencies, the incentives or the power relations.
+
+We can create autonomous teams on paper and keep decisions centralized in practice. We can split a monolith into microservices and keep the same coordination dependencies. We can assign clear responsibilities and still need five approvals to deploy a small change.
+
+The formal structure is only one part of the system. The real interactions matter as much or more.
+
+And those interactions are shaped by each participant's goals.
+
+If one team is evaluated on minimizing costs and another on maximizing availability, their decisions can conflict even if both are made up of excellent professionals.
+
+Asking them to collaborate better isn't enough. We have to examine the conditions that make certain decisions rational for each of them.
+
+## Goals can erode without anyone deciding it
+
+Meadows describes a trap called *drift to low performance*, associated with the gradual erosion of goals.
+
+The mechanism appears when we adjust our expectations to an ever-worse performance.
+
+Imagine a platform whose initial goal is to restore service in under thirty minutes. After several complex incidents, the team starts to consider an hour's recovery acceptable. Later, two hours.
+
+Each adjustment can seem reasonable given the circumstances. But if the goal keeps adapting to observed performance, the system loses its pressure to improve.
+
+The deviation stops being visible because we've moved the reference.
+
+Something similar can happen with software quality. A team starts by accepting a small number of flaky tests. Then it learns to ignore certain pipeline failures. Later, rerunning a job becomes standard practice. Finally, the tests stop offering a reliable signal.
+
+There was no explicit decision to abandon quality. There was a succession of local adaptations.
+
+And each adaptation changed what the team considered normal.
+
+This trap has an especially unsettling aspect: we can mistake our capacity to adapt for an improvement of the system.
+
+Adapting is necessary. But not all adaptation is progress. Sometimes we simply get used to working worse.
+
+## Success can also concentrate success
+
+Another Meadows trap is *success to the successful*.
+
+It appears when those who get good results receive extra resources that increase their capacity to keep getting them.
+
+Imagine two product teams.
+
+The first has a mature platform, test automation and relatively stable dependencies. The second maintains a legacy system with numerous integrations and operational problems.
+
+The first team delivers faster. The organization concludes it's more productive and gives it new investment.
+
+The second is pressed to improve its numbers, but gets few resources to reduce its structural constraints.
+
+Over time, the gap can widen. Not necessarily because one team is better. Part of the difference can come from the starting conditions and from how resources are distributed.
+
+The mechanism is a reinforcing loop:
+
+**More capacity → better results → more resources → more capacity.**
+
+That doesn't mean we should split all resources equally. There can be excellent reasons to invest more in a successful product.
+
+The point is to recognize when a distribution of resources is amplifying differences that we later interpret as differences in merit.
+
+Without that analysis, we risk rewarding favorable conditions and punishing structural constraints.
+
+## Aristotle, habits and the software we end up building
+
+In Book II of the [*Nicomachean Ethics*](https://classics.mit.edu/Aristotle/nicomachaen.2.ii.html), Aristotle links the formation of virtues to repeated practice.
+
+We aren't born with fully formed habits. We develop them through our actions.
+
+The connection with organizational systems is interesting, as long as we don't confuse moral philosophy with a quantitative theory of systems.
+
+An organization develops habits too.
+
+How it reviews code. How it responds to incidents. How it discusses mistakes. How it decides what work deserves attention. How it treats signals that contradict its expectations.
+
+Those practices repeat until they become part of the usual way of working.
+
+We can declare that we value experimentation and punish every failed experiment. We can defend autonomy and demand approval for every significant decision. We can talk about continuous learning and never set aside time to learn.
+
+In those cases, the real habits teach something different from what the principles say.
+
+And future behavior will depend largely on what we practice repeatedly.
+
+The connection with Meadows appears in rules, goals and feedback mechanisms.
+
+People learn from the consequences of their actions. If an organization constantly rewards certain behaviors, it shouldn't be surprised when those behaviors become habitual.
+
+But we shouldn't fall into determinism either. People can question the rules, resist the incentives and transform the institutions they take part in.
+
+A system influences our decisions. It doesn't completely determine them.
+
+## Changing the metric may change nothing
+
+At this point, the solution seems obvious. Let's stop measuring activity and start measuring value.
+
+But value is hard to define too.
+
+Revenue? Retention? Satisfaction? Reliability? Risk reduction? Future capacity?
+
+Each choice introduces new boundaries. And each boundary can generate unexpected behaviors.
+
+If we measure only revenue, we can sacrifice quality or sustainability. If we measure only immediate satisfaction, we can avoid necessary decisions that cause short-term discomfort. If we reward the absence of incidents, we can encourage some problems not to be reported.
+
+There is no magic metric that eliminates the incentive problem.
+
+That's why Meadows distinguishes different levels of intervention.
+
+Changing an indicator's target value is modifying a parameter. Changing who receives certain information modifies the information flows. Changing which decisions are allowed alters the rules. Changing what the system is trying to achieve affects its purpose. And questioning the ideas we use to define success may require revisiting our paradigms.
+
+Not all of those interventions are equally difficult or produce the same effects. But the distinction helps explain why some reforms generate superficial changes and others transform behavior.
+
+An organization can swap one KPI for another and keep its way of thinking intact. In that case, we'll probably end up reproducing the same problem with a different dashboard.
+
+## The dashboard should provoke questions
+
+We don't need to stop measuring. We need to stop treating metrics as complete answers.
+
+A useful measure should help us investigate.
+
+Why has this indicator improved? What behavior changed to produce that improvement? Which consequences fall outside our observation? Who benefits and who is harmed? What might be getting worse while we celebrate the result?
+
+And, above all, what evidence would make us recognize that we're optimizing the wrong thing?
+
+These questions are harder than setting a quarterly goal. They're also more useful.
+
+Because the purpose of a measurement system shouldn't be to prove that everything works. It should help us discover when our interpretations are wrong.
+
+Systems thinking doesn't offer a way to design organizations where nobody makes bad decisions. It gives us tools to understand why certain decisions become habitual, how they get reinforced and which conditions we could change.
+
+Sometimes we'll need better indicators. Other times, better information flows. Perhaps different rules. And occasionally we'll have to question the very goal we're trying to reach.
+
+Back to our dashboard.
+
+Deployment frequency is up. Lead times have improved. Teams are meeting their commitments.
+
+Everything is green.
+
+But users still have problems.
+
+The mistake would be to automatically conclude that the metrics are false. They can be completely correct.
+
+**What's truly worrying is that we may have built an extraordinarily efficient organization doing something that no longer makes much sense.**
+
+And as long as we keep confusing meeting targets with fulfilling our purpose, every quarter we can celebrate new successes.
+
+Even as the product gets worse.
 
 ## References & Further Reading
 
-- **Nobody Ever Gets Credit for Fixing Problems that Never Happened: Creating and Sustaining Process Improvement**, Nelson P. Repenning and John D. Sterman, California Management Review 43(4), 2001. <https://web.mit.edu/nelsonr/www/Repenning=Sterman_CMR_su01_.pdf>. Source of the capability-trap loops, the worked example, the field quotes and the DuPont and BP figures. Case studies and models, not trials; outcome figures come from practitioner sources.
-- **Horizontal Pod Autoscaling**, Kubernetes documentation (current). <https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale/>. Formula, default loop period, tolerance, flapping and stabilization window. Defaults can change between versions.
-- **Leverage Points: Places to Intervene in a System**, Donella Meadows, Donella Meadows Project, undated. <https://donellameadows.org/archives/leverage-points-places-to-intervene-in-a-system/>. Source of the statement on delays in feedback loops. Meadows' essay, not the book.
-- **All models are wrong: reflections on becoming a systems scientist**, John D. Sterman, System Dynamics Review 18(4), 2002. <https://www.mit.edu/~jsterman/All_Models_Are_Wrong_%28SDR%29.pdf>. Definition of policy resistance.
-- **The WyCash Portfolio Management System (OOPSLA '92 Experience Report)**, Ward Cunningham, 1992. <https://c2.com/doc/oopsla92.html>. The debt metaphor, including the interest sentence quoted.
-- **Eliminating Toil (Site Reliability Engineering, ch. 5)**, Vivek Rau, ed. Betsy Beyer, Google, 2016. <https://sre.google/sre-book/eliminating-toil/>. Documented reason toil is plausible to grow unchecked; a company's practice, not a validated optimum.
+- **Thinking in Systems: A Primer**, Donella H. Meadows, Chelsea Green Publishing, 2008. Framework for goals, information flows, feedback and system traps. A full reading of the book has not been verified: the names of the traps "drift to low performance" and "success to the successful" come from its chapter on traps, which could not be consulted directly.
+- **Leverage Points: Places to Intervene in a System**, Donella H. Meadows, Donella Meadows Project. <https://donellameadows.org/archives/leverage-points-places-to-intervene-in-a-system/>. The hierarchy of intervention points, from parameters to paradigms.
+- **Rotten Apples: An Investigation of the Prevalence and Predictors of Teacher Cheating**, Brian A. Jacob and Steven D. Levitt, NBER Working Paper 9413, 2003. <https://www.nber.org/papers/w9413>. Estimate of a minimum of 4–5% of elementary classrooms cheating each year in Chicago, and its sensitivity to incentives (read at abstract level).
+- **Left Behind by Design: Proficiency Counts and Test-Based Accountability**, Derek Neal and Diane Whitmore Schanzenbach, NBER Working Paper 13293, 2007. <https://www.nber.org/papers/w13293>. Gains in the middle of the distribution and not among the least advantaged students (read at abstract level).
+- **DORA's software delivery metrics: the four keys**, DORA. <https://dora.dev/guides/dora-metrics-four-keys/>. The five metrics, the finding that speed and stability are not a trade-off, and the warnings about gaming and comparisons.
+- **How Do Committees Invent?**, Melvin E. Conway, Datamation, April 1968. <https://www.melconway.com/Home/Committees_Paper.html>. The original statement of Conway's Law.
+- **Nicomachean Ethics, Book II**, Aristotle, trans. W. D. Ross, MIT Internet Classics Archive. <https://classics.mit.edu/Aristotle/nicomachaen.2.ii.html>. Habit as the product of repeated practice.
 
-
+The references to Goodhart and to Herbert Simon (bounded rationality) are mentioned as well-known ideas and are not backed by an opened source for this article.

@@ -28,7 +28,7 @@ I haven't had access to the full book.
 
 System dynamicists, [Sterman says](https://www.mit.edu/~jsterman/All_Models_Are_Wrong_%28SDR%29.pdf), reject validation as "establishing truthfulness", and model results are usually more sensitive to boundary, aggregation and decision-rule assumptions than to parameters.
 
-He also argues that causal maps alone are insufficient, because people cannot mentally simulate even simple dynamic systems. That cuts against my own diagrams. The capability trap I drew in text in Part 3 borrows a structure from published research, and the drawing is an interpretive model, not a finding. It carries the overconfidence it is supposed to cure, like a lecture on humility delivered with great certainty.
+He also argues that causal maps alone are insufficient, because people cannot mentally simulate even simple dynamic systems. That cuts against my own diagrams. Any diagram of the capability trap borrows a structure from published research, and the drawing is an interpretive model, not a finding. It carries the overconfidence it is supposed to cure, like a lecture on humility delivered with great certainty.
 
 Sterman even calls system dynamics "a worldview, a paradigm in the sense of Thomas Kuhn". That is honest, and uncomfortable: a worldview has priorities, so the lens is not neutral.
 
@@ -46,7 +46,7 @@ The capability trap is the best-documented mechanism in this series, and its evi
 
 A model can explain why a pattern recurs without predicting when it will happen in your organization, or proving what caused a particular outcome; that takes data.
 
-Take the invented platform team from Part 3, whose incidents and rework rise after a quarter of pressure. The diagram says drained capability. A rival explanation fits the same picture just as well: demand grew, or a new dependency arrived, and the incidents would have risen anyway. A causal-loop diagram cannot rule that out, because a diagram, unlike a dataset, is never surprised. Data could help separate the two: incident rates per unit of traffic rather than raw counts, whether the failing components are the ones whose tests, runbooks or upgrades were deferred, and whether a comparable team under the same demand but without the pressure fared differently. The reasoning is mine.
+Take an invented platform team whose incidents and rework rise after a quarter of pressure. The diagram says drained capability. A rival explanation fits the same picture just as well: demand grew, or a new dependency arrived, and the incidents would have risen anyway. A causal-loop diagram cannot rule that out, because a diagram, unlike a dataset, is never surprised. Data could help separate the two: incident rates per unit of traffic rather than raw counts, whether the failing components are the ones whose tests, runbooks or upgrades were deferred, and whether a comparable team under the same demand but without the pressure fared differently. The reasoning is mine.
 
 The DuPont comparison, 23 comparable plants against those implementing the program, needs the same caution. It is not randomized, so selection could explain part of the gap: plants that chose the program may differ in ways that also affect their pumps.
 

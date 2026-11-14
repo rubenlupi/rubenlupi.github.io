@@ -40,7 +40,7 @@ So measurement reveals purpose and rewrites it at the same time, and none of the
 
 ## Slack or capability? It depends who is looking
 
-If an engineering organization's stated goal is reliable delivery of customer value, an efficiency lens asks how much work flows through; an autonomy lens asks whether the people doing the work have room to notice and fix what is wrong. Part 3 showed where the two conflict: the capability stock drained because time for improvement was the first thing taken for output. Protected time looks like slack to the first lens and like capability to the second. Plato's line about compulsion points the same way for schools, with the caveat above: work done under compulsion may produce output without producing understanding.
+If an engineering organization's stated goal is reliable delivery of customer value, an efficiency lens asks how much work flows through; an autonomy lens asks whether the people doing the work have room to notice and fix what is wrong. The two conflict when the capability stock drains because time for improvement is the first thing taken for output. Protected time looks like slack to the first lens and like capability to the second. Plato's line about compulsion points the same way for schools, with the caveat above: work done under compulsion may produce output without producing understanding.
 
 Neither lens, in my reading, is a fact to be discovered. They are values, and a metrics dashboard is one place where the choice gets made without anyone announcing it.
 
@@ -54,7 +54,7 @@ This is a hypothesis about an engineering organization, not a result.
 
 **Actual incentives.** Visible throughput and heroic recovery get rewarded; preventive work stays invisible.
 
-**Feedback loops.** B1 Work Harder, B2 Work Smarter, B3 Shortcuts and R1 Reinvestment from Part 3, after [Repenning and Sterman](https://web.mit.edu/nelsonr/www/Repenning=Sterman_CMR_su01_.pdf), plus, in their account, a second reinforcing loop through incentives that promote "heroes". The rule is meant to weaken B3 and let B2 and R1 run in the virtuous direction. It does nothing about the hero loop unless what is rewarded changes as well.
+**Feedback loops.** B1 Work Harder, B2 Work Smarter, B3 Shortcuts and R1 Reinvestment, after [Repenning and Sterman](https://web.mit.edu/nelsonr/www/Repenning=Sterman_CMR_su01_.pdf), plus, in their account, a second reinforcing loop through incentives that promote "heroes". The rule is meant to weaken B3 and let B2 and R1 run in the virtuous direction. It does nothing about the hero loop unless what is rewarded changes as well.
 
 **Important delays.** Improvement effort leads capability change by months for simple processes and by years for product development, according to Repenning and Sterman. My reading is that the delivery metrics may therefore not move inside a two-quarter window at all. The early indicators, the share of toil and the share of unplanned work, have to be read first, and a flat delivery metric at the judging date is weak evidence either way.
 
@@ -82,7 +82,7 @@ What I would question is how far the vocabulary carries. Leverage points, as Mea
 
 On power, the accessible texts do name it. In [Leverage Points](https://donellameadows.org/archives/leverage-points-places-to-intervene-in-a-system/), Meadows writes "Power over the rules is real power", and says "a single player can have the power to change the system's goal". What they do not offer, as far as these sources go, is an account of how competing groups contest a goal, or of how a system's actual goal can be detected from inside it. That seems to me the largest gap, since the goal is the decision that matters most.
 
-The readers who will get most from Meadows are engineers and managers who recognize the symptoms in Part 3 and want a vocabulary for them. Anyone who wants a formula should look elsewhere, and will probably find one, which is rather the problem.
+The readers who will get most from Meadows are engineers and managers who recognize these symptoms and want a vocabulary for them. Anyone who wants a formula should look elsewhere, and will probably find one, which is rather the problem.
 
 ## Who decides what a system is for?
 

@@ -42,7 +42,7 @@ Medir, por tanto, revela el propósito y a la vez lo reescribe, y en ninguna de 
 
 ## ¿Holgura o capacidad? Depende de quién mire
 
-Si el objetivo declarado de una organización de ingeniería es entregar valor al cliente de forma fiable, la lente de la eficiencia pregunta cuánto trabajo pasa por el sistema, y la de la autonomía, si quienes hacen el trabajo tienen margen para ver lo que falla y arreglarlo. La tercera entrega mostró dónde chocan: el stock de capacidad se vació porque el tiempo de mejora fue lo primero que se sacrificó a cambio de producción. El tiempo protegido parece holgura a la primera lente y capacidad a la segunda. La frase de Platón sobre la obligación apunta en la misma dirección para las escuelas, con la salvedad ya dicha: el trabajo hecho por obligación puede dar producción sin dar comprensión.
+Si el objetivo declarado de una organización de ingeniería es entregar valor al cliente de forma fiable, la lente de la eficiencia pregunta cuánto trabajo pasa por el sistema, y la de la autonomía, si quienes hacen el trabajo tienen margen para ver lo que falla y arreglarlo. Chocan cuando el stock de capacidad se vacía porque el tiempo de mejora es lo primero que se sacrifica a cambio de producción. El tiempo protegido parece holgura a la primera lente y capacidad a la segunda. La frase de Platón sobre la obligación apunta en la misma dirección para las escuelas, con la salvedad ya dicha: el trabajo hecho por obligación puede dar producción sin dar comprensión.
 
 Ninguna de las dos lentes, a mi modo de ver, es un hecho por descubrir. Son valores, y un panel de métricas es uno de los sitios donde se elige entre ellos sin que nadie lo anuncie.
 
@@ -56,7 +56,7 @@ Lo que sigue es una hipótesis sobre una organización de ingeniería, no un res
 
 **Incentivos reales.** Se premian el rendimiento visible y las recuperaciones heroicas; el trabajo preventivo sigue sin verse.
 
-**Bucles de retroalimentación.** B1 Esforzarse más, B2 Trabajar mejor, B3 Atajos y R1 Reinversión, los de la tercera entrega, a partir de [Repenning y Sterman](https://web.mit.edu/nelsonr/www/Repenning=Sterman_CMR_su01_.pdf), y además, según ellos, un segundo bucle de refuerzo a través de incentivos que ascienden a los «héroes». La regla pretende debilitar B3 y dejar que B2 y R1 giren en sentido virtuoso. Contra el bucle de los héroes no hace nada, salvo que cambie también lo que se premia.
+**Bucles de retroalimentación.** B1 Esforzarse más, B2 Trabajar mejor, B3 Atajos y R1 Reinversión, a partir de [Repenning y Sterman](https://web.mit.edu/nelsonr/www/Repenning=Sterman_CMR_su01_.pdf), y además, según ellos, un segundo bucle de refuerzo a través de incentivos que ascienden a los «héroes». La regla pretende debilitar B3 y dejar que B2 y R1 giren en sentido virtuoso. Contra el bucle de los héroes no hace nada, salvo que cambie también lo que se premia.
 
 **Retrasos importantes.** Según Repenning y Sterman, el cambio en la capacidad llega meses después del esfuerzo de mejora en procesos sencillos, y años después en desarrollo de producto. A mi juicio, eso significa que las métricas de entrega quizá ni se muevan en un plazo de dos trimestres. Hay que leer primero los indicadores tempranos, la proporción de *toil* (el trabajo operativo repetitivo) y la de trabajo no planificado, y una métrica de entrega plana en la fecha de evaluación es una prueba débil en cualquier sentido.
 
@@ -84,7 +84,7 @@ Lo que pondría en duda es hasta dónde llega el vocabulario. Los puntos de apal
 
 Sobre el poder, los textos accesibles sí lo nombran. En [Leverage Points](https://donellameadows.org/archives/leverage-points-places-to-intervene-in-a-system/), Meadows escribe que «el poder sobre las reglas es poder de verdad» y que «un solo actor puede tener el poder de cambiar el objetivo del sistema». Lo que no ofrecen, hasta donde llegan estas fuentes, es una explicación de cómo se disputan un objetivo grupos enfrentados, ni de cómo detectar desde dentro el objetivo real de un sistema. Me parece la laguna más grande, porque el objetivo es la decisión que más importa.
 
-Quienes más partido le sacarán a Meadows son los ingenieros y directivos que reconozcan los síntomas de la tercera entrega y quieran palabras para nombrarlos. Quien busque una fórmula hará bien en buscarla en otra parte, y probablemente la encontrará, que es más o menos el problema.
+Quienes más partido le sacarán a Meadows son los ingenieros y directivos que reconozcan estos síntomas y quieran palabras para nombrarlos. Quien busque una fórmula hará bien en buscarla en otra parte, y probablemente la encontrará, que es más o menos el problema.
 
 ## ¿Quién decide para qué sirve un sistema?
 
