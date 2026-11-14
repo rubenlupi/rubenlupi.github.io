@@ -1,6 +1,6 @@
 ---
-title: "Cuando el fallo está en la forma, no en la pieza"
-description: "LinkedIn sustituyó Argo CD en sus despliegues a gran escala por un diseño de otra forma, no por una pieza mejor. Donella Meadows lo llamaría una historia de estructura, y quizá también diga algo sobre la IA agéntica."
+title: "Cuando el problema no es la pieza, sino el sistema"
+description: "LinkedIn no necesitaba otro Argo CD: necesitaba dejar de compartir. Lo que eso dice sobre plataformas, sobre Donella Meadows y sobre los agentes de IA."
 date: 2026-11-13
 topics: ["Software Engineering", "Systems & Organizations"]
 tags: ["Systems Thinking", "Platform Engineering", "Agentic AI", "Architecture"]
@@ -9,51 +9,150 @@ translationOf: sometimes-the-problem-isnt-the-component
 draft: false
 ---
 
-Cuando un sistema se porta mal, culpamos a una pieza: se cambia la herramienta, se ajusta el parámetro, se actualiza el modelo. Las piezas son muy populares por una razón de peso: se pueden comprar. Y a veces hasta funciona. La plataforma de despliegues de LinkedIn es un caso documentado en el que no bastó, y el motivo quizá interese también, con más cautela, a quien construya agentes de IA.
+En ingeniería tenemos cierta debilidad por arreglar piezas.
 
-## Con qué tropezó LinkedIn y qué construyó en su lugar
+Si algo va lento, añadimos recursos. Si una herramienta no escala, buscamos otra. Si un agente de IA falla, probamos con un modelo más potente.
 
-En noviembre de 2026, Ramesh G. Iyer, ingeniero de LinkedIn, explicó [cómo escala la empresa sus despliegues con un motor GitOps propio](https://www.linkedin.com/blog/engineering/infrastructure/how-we-scale-deployments-with-a-custom-gitops-engine). Las cifras son de la propia LinkedIn: más de 250 clústeres de Kubernetes, más de 4000 servicios y más de 100.000 despliegues por semana. Argo CD, escriben, les dio «una base para incorporar 4000 servicios», y todavía gestiona los complementos de los clústeres y los servicios de sistema. Para desplegar aplicaciones a esta escala, en cambio, lo sustituyeron.
+Es una reacción bastante razonable. También es cómoda: cambiar un componente suele ser más sencillo que cuestionar cómo funciona todo lo que lo rodea.
 
-Es el relato de una empresa sobre su propio sistema, no una evaluación independiente de Argo CD. Aun así, los problemas que enumera son más de estructura que de defectos:
+El problema aparece cuando la pieza funciona perfectamente y, aun así, el sistema sigue fallando.
 
-- **Estado compartido.** En una prueba de escala, la sincronización tardaba menos de 3 minutos en clústeres con 60.000 pods y más de 10 en clústeres con más de 80.000.
-- **Señales de estado insuficientes.** Que una aplicación figurase como `Synced` y `Healthy` no bastaba para confirmar que se había desplegado la revisión prevista, así que LinkedIn añadió sus propias comprobaciones.
-- **Cambios acoplados.** Modificar el esquema de un CRD obligaba a reiniciar los controladores de Argo CD en toda la flota antes de que se aceptaran los atributos nuevos.
+## LinkedIn no necesitaba otro Argo CD
 
-LinkedIn cambió, por tanto, la forma y no la pieza: una biblioteca en lugar de un controlador, cada despliegue ejecutado «en su propio pod efímero» y ningún estado de controlador compartido entre aplicaciones.
+En noviembre de 2026, LinkedIn publicó [cómo había rediseñado su plataforma de despliegues](https://www.linkedin.com/blog/engineering/infrastructure/how-we-scale-deployments-with-a-custom-gitops-engine). Las cifras ayudan a entender el problema: más de 250 clústeres de Kubernetes, más de 4.000 servicios y más de 100.000 despliegues semanales.
 
-Si se compara el mismo mes con un año de diferencia, LinkedIn informa de que el volumen de despliegues se multiplicó por 3,7, de que los fallos de la infraestructura de despliegue bajaron de 925 a 63 y de que la mediana del tiempo necesario para detectar y dar por cerrado un despliegue fallido pasó de 16,1 a 2,45 minutos. Añade que la reducción de fallos «no puede atribuirse por completo» al nuevo motor, porque la capa de orquestación mejoró a la vez, y eso ya es más modestia de la que se permiten casi todos los blogs de ingeniería. Son mediciones de una sola organización: un caso bien documentado, no una ley general sobre las herramientas GitOps.
+Durante más de un año habían utilizado Argo CD, una herramienta GitOps ampliamente adoptada. Y no les había ido mal. De hecho, les permitió crecer hasta gestionar miles de servicios.
 
-## Meadows pone los mandos al fondo de la lista
+Pero a cierta escala empezaron a aparecer problemas que no se solucionaban simplemente añadiendo recursos.
 
-En [*Leverage Points: Places to Intervene in a System*](https://donellameadows.org/archives/leverage-points-places-to-intervene-in-a-system/), Donella Meadows enumera doce lugares donde intervenir en un sistema, ordenados más o menos de menor a mayor efecto. Abajo del todo están las «constantes, parámetros, números». Más arriba aparecen «la fuerza de los bucles de retroalimentación negativa…», «la estructura de los flujos de información (quién tiene acceso a la información y quién no)» y «las reglas del sistema». Escribe también que «la falta de retroalimentación es una de las causas más comunes del mal funcionamiento de un sistema» y que «los retrasos en los bucles de retroalimentación son determinantes críticos del comportamiento del sistema»: si son demasiado cortos, el sistema reacciona de más, y si son demasiado largos, oscila.
+En clústeres de 60.000 pods, algunas sincronizaciones tardaban menos de tres minutos. Por encima de los 80.000 pods, podían superar los diez.
 
-Hasta donde sé, la lista es un marco conceptual y no una clasificación validada empíricamente, así que la uso como lente, no como prueba.
+Además, una aplicación podía aparecer como `Synced` y `Healthy` sin que eso garantizara que la revisión esperada estuviera realmente desplegada.
 
-Vista con esa lente, y la lectura es mía, afinar instancias de Argo CD parece trabajo sobre parámetros, mientras que aislar cada despliegue y disponer de señales fiables de estado y de deriva parecen cambios en la estructura y en los flujos de información. Si afinas una máquina cuyo problema es la forma, obtienes un problema muy bien afinado. LinkedIn no usa los términos de Meadows, y quizá yo empareje los suyos con los de ella con demasiada pulcritud, pero sí llama a su detección más rápida de fallos «bucles de retroalimentación más cortos», lo que al menos cuadra.
+Y los cambios en determinados esquemas obligaban a reiniciar controladores en toda la flota.
 
-## ¿Salvará un modelo más listo a un agente mal construido?
+No eran tres problemas independientes. Tenían algo en común: demasiadas aplicaciones dependían de mecanismos y estados compartidos.
 
-Aquí el terreno es más blando. No conozco ninguna investigación que demuestre que los modelos más inteligentes no arreglan una mala arquitectura, ni digo que exista. Lo más cercano dice bastante menos: Anthropic, que también vende modelos, [cuenta](https://www.anthropic.com/engineering/building-effective-agents) que, entre las implementaciones de clientes que ha visto, «las implementaciones de más éxito no usaban marcos complejos ni bibliotecas especializadas», sino «patrones simples y componibles». Es la observación de un proveedor sobre diseño, no una comparación entre la potencia del modelo y la arquitectura.
+LinkedIn podía seguir optimizando controladores, ajustando parámetros y aumentando capacidad. En lugar de eso, cambió la arquitectura.
 
-Así que lo planteo como hipótesis y nada más: si un sistema de agentes descansa sobre límites poco claros, estado mutable compartido y señales de estado capaces de decir «hecho» cuando algo no lo está, poner en el mismo sitio un modelo más capaz quizá no elimine esos problemas, porque viven en la estructura que rodea al modelo. Un piloto mejor no arregla un indicador de combustible que miente. El caso de LinkedIn muestra el mismo patrón en otro terreno, y esa analogía es mía, no algo que demuestre ninguna de las dos fuentes.
+Sustituyó el modelo de controladores compartidos para los despliegues de aplicaciones por una biblioteca que permite ejecutar cada despliegue en su propio pod efímero.
 
-## Antes de comprar una pieza más lista
+Una operación, un entorno de ejecución, un ciclo de vida.
 
-Lo que sigue es valoración mía, no un resultado demostrado. Donde las pruebas escasean, yo miraría la estructura antes de cambiar el componente:
+Los resultados publicados son interesantes:
 
-1. **Límites claros.** Cada unidad de trabajo, sea un despliegue o una tarea de un agente, responde de su alcance y de sus fallos.
-2. **Menos acoplamiento.** Nada de estado compartido por el que el ajetreo de una carga de trabajo se convierta en la latencia de otra.
-3. **Bucles de retroalimentación controlados.** Lo bastante rápidos para corregir y lo bastante acotados para no amplificar nada. Lo que dice Meadows sobre los retrasos vale igual para los reintentos, la reconciliación y la autocorrección.
-4. **Observabilidad de extremo a extremo.** Debería poder preguntar «¿qué tenía que pasar, qué pasó y por qué?» y recibir una respuesta de la que fiarme.
+- Los despliegues aumentaron 3,7 veces.
+- Los fallos de infraestructura pasaron de 925 a 63.
+- La mediana del tiempo para detectar y cerrar un despliegue fallido bajó de 16,1 a 2,45 minutos.
 
-Estoy menos seguro de que esto valga para los agentes que para las plataformas de despliegue, y me gustaría ver pruebas en un sentido o en otro. Hasta que lleguen, casi todos seguiremos echando mano de los mandos, que tienen el gran mérito de estar a mano.
+LinkedIn reconoce que parte de la mejora también procede de cambios en su capa de orquestación. Conviene tenerlo presente.
+
+Pero lo más interesante no son las cifras. Es la decisión arquitectónica.
+
+Dejaron de intentar que un mecanismo compartido funcionara cada vez mejor y empezaron a eliminar la necesidad de compartirlo.
+
+Argo CD no era necesariamente una mala herramienta. De hecho, LinkedIn sigue utilizándolo para otros componentes de su infraestructura.
+
+Simplemente, había dejado de encajar con una parte concreta del problema.
+
+## Donella Meadows ya había explicado algo parecido
+
+Mucho antes de Kubernetes, Donella Meadows escribió [Leverage Points: Places to Intervene in a System](https://donellameadows.org/archives/leverage-points-places-to-intervene-in-a-system/).
+
+Su propuesta es sencilla, aunque sus consecuencias no lo sean: no todas las intervenciones sobre un sistema tienen el mismo impacto.
+
+Cambiar números, parámetros o capacidades suele ser relativamente fácil. Modificar los flujos de información, las reglas o la estructura del sistema es bastante más difícil, pero puede alterar su comportamiento de manera mucho más profunda.
+
+Pensemos en un supermercado.
+
+Los clientes esperan demasiado para pagar. La solución inmediata parece evidente: abrir más cajas.
+
+Pero imaginemos que todas las cajas dependen de un único sistema de autorización de pagos que procesa las solicitudes secuencialmente.
+
+Podemos abrir veinte cajas más. Incluso contratar a los mejores cajeros del mundo.
+
+La cola seguirá existiendo.
+
+Hemos mejorado las piezas sin tocar la restricción que determina el rendimiento del conjunto.
+
+En software ocurre constantemente. Añadimos workers a sistemas bloqueados por una base de datos compartida. Escalamos servicios cuyo cuello de botella está en una dependencia síncrona. Introducimos cachés para compensar decisiones de diseño que nadie quiere revisar.
+
+A veces esas optimizaciones son suficientes. Otras veces solo retrasan el momento en que tendremos que enfrentarnos al problema original.
+
+Meadows también presta especial atención a los bucles de retroalimentación.
+
+Un sistema necesita información sobre las consecuencias de sus acciones para poder corregirse. Y necesita recibirla a tiempo.
+
+Si la información llega demasiado tarde, las correcciones pueden ser inútiles. Si el sistema reacciona de forma exagerada, puede acabar oscilando entre un problema y otro.
+
+Volvamos a LinkedIn.
+
+Que una aplicación aparezca como saludable no sirve de mucho si esa señal no permite saber si realmente está ejecutando la versión esperada.
+
+La observabilidad no consiste únicamente en tener más métricas. Consiste en disponer de información que permita tomar decisiones correctas.
+
+## ¿Y qué tiene que ver esto con los agentes de IA?
+
+Bastante, creo.
+
+Estamos viviendo una carrera por construir modelos cada vez más capaces. Y las mejoras son reales: razonan mejor, escriben mejor código y pueden resolver tareas que hace poco parecían fuera de su alcance.
+
+Pero un agente no es solo un modelo.
+
+Es también el sistema que decide cuándo ejecutarlo, qué contexto recibe, qué herramientas puede utilizar, cómo conserva el estado, cómo comprueba los resultados y qué ocurre cuando algo falla.
+
+Imaginemos un agente encargado de modificar código.
+
+Recibe una tarea, genera cambios, ejecuta pruebas y abre una pull request.
+
+Ahora añadamos otros diez agentes trabajando sobre el mismo repositorio.
+
+De repente aparecen preguntas que no tienen demasiado que ver con la inteligencia del modelo:
+
+¿Quién controla los cambios concurrentes? ¿Qué ocurre cuando dos agentes modifican el mismo archivo? ¿Cómo sabemos que una tarea está realmente terminada? ¿Quién decide cuándo reintentar una operación? ¿Cómo evitamos que un fallo se propague a otros agentes?
+
+Podemos utilizar un modelo más potente. Probablemente cometerá menos errores en determinadas tareas.
+
+Pero seguirá necesitando respuestas a esas preguntas.
+
+Y aquí encuentro especialmente interesante el paralelismo con LinkedIn.
+
+Si cada tarea depende de un estado global compartido, si los fallos no están aislados y si nuestras señales de éxito no reflejan lo que realmente ha ocurrido, tenemos un problema de arquitectura.
+
+No de inteligencia.
+
+Anthropic, en su artículo [Building effective agents](https://www.anthropic.com/engineering/building-effective-agents), describe cómo algunas de las implementaciones más exitosas que ha observado utilizan patrones relativamente simples y componibles, en lugar de grandes frameworks.
+
+No significa que la simplicidad siempre gane ni que un modelo mejor no pueda compensar ciertas limitaciones. Significa que la arquitectura sigue importando, incluso cuando el componente central es extraordinariamente capaz.
+
+## Antes de cambiar el modelo, miraría el sistema
+
+Cuando un sistema de agentes empieza a comportarse de manera impredecible, me interesan especialmente cuatro cuestiones.
+
+**El aislamiento.** ¿Puede una tarea fallar sin arrastrar a las demás?
+
+**El estado.** ¿Qué información se comparte realmente y quién es responsable de mantenerla consistente?
+
+**La retroalimentación.** ¿Cómo sabe el sistema que una acción ha producido el resultado esperado? ¿Puede distinguir entre haber ejecutado una herramienta y haber completado correctamente una tarea?
+
+**La recuperación.** ¿Qué ocurre después de un fallo? ¿Reintentamos sin más o sabemos por qué falló y qué ha cambiado antes de volver a intentarlo?
+
+Son preguntas bastante menos atractivas que elegir entre los últimos modelos disponibles.
+
+También son las que suelen determinar si algo funciona bien en una demostración o puede mantenerse en producción.
+
+No creo que la lección de LinkedIn sea que debamos construir nuestros propios motores de despliegue, ni que haya que evitar los frameworks de agentes.
+
+La lección que me interesa es otra.
+
+Antes de optimizar un componente, conviene entender qué parte del comportamiento del sistema depende realmente de él.
+
+Porque a veces necesitamos una pieza mejor.
+
+Y otras veces llevamos meses perfeccionando una pieza que nunca fue el problema.
 
 ## Referencias y lecturas recomendadas
 
-- **How we scale deployments with a custom GitOps engine**, Ramesh G. Iyer, LinkedIn Engineering, 2 de noviembre de 2026. <https://www.linkedin.com/blog/engineering/infrastructure/how-we-scale-deployments-with-a-custom-gitops-engine>. Fuente de todas las cifras y citas de LinkedIn. Es el relato de una empresa sobre su propio sistema.
-- **Leverage Points: Places to Intervene in a System**, Donella Meadows, Donella Meadows Project (página sin fecha). <https://donellameadows.org/archives/leverage-points-places-to-intervene-in-a-system/>. Fuente de los puntos de apalancamiento citados y de lo que se dice sobre la falta de retroalimentación y los retrasos.
-- **Building effective agents**, Anthropic Engineering, 19 de diciembre de 2024. <https://www.anthropic.com/engineering/building-effective-agents>. Respalda solo la observación de que las implementaciones de éxito usaban patrones simples y componibles. No compara la capacidad del modelo con la arquitectura.
-
-Las citas de textos en inglés son traducción propia.
+- **How we scale deployments with a custom GitOps engine**, Ramesh G. Iyer, LinkedIn Engineering, 2 de noviembre de 2026. <https://www.linkedin.com/blog/engineering/infrastructure/how-we-scale-deployments-with-a-custom-gitops-engine>. Fuente de las cifras y del rediseño de LinkedIn. Es el relato de una empresa sobre su propio sistema.
+- **Leverage Points: Places to Intervene in a System**, Donella Meadows, Donella Meadows Project. <https://donellameadows.org/archives/leverage-points-places-to-intervene-in-a-system/>. Los puntos de intervención en un sistema y el papel de la retroalimentación y los retrasos.
+- **Building effective agents**, Anthropic Engineering, 19 de diciembre de 2024. <https://www.anthropic.com/engineering/building-effective-agents>. La observación sobre patrones simples y componibles en las implementaciones de agentes.

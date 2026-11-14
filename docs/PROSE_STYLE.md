@@ -8,6 +8,26 @@ pattern in a draft caps the review criterion **Prose quality** at 3, which block
 Accuracy and honesty are **not** negotiable (see `EDITORIAL_POLICY.md`). This guide is about *how* they are
 expressed: rigor should be visible in the reasoning, not narrated as an audit trail.
 
+## The model: the author's own essay (owner decision, 2026-11-14)
+
+The author rewrote the essay *When the problem isn't the part, but the system*
+(`src/content/posts/es/el-problema-no-siempre-es-el-componente.md`, English in
+`src/content/posts/sometimes-the-problem-isnt-the-component.md`) and said: "así es bien". **That text is the reference
+voice for every article. Where this guide conflicts with it, the essay wins.** What it does:
+
+- **Short paragraphs**, often one or two sentences. A single short line is allowed for rhythm and emphasis
+  ("Not an intelligence problem.") when it lands a point the paragraph before has earned. This overrides the ban on
+  one-line paragraphs and telegraphic fragments below; what stays banned is fragments used as labels or filler.
+- **Plain explanation**, as to a smart colleague: say what a thing is, then why it matters. No jargon left unexplained.
+- **Everyday invented examples** to show a mechanism, introduced as such ("Think of a supermarket… imagine…"), then
+  brought back to the real case ("Back to LinkedIn.").
+- **Light, natural caveats**, once ("Worth keeping in mind."). No repeated "my interpretation", "I read this as".
+- **Gentle humor of observation**, not joke density: "These are much less glamorous questions than choosing between
+  the latest models."
+- **A personal but modest voice**: "I think", "what interests me", questions put to the reader, a clear position.
+- **Lists only for concrete data or questions**; bold lead-ins are fine for a short set of parallel questions.
+- **Endings that turn the idea**, in a line or two, without summarizing.
+
 ## Blacklist (with real examples from the withdrawn series)
 
 ### 1. The text narrating itself
