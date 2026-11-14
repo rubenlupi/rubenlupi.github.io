@@ -28,7 +28,7 @@ No he tenido acceso al libro completo, así que lo que sigue se apoya en un frag
 
 ## Nadie se pone de acuerdo en para qué sirve la escuela
 
-Entre mis fuentes, donde la pregunta se discutió más abiertamente es en la educación. El Sócrates de Platón tira en sentido contrario a Aristóteles en la [*República*](https://classics.mit.edu/Plato/republic.8.vii.html): «el conocimiento adquirido por obligación no arraiga en la mente». Como en la primera entrega, el contexto es la educación de los guardianes de una ciudad ideal, no una teoría general de la escuela.
+Entre mis fuentes, donde la pregunta se discutió más abiertamente es en la educación. El Sócrates de Platón tira en sentido contrario a Aristóteles en la [*República*](https://classics.mit.edu/Plato/republic.8.vii.html): «el conocimiento adquirido por obligación no arraiga en la mente». Aquí el contexto es la educación de los guardianes de una ciudad ideal, no una teoría general de la escuela.
 
 La formación cívica tira hacia un lado y la autonomía hacia el otro. No creo que ninguno de los dos textos resuelva la tensión. Lo que saco de la pareja es más modesto: la respuesta a «¿para qué sirve?» determina la estructura, y quienes dan esa respuesta no están de acuerdo. Y la escuela se construye de todos modos.
 

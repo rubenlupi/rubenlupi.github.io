@@ -26,7 +26,7 @@ I haven't had access to the full book, so what follows draws on a draft excerpt 
 
 ## Nobody agrees what school is for
 
-Among my sources, education is where the question was argued most openly. Plato's Socrates pulls against Aristotle in the [*Republic*](https://classics.mit.edu/Plato/republic.8.vii.html): "knowledge which is acquired under compulsion obtains no hold on the mind". As in Part 1, the context is the education of guardians in an ideal city, not a general theory of schooling.
+Among my sources, education is where the question was argued most openly. Plato's Socrates pulls against Aristotle in the [*Republic*](https://classics.mit.edu/Plato/republic.8.vii.html): "knowledge which is acquired under compulsion obtains no hold on the mind". Here the context is the education of guardians in an ideal city, not a general theory of schooling.
 
 Civic formation pulls one way, autonomy the other. I don't think either text resolves the tension. What I take from the pair is narrower: the answer to "what is it for?" determines the structure, and the people giving that answer do not agree. The school gets built anyway.
 
