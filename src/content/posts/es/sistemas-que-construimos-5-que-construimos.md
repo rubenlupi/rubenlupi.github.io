@@ -19,7 +19,7 @@ topics: ["Systems & Organizations", "Software Engineering", "Learning & Educatio
 tags: ["Systems Thinking", "Organizational Learning", "Engineering Culture", "Education"]
 lang: es
 translationOf: systems-we-build-5-what-are-we-building
-draft: true
+draft: false
 ---
 
 Aristóteles, en la [*Política*](https://classics.mit.edu/Aristotle/politics.8.eight.html), cree que la educación debe ser pública e igual para todos los ciudadanos, y reconoce algo que inquieta a su propio proyecto: «los hombres no están en absoluto de acuerdo sobre lo que debe enseñarse». Hace falta valor para admitirlo mientras se diseña un plan de estudios. La frase, además, señala la decisión más importante de cualquier sistema, su objetivo, y el hecho incómodo de que la gente no se pone de acuerdo sobre él. Los objetivos son elecciones de valores en disputa, y la medición puede reescribirlos sin hacer ruido.

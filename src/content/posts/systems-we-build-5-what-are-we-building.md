@@ -17,7 +17,7 @@ book:
   category: "Systems, Execution & Organizational Design"
 topics: ["Systems & Organizations", "Software Engineering", "Learning & Education"]
 tags: ["Systems Thinking", "Organizational Learning", "Engineering Culture", "Education"]
-draft: true
+draft: false
 ---
 
 Aristotle, in the [*Politics*](https://classics.mit.edu/Aristotle/politics.8.eight.html), thinks education should be public and the same for all citizens, and he admits something that unsettles his own project: "mankind are by no means agreed about the things to be taught". It is a brave thing to concede while designing a curriculum. It also names the decision that matters most in any system, its goal, and the uncomfortable fact that people disagree about it. Goals are contested value choices, and measurement can quietly rewrite them.

@@ -19,7 +19,7 @@ topics: ["Systems & Organizations", "Software Engineering"]
 tags: ["Systems Thinking", "Feedback Loops", "Technical Debt", "SRE", "Capability Trap"]
 lang: es
 translationOf: systems-we-build-3-same-mistakes
-draft: true
+draft: false
 ---
 
 «El proceso nuevo es bueno. Algún día me gustaría trabajar en un proyecto que lo use de verdad.» Lo dijo un ingeniero de desarrollo de producto, y Nelson Repenning y John Sterman lo citan en [su estudio sobre la mejora de procesos](https://web.mit.edu/nelsonr/www/Repenning=Sterman_CMR_su01_.pdf). El proceso nuevo tiene admiradores de sobra y ni un solo usuario.

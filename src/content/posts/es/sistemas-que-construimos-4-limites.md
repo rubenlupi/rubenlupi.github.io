@@ -19,7 +19,7 @@ topics: ["Systems & Organizations", "Mathematics & Reasoning"]
 tags: ["Systems Thinking", "Models", "Causal Inference", "Critical Thinking"]
 lang: es
 translationOf: systems-we-build-4-limits
-draft: true
+draft: false
 ---
 
 La advertencia más tajante sobre los modelos de sistemas la hace uno de los que los construyen. John Sterman estudió con Meadows, escribe como científico de sistemas y tituló sus reflexiones sobre la disciplina con una frase que empieza por «Todos los modelos son erróneos». El pensamiento sistémico también es un modelo, y un modelo tiene frontera: es fuerte explicando dinámicas que se repiten y flojo prediciendo, atribuyendo causas y en todo lo que toca al poder y a los fines. Quien se ha pasado tres ensayos quejándose de las fronteras estrechas le debe al lector un vistazo a la suya.

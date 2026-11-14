@@ -17,7 +17,7 @@ book:
   category: "Systems, Execution & Organizational Design"
 topics: ["Systems & Organizations", "Software Engineering"]
 tags: ["Systems Thinking", "Feedback Loops", "Technical Debt", "SRE", "Capability Trap"]
-draft: true
+draft: false
 ---
 
 "The new process is a good one. Someday I'd like to work on a project that actually uses it." An engineer in product development said that, and Nelson Repenning and John Sterman quote it in [their study of process improvement](https://web.mit.edu/nelsonr/www/Repenning=Sterman_CMR_su01_.pdf). The new process has plenty of admirers and no users.

@@ -17,7 +17,7 @@ book:
   category: "Systems, Execution & Organizational Design"
 topics: ["Systems & Organizations", "Software Engineering", "Learning & Education"]
 tags: ["Systems Thinking", "DORA", "Metrics", "Leverage Points", "Assessment"]
-draft: true
+draft: false
 ---
 
 Attach enough rewards and penalties to a test score and some of the adults in the building may start cheating on it. In Chicago's elementary schools this was not a thought experiment: two researchers estimated that serious cheating by teachers or administrators happened in a small share of classrooms every year, and that it responded strongly to fairly minor changes in the incentives. Nobody set out to build a system that produced cheating. Someone drew a line around the score.

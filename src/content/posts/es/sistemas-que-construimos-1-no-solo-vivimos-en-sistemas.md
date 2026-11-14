@@ -19,7 +19,7 @@ topics: ["Systems & Organizations", "History & Classical Thinking", "Learning & 
 tags: ["Systems Thinking", "Stocks and Flows", "Conway's Law", "Ancient Greece", "Education"]
 lang: es
 translationOf: systems-we-build-1-we-create-them
-draft: true
+draft: false
 ---
 
 Enseña a unos estudiantes de posgrado del MIT una gráfica con el agua que entra y sale de una bañera, pídeles que dibujen cuánta agua hay dentro y la mayoría se equivocará. Les gana una bañera, ni más ni menos. Y eso importa mucho más allá del cuarto de baño, porque buena parte de lo que hacemos al llevar equipos, escuelas y planes de entrenamiento descansa en dos ideas: que si cada pieza mejora, mejora el todo, y que si los resultados son malos, es que alguien no se esfuerza bastante.

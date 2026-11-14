@@ -17,7 +17,7 @@ book:
   category: "Systems, Execution & Organizational Design"
 topics: ["Systems & Organizations", "History & Classical Thinking", "Learning & Education"]
 tags: ["Systems Thinking", "Stocks and Flows", "Conway's Law", "Ancient Greece", "Education"]
-draft: true
+draft: false
 ---
 
 Show graduate students at MIT a graph of the water running into and out of a bathtub, ask them to sketch how much water is in the tub, and most of them get it wrong. A bath, of all things, beats them. That matters well beyond the bathroom, because two assumptions sit under most of how we run teams, schools and training plans: that if every part gets better, the whole gets better, and that if results are bad, someone isn't working hard enough.

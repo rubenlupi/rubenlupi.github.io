@@ -19,7 +19,7 @@ topics: ["Systems & Organizations", "Software Engineering", "Learning & Educatio
 tags: ["Systems Thinking", "DORA", "Metrics", "Leverage Points", "Assessment"]
 lang: es
 translationOf: systems-we-build-2-improving-the-parts
-draft: true
+draft: false
 ---
 
 Cuelga suficientes premios y castigos de la nota de un examen y puede que algunos adultos del colegio empiecen a hacer trampas. En los colegios de primaria de Chicago no fue un experimento mental: dos investigadores estimaron que cada año había trampas graves de profesores o directivos en una pequeña parte de las aulas, y que respondían con fuerza a cambios bastante modestos en los incentivos. Nadie se propuso montar un sistema que fabricara trampas. Simplemente, alguien trazó una línea alrededor de la nota.

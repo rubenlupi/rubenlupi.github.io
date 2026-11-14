@@ -6,7 +6,7 @@ topics: ["Software Engineering", "Systems & Organizations"]
 tags: ["Systems Thinking", "Platform Engineering", "Agentic AI", "Architecture"]
 lang: es
 translationOf: sometimes-the-problem-isnt-the-component
-draft: true
+draft: false
 ---
 
 Cuando un sistema se porta mal, culpamos a una pieza: se cambia la herramienta, se ajusta el parámetro, se actualiza el modelo. Las piezas son muy populares por una razón de peso: se pueden comprar. Y a veces hasta funciona. La plataforma de despliegues de LinkedIn es un caso documentado en el que no bastó, y el motivo quizá interese también, con más cautela, a quien construya agentes de IA.

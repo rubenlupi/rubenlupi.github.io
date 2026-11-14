@@ -17,7 +17,7 @@ book:
   category: "Systems, Execution & Organizational Design"
 topics: ["Systems & Organizations", "Mathematics & Reasoning"]
 tags: ["Systems Thinking", "Models", "Causal Inference", "Critical Thinking"]
-draft: true
+draft: false
 ---
 
 The bluntest warning about systems models comes from one of the people who build them. John Sterman studied with Meadows, writes as a systems scientist, and gave his reflections on the field a title that starts "All models are wrong". Systems thinking is itself a model, and a model has a boundary: it is strongest at explaining recurring dynamics, and weakest at prediction, at attributing causes, and at anything involving power and purpose. Anyone who has spent three essays complaining about narrow boundaries owes the reader a look at their own.
