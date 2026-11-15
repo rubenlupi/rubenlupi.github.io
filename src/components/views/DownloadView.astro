@@ -1,0 +1,85 @@
+---
+import Base from '../../layouts/Base.astro';
+import { fmtDate } from '../../site';
+import { UI, href, slugOf, type Lang } from '../../i18n';
+import { postsIn } from '../../lib-posts';
+const { lang } = Astro.props as { lang: Lang };
+const t = UI[lang];
+const posts = await postsIn(lang);
+---
+<Base title={t.dl.title} description={t.dl.lede} lang={lang}>
+  <h1>{t.dl.title}</h1>
+  <p class="lede">{t.dl.lede}</p>
+  <form id="epub-form" data-lang={lang} data-author="Ruben Lupi" data-book-title={t.dl.bookTitle} data-toc={t.dl.toc}
+    data-working={t.dl.working} data-failed={t.dl.failed} data-selected={t.dl.selected(0).replace('0', '{n}')} data-button={t.dl.button}>
+    <div class="dl-bar">
+      <button type="button" class="dl-link" id="dl-all">{t.dl.selectAll}</button> ·
+      <button type="button" class="dl-link" id="dl-none">{t.dl.selectNone}</button>
+      <span class="meta" id="dl-count" aria-live="polite"></span>
+    </div>
+    <ul class="post-list dl-list">
+      {posts.map((p) => (
+        <li>
+          <label>
+            <input type="checkbox" name="post" value={href(lang, `/posts/${slugOf(p)}/`)} data-title={p.data.title}
+              data-date={fmtDate(p.data.date, t.locale)} />
+            <span>
+              <span class="meta"><time datetime={p.data.date.toISOString()}>{fmtDate(p.data.date, t.locale)}</time></span>
+              <strong>{p.data.title}</strong>
+              <span class="dl-desc">{p.data.description}</span>
+            </span>
+          </label>
+        </li>
+      ))}
+    </ul>
+    <p><button type="submit" id="dl-submit" class="dl-button" disabled>{t.dl.button}</button> <span class="meta" id="dl-status" role="status"></span></p>
+    <p class="meta">{t.dl.note}</p>
+  </form>
+</Base>
+
+<script>
+  import { buildEpub, toXhtmlFragment } from '../../scripts/epub';
+  const form = document.getElementById('epub-form') as HTMLFormElement;
+  const boxes = () => [...form.querySelectorAll<HTMLInputElement>('input[name=post]')];
+  const submit = document.getElementById('dl-submit') as HTMLButtonElement;
+  const count = document.getElementById('dl-count')!;
+  const status = document.getElementById('dl-status')!;
+  const d = form.dataset;
+  const refresh = () => {
+    const n = boxes().filter((b) => b.checked).length;
+    submit.disabled = n === 0;
+    count.textContent = n ? d.selected!.replace('{n}', String(n)) : '';
+  };
+  form.addEventListener('change', refresh);
+  document.getElementById('dl-all')!.addEventListener('click', () => { boxes().forEach((b) => (b.checked = true)); refresh(); });
+  document.getElementById('dl-none')!.addEventListener('click', () => { boxes().forEach((b) => (b.checked = false)); refresh(); });
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const picked = boxes().filter((b) => b.checked);
+    if (!picked.length) return;
+    submit.disabled = true; status.textContent = d.working!;
+    try {
+      const chapters = [];
+      for (const b of picked) {
+        const url = new URL(b.value, location.href).href;
+        const res = await fetch(url);
+        if (!res.ok) throw new Error(String(res.status));
+        const doc = new DOMParser().parseFromString(await res.text(), 'text/html');
+        const prose = doc.querySelector('[data-epub-body]');
+        if (!prose) throw new Error('no body');
+        chapters.push({ title: b.dataset.title!, date: b.dataset.date!, xhtmlBody: toXhtmlFragment(prose, url) });
+      }
+      const single = chapters.length === 1;
+      const blob = buildEpub({ title: single ? chapters[0].title : d.bookTitle!, author: d.author!, lang: d.lang!, tocTitle: d.toc! }, chapters);
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = (single ? picked[0].value.split('/').filter(Boolean).pop()! : 'ruben-lupi-' + d.lang) + '.epub';
+      document.body.append(a); a.click(); a.remove();
+      setTimeout(() => URL.revokeObjectURL(a.href), 10000);
+      status.textContent = '';
+    } catch {
+      status.textContent = d.failed!;
+    } finally { refresh(); }
+  });
+  refresh();
+</script>

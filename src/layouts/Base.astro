@@ -49,7 +49,8 @@ const counterpart = alternate === undefined ? switchPath(path, other) : alternat
       <span>© {new Date().getFullYear()} {SITE.title}</span>
       <span>
         <a href={SITE.github} rel="me">GitHub</a> ·
-        <a href={SITE.linkedin} rel="me">LinkedIn</a>
+        <a href={SITE.linkedin} rel="me">LinkedIn</a> ·
+        <a href={href(lang, '/download/')}>{t.dl.nav}</a>
       </span>
     </footer>
   </body>

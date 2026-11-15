@@ -33,6 +33,14 @@ export const UI = {
     seriesBlurb: 'Not book summaries. Ideas worth breaking, challenging, testing against documented experience and turning into change.',
     seriesMeta: 'Each book gets one article in five parts: Break, Change, Experience, Challenge, Question.',
     switchTo: 'Español', switchLabel: 'Leer en español',
+    dl: {
+      title: 'Download as EPUB', nav: 'Download EPUB',
+      lede: 'Pick the posts you want and get them as one EPUB book, ready for Kindle (via Send to Kindle), Kobo, Apple Books or any e-reader app.',
+      note: 'The book is built in your browser; nothing is sent anywhere. MOBI is not offered: Amazon no longer accepts it and takes EPUB instead.',
+      selectAll: 'Select all', selectNone: 'Clear', selected: (n: number) => `${n} selected`,
+      button: 'Download EPUB', working: 'Building…', failed: 'Could not build the EPUB. Please try again.',
+      bookTitle: 'Selected writing', toc: 'Contents', by: 'by',
+    },
   },
   es: {
     locale: 'es-ES',
@@ -53,6 +61,14 @@ export const UI = {
     seriesBlurb: 'No son resúmenes de libros. Son ideas que merece la pena romper, cuestionar, contrastar con la experiencia documentada y convertir en cambio.',
     seriesMeta: 'Cada libro recibe un artículo en cinco partes: Break, Change, Experience, Challenge, Question.',
     switchTo: 'English', switchLabel: 'Read in English',
+    dl: {
+      title: 'Descargar en EPUB', nav: 'Descargar EPUB',
+      lede: 'Elige los textos que quieras y descárgalos como un solo libro EPUB, listo para Kindle (con Send to Kindle), Kobo, Apple Books o cualquier app de lectura.',
+      note: 'El libro se crea en tu navegador; no se envía nada a ningún sitio. No se ofrece MOBI: Amazon ya no lo acepta y admite EPUB en su lugar.',
+      selectAll: 'Seleccionar todo', selectNone: 'Quitar selección', selected: (n: number) => `${n} seleccionados`,
+      button: 'Descargar EPUB', working: 'Creando…', failed: 'No se pudo crear el EPUB. Inténtalo de nuevo.',
+      bookTitle: 'Escritos escogidos', toc: 'Índice', by: 'de',
+    },
   },
 } as const;
 
