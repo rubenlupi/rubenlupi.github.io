@@ -66,3 +66,4 @@ new table here (with the same columns and verification status) before writing ab
 ## Status of articles
 
 - **Thinking in Systems** — five-part series *The Systems We Build, The Systems We Live In*, published 2026-11-13, archive slot 2026-11-02. Category chosen by the critical editor: Systems, Execution & Organizational Design. Built only on legally accessible material (owner decision), disclosed in each post.
+- **Continuous Discovery Habits** — single article *Your Roadmap Has Already Decided* (EN/ES, owner's text), published 2026-11-20, archive slot 2026-10-19. Category: Product & Customer Discovery. Built only on Torres's public writing and independent research (owner decision), disclosed in the text.
